@@ -1,0 +1,21 @@
+.board-container {
+	height: 100vh;
+}
+.board {
+	height: 500px;
+	width: 500px;
+	border: 1px solid black;
+}
+.square {
+	height: 12.5%;
+	width: 12.5%;
+	border: 1px solid black;
+}
+
+@media only screen and (max-width: 500px) {
+	.board {
+		height: 300px;
+		width: 300px;
+		border: 1px solid black;
+	}
+}
