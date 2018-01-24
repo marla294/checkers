@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Space }	 from './space';
 
 @Component({
   selector: 'app-root',
