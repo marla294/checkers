@@ -1,13 +1,9 @@
 
 <div class="d-flex justify-content-center align-items-center board-container">
   <div class="board">
-    <div class="square playable float-left"></div>
-    <div class="square notplayable float-left"></div>
-    <div class="square playable float-left"></div>
-    <div class="square notplayable float-left"></div>
-    <div class="square playable float-left"></div>
-    <div class="square notplayable float-left"></div>
-    <div class="square playable float-left"></div>
-    <div class="square notplayable float-left"></div>
+    <div *ngFor="let space of row" 
+    class="square float-left"
+    [class.playable]="space.playable"
+    [class.notplayable]="!space.playable"></div>
   </div>
 </div>
