@@ -1,9 +1,11 @@
 
 <div class="d-flex justify-content-center align-items-center board-container">
   <div class="board">
-    <div *ngFor="let space of row" 
-    class="square float-left"
-    [class.playable]="space.playable"
-    [class.notplayable]="!space.playable"></div>
-  </div>
+  	<div *ngFor="let row of board">
+	    <div *ngFor="let space of row" 
+	    class="square float-left"
+	    [class.playable]="space.playable"
+	    [class.notplayable]="!space.playable"></div>
+	  	</div>
+	</div>
 </div>
