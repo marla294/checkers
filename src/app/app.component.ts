@@ -26,7 +26,6 @@ export class AppComponent implements OnInit {
   			this.board[i] = rowEven;
   			this.board[i+1] = rowOdd;
   		}
-  		console.log(this.board);
   	}
 
 }
