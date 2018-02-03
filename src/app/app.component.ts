@@ -11,7 +11,7 @@ import { Game }	 		from './game';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  	private board = new Array();
+  	public board = new Array();
   	private game = new Game();
 
   	ngOnInit() {
