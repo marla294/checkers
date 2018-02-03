@@ -61,40 +61,46 @@ export class AppComponent implements OnInit {
 
   	// Check if a piece can move forward
   	// If a piece is selected, and if it has a way to move forward, 
-  	// it sets the Selected flag to true on that piece, and highlights
+  	// it sets the game's selected piece, and highlights
   	// the piece that is selected and the cells that are open.
   	checkIfMove(sp: Space) {
-  		let DR = this.board[sp.row + 1][sp.col + 1]; //down right
-  		let DL = this.board[sp.row + 1][sp.col - 1]; //down left
+  		let R: Space = null; //Right
+  		let L: Space = null; //Left
   		if (sp.piece.color === "red") {
+	  		R = this.board[sp.row + 1][sp.col + 1]; 
+	  		L = this.board[sp.row + 1][sp.col - 1]; 
+  		} 
+  		if (sp.piece.color === "black") {
+	  		R = this.board[sp.row - 1][sp.col + 1]; 
+	  		L = this.board[sp.row - 1][sp.col - 1]; 
+  		} 
   			if ((sp.col !== 7) && (sp.col !== 0)) {
-  				if (DR.isEmpty === true || DL.isEmpty === true) {
+  				if (R.isEmpty === true || L.isEmpty === true) {
   						this.selectMoveablePiece(sp);
-  						if (DR.isEmpty === true) {
-  							DR.highlight = DR.moveTo = true;
+  						if (R.isEmpty === true) {
+  							R.highlight = R.moveTo = true;
   						} 
-  						if (DL.isEmpty === true) {
-  							DL.highlight = DL.moveTo = true;
+  						if (L.isEmpty === true) {
+  							L.highlight = L.moveTo = true;
   						} 
   				} else {
   						this.clearBoardSelections();
   				}
   			} if (sp.col == 0) {
-  				if (DR.isEmpty === true) {
+  				if (R.isEmpty === true) {
   						this.selectMoveablePiece(sp);
-  						DR.highlight = DR.moveTo = true;
+  						R.highlight = R.moveTo = true;
   				} else {
   						this.clearBoardSelections();
   				}
   			} if (sp.col == 7) {
-  				if (DL.isEmpty === true) {
+  				if (L.isEmpty === true) {
   						this.selectMoveablePiece(sp);
-  						DL.highlight = DL.moveTo = true;
+  						L.highlight = L.moveTo = true;
   				} else {
   						this.clearBoardSelections();
   				}
   			}
-  		}
   		
   	}
 
