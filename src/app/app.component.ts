@@ -13,8 +13,14 @@ import { Game }	 		from './game';
 export class AppComponent implements OnInit {
   	public board = new Array();
   	private game = new Game();
+  	private selected: Piece;
 
   	ngOnInit() {
+  		this.resetBoard();
+  	}
+
+  	// Initializing the board
+  	resetBoard() {
   		// Setting up board spaces
   		for (var i = 0; i < 8; i = i+2) {
   			let rowEven = new Array();
@@ -58,41 +64,49 @@ export class AppComponent implements OnInit {
   	// it sets the Selected flag to true on that piece, and highlights
   	// the piece that is selected and the cells that are open.
   	checkIfMove(sp: Space) {
+  		let DR = this.board[sp.row + 1][sp.col + 1]; //down right
+  		let DL = this.board[sp.row + 1][sp.col - 1]; //down left
   		if (sp.piece.color === "red") {
   			if ((sp.col !== 7) && (sp.col !== 0)) {
-  				if (this.board[sp.row + 1][sp.col + 1].isEmpty === true || this.board[sp.row + 1][sp.col - 1].isEmpty === true) {
+  				if (DR.isEmpty === true || DL.isEmpty === true) {
   						this.selectMoveablePiece(sp);
-  						if (this.board[sp.row + 1][sp.col + 1].isEmpty === true) {
-  							this.board[sp.row + 1][sp.col + 1].highlight = true;
+  						if (DR.isEmpty === true) {
+  							DR.highlight = DR.moveTo = true;
   						} 
-  						if (this.board[sp.row + 1][sp.col - 1].isEmpty === true) {
-  							this.board[sp.row + 1][sp.col - 1].highlight = true;
-  						}
+  						if (DL.isEmpty === true) {
+  							DL.highlight = DL.moveTo = true;
+  						} 
   				} else {
   						this.clearBoardSelections();
   				}
   			} if (sp.col == 0) {
-  				if (this.board[sp.row + 1][sp.col + 1].isEmpty === true) {
+  				if (DR.isEmpty === true) {
   						this.selectMoveablePiece(sp);
-  						this.board[sp.row + 1][sp.col + 1].highlight = true;
+  						DR.highlight = DR.moveTo = true;
   				} else {
   						this.clearBoardSelections();
   				}
   			} if (sp.col == 7) {
-  				if (this.board[sp.row + 1][sp.col - 1].isEmpty === true) {
+  				if (DL.isEmpty === true) {
   						this.selectMoveablePiece(sp);
-  						this.board[sp.row + 1][sp.col + 1].highlight = true;
+  						DL.highlight = DL.moveTo = true;
   				} else {
   						this.clearBoardSelections();
   				}
   			}
-  			console.log(this.returnSelected());
   		}
   		
   	}
 
+  	// If a piece to move has been selected, and the user selects a valid empty
+  	// square, then the piece will move to the empty square
   	movePiece(sp:Space) {
-
+  		if (this.selected !== null && sp.moveTo == true) {
+  			this.clearSpaceForMove();
+  			sp.piece = this.selected;
+  			sp.isEmpty = false;
+  			this.clearBoardSelections();
+  		}
   	}
 
 
@@ -101,14 +115,15 @@ export class AppComponent implements OnInit {
   	// Select a moveable piece
   	selectMoveablePiece(sp: Space) {
   		this.clearBoardSelections();
-  		sp.piece.selected = true;
+  		this.selected = sp.piece;
   		sp.highlight = true;
   	}
 
   	// Clear board
   	clearBoardSelections() {
   		this.clearHighlights();
-  		this.clearSelected();
+  		this.clearMoveTo();
+  		this.selected = null;
   	}
 
   	// Clears space highlights for potential moves
@@ -116,25 +131,20 @@ export class AppComponent implements OnInit {
   		this.board.map(row => row.map(space => space.highlight = false));
   	}
 
-  	// Clears piece selections for potential moves
-  	clearSelected() {
-  		this.board.map(row => row.map(space => {
-  				if (space.playable && !space.isEmpty) {
-  					space.piece.selected = false;
-  				}
-	  		}
-  		));
+  	// Clears space "moveTo" flag
+  	clearMoveTo() {
+  		this.board.map(row => row.map(space => space.moveTo = false));
   	}
 
-  	//find the selected piece
-  	returnSelected() {
+  	//find the selected piece and clear it for move
+  	clearSpaceForMove() {
   		this.board.map(row => row.map(space => {
   				if (space.playable && !space.isEmpty) {
-  					if (space.piece.selected == true) {
-  						return "hi";
+  					if (space.piece === this.selected) {
+  						space.piece = null;
+  						space.isEmpty = true;
   					}
   				}
-  				return "no";
 	  		}
   		));
   	}
