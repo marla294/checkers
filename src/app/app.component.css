@@ -17,6 +17,15 @@
 .notplayable {
 	background-color: black;
 }
+.red {
+	background-color: red;
+}
+.black {
+	background-color: blue;
+}
+.highlight {
+	border: 5px solid yellow;
+}
 
 @media only screen and (max-width: 500px) {
 	.board {
