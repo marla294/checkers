@@ -68,20 +68,34 @@ export class AppComponent implements OnInit {
   		let L: Space = null; //Left
   		let DR: Space = null; //Diagonal Right
   		let DL: Space = null; //Diagonal Left
-  		let cannotMove = true;
+  		let cannotMove = true; 
+  		let row: number; //1 row up
+  		let dRow: number; //2 rows up
+
   		if (sp.piece.color === "red") {
-	  		R = this.board[sp.row + 1][sp.col + 1]; 
-	  		L = this.board[sp.row + 1][sp.col - 1]; 
-	  		DR = this.board[sp.row + 2][sp.col + 2]; 
-	  		DL = this.board[sp.row + 2][sp.col - 2]; 
-  		} 
-  		if (sp.piece.color === "black") {
-	  		R = this.board[sp.row - 1][sp.col + 1]; 
-	  		L = this.board[sp.row - 1][sp.col - 1]; 
-	  		DR = this.board[sp.row - 2][sp.col + 2]; 
-	  		DL = this.board[sp.row - 2][sp.col - 2]; 
-  		} 
-  			this.clearBoardSelections();
+  			row = sp.row + 1;
+  			dRow = sp.row + 2;
+  		} else if (sp.piece.color === "black") {
+  			row = sp.row - 1;
+  			dRow = sp.row - 2;
+  		}
+
+		if (sp.col == 6) { 
+			R = this.board[row][sp.col + 1];
+		} else if (sp.col < 6) { 
+			R = this.board[row][sp.col + 1];
+			DR = this.board[dRow][sp.col + 2];
+		}
+
+		if (sp.col == 1) {
+			L = this.board[row][sp.col - 1];
+		} else if (sp.col > 1) {
+			L = this.board[row][sp.col - 1];
+			DL = this.board[dRow][sp.col - 2];
+		}
+
+  		this.clearBoardSelections();
+  		
   			if ((sp.col < 6) && (sp.col > 1)) {
   				if (R.isEmpty === true) {
   					this.selectMoveablePiece(sp);
