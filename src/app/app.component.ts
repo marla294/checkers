@@ -14,6 +14,7 @@ export class AppComponent implements OnInit {
   	public board = new Array();
   	private game = new Game();
   	private selected: Piece;
+  	private jumpPiece: Piece;
 
   	ngOnInit() {
   		this.resetBoard();
@@ -85,7 +86,7 @@ export class AppComponent implements OnInit {
   			dRow = sp.row - 2;
   		}
 
-  		/* Loading spaces */
+  		/* Loading spaces to move to */
   		// If the spaces would be located off the board, they will be set
   		// to null, and that'll let the rest of the function know not to
   		// let the piece move there.
@@ -115,7 +116,8 @@ export class AppComponent implements OnInit {
 			DR.isEmpty === true && 
 			sp.piece.isRed === !R.piece.isRed) {
 				this.selectMoveablePiece(sp);
-				DR.highlight = DR.moveTo = true;
+				DR.highlight = DR.moveTo = DR.jump = true;
+				this.jumpPiece = R.piece;
 				cannotMove = false;
 		}
 		if (L != null && 
@@ -127,7 +129,8 @@ export class AppComponent implements OnInit {
 			DL.isEmpty === true &&
 			sp.piece.isRed === !L.piece.isRed) {
 				this.selectMoveablePiece(sp);
-				DL.highlight = DL.moveTo = true;
+				DL.highlight = DL.moveTo = DL.jump = true;
+				this.jumpPiece = L.piece;
 				cannotMove = false;
 		}
 		if (cannotMove) {
@@ -139,12 +142,29 @@ export class AppComponent implements OnInit {
   	// If a piece to move has been selected, and the user selects a valid empty
   	// square, then the piece will move to the empty square
   	movePiece(sp:Space) {
-  		if (this.selected !== null && sp.moveTo == true) {
-  			this.clearSpaceForMove();
-  			sp.piece = this.selected;
-  			sp.isEmpty = false;
-  			this.clearBoardSelections();
+  		if (this.selected !== null && 
+  			sp.moveTo == true) {
+	  			this.clearSpaceForMove();
+	  			sp.piece = this.selected;
+	  			sp.isEmpty = false;
+	  			if (sp.jump == true) {
+	  				this.removePiece(this.jumpPiece);
+	  				sp.jump = false;
+	  			}
+	  			this.clearBoardSelections();
   		}
+  	}
+
+  	// If a piece gets jumped, removed it from the game
+  	removePiece(p: Piece) {
+  		this.board.map(row => row.map(space => {
+  			if (space.piece != null && space.piece.id == p.id) {
+  				space.piece = null;
+  				space.isEmpty = true;
+  				p.inPlay = false;
+  			}
+  		}
+  		));
   	}
 
 

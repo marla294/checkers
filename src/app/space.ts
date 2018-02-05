@@ -8,6 +8,7 @@ export class Space {
 	isEmpty: boolean;
 	highlight: boolean;
 	moveTo: boolean;
+	jump: boolean;
 
 	constructor(r: number, c: number, play: boolean) {
 		this.row = r;
@@ -17,5 +18,6 @@ export class Space {
 		this.isEmpty = true;
 		this.highlight = false;
 		this.moveTo = false;
+		this.jump = false;
 	}
 }
