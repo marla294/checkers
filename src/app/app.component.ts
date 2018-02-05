@@ -77,10 +77,10 @@ export class AppComponent implements OnInit {
   		let cannotMove = true; 
   		
   		/* Setting rows based on color */
-  		if (sp.piece.color === "red") {
+  		if (sp.piece.isRed === true) {
   			row = sp.row + 1;
   			dRow = sp.row + 2;
-  		} else if (sp.piece.color === "black") {
+  		} else if (sp.piece.isRed === false) {
   			row = sp.row - 1;
   			dRow = sp.row - 2;
   		}

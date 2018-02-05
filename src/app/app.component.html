@@ -9,12 +9,12 @@
 	    [class.highlight]="space.highlight"
 	    >
 	    	<div *ngIf="space.piece" (click)="checkIfMove(space)">
-		    	<div *ngIf="space.piece.color=='red'" 
+		    	<div *ngIf="space.piece.isRed==true" 
 		    	class="d-flex justify-content-center">
 		    		<img src="./assets/Images/red.png" 
 		    		style="width: 90%; height: 90%">
 	    		</div>
-	    		<div *ngIf="space.piece.color=='black'" 
+	    		<div *ngIf="space.piece.isRed==false" 
 	    		class="d-flex justify-content-center">
 		    		<img src="./assets/Images/black.png" 
 		    		style="width: 90%; height: 90%">
