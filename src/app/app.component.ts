@@ -64,14 +64,19 @@ export class AppComponent implements OnInit {
   	// it sets the game's selected piece, and highlights
   	// the piece that is selected and the cells that are open.
   	checkIfMove(sp: Space) {
+  		/* Local Variables */
+  		// Spaces the checkers could potentially move to
   		let R: Space = null; //Right
   		let L: Space = null; //Left
   		let DR: Space = null; //Diagonal Right
   		let DL: Space = null; //Diagonal Left
-  		let cannotMove = true; 
+  		// Row variables we need to make spaces ambiguous of red or black
   		let row: number; //1 row up
   		let dRow: number; //2 rows up
-
+  		// Flag for cannot move since we got all these damn if statements
+  		let cannotMove = true; 
+  		
+  		/* Setting rows based on color */
   		if (sp.piece.color === "red") {
   			row = sp.row + 1;
   			dRow = sp.row + 2;
@@ -80,13 +85,16 @@ export class AppComponent implements OnInit {
   			dRow = sp.row - 2;
   		}
 
+  		/* Loading spaces */
+  		// If the spaces would be located off the board, they will be set
+  		// to null, and that'll let the rest of the function know not to
+  		// let the piece move there.
 		if (sp.col == 6) { 
 			R = this.board[row][sp.col + 1];
 		} else if (sp.col < 6) { 
 			R = this.board[row][sp.col + 1];
 			DR = this.board[dRow][sp.col + 2];
 		}
-
 		if (sp.col == 1) {
 			L = this.board[row][sp.col - 1];
 		} else if (sp.col > 1) {
@@ -94,101 +102,30 @@ export class AppComponent implements OnInit {
 			DL = this.board[dRow][sp.col - 2];
 		}
 
+		/* Checking whether the checkers can move */
   		this.clearBoardSelections();
+  		if (R != null && R.isEmpty === true) {
+			this.selectMoveablePiece(sp);
+			R.highlight = R.moveTo = true;
+			cannotMove = false;
+		} else if (DR != null && DR.isEmpty === true) {
+			this.selectMoveablePiece(sp);
+			DR.highlight = DR.moveTo = true;
+			cannotMove = false;
+		}
+		if (L != null && L.isEmpty === true) {
+			this.selectMoveablePiece(sp);
+			L.highlight = L.moveTo = true;
+			cannotMove = false;
+		} else if (DL != null && DL.isEmpty === true) {
+			this.selectMoveablePiece(sp);
+			DL.highlight = DL.moveTo = true;
+			cannotMove = false;
+		}
+		if (cannotMove) {
+			this.clearBoardSelections();
+		}
   		
-  			if ((sp.col < 6) && (sp.col > 1)) {
-  				if (R.isEmpty === true) {
-  					this.selectMoveablePiece(sp);
-  					R.highlight = R.moveTo = true;
-  					cannotMove = false;
-  				} else if (DR.isEmpty === true) {
-  					this.selectMoveablePiece(sp);
-  					DR.highlight = DR.moveTo = true;
-  					cannotMove = false;
-  				}
-
-  				if (L.isEmpty === true) {
-  					this.selectMoveablePiece(sp);
-  					L.highlight = L.moveTo = true;
-  					cannotMove = false;
-  				} else if (DL.isEmpty === true) {
-  					this.selectMoveablePiece(sp);
-  					DL.highlight = DL.moveTo = true;
-  					cannotMove = false;
-  				}
-
-  				if (cannotMove) {
-  					this.clearBoardSelections();
-  				}
-  			} 
-
-  			if (sp.col == 0) {
-  				if (R.isEmpty === true) {
-					this.selectMoveablePiece(sp);
-					R.highlight = R.moveTo = true;
-  				} else if (DR.isEmpty === true) {
-  					this.selectMoveablePiece(sp);
-  					DR.highlight = DR.moveTo = true;
-  				} else {
-  					this.clearBoardSelections();
-  				}
-  			} 
-
-  			if (sp.col == 1) {
-  				if (R.isEmpty === true) {
-  					this.selectMoveablePiece(sp);
-  					R.highlight = R.moveTo = true;
-  					cannotMove = false;
-  				} else if (DR.isEmpty === true) {
-  					this.selectMoveablePiece(sp);
-  					DR.highlight = DR.moveTo = true;
-  					cannotMove = false;
-  				}
-
-  				if (L.isEmpty === true) {
-  					this.selectMoveablePiece(sp);
-					L.highlight = L.moveTo = true;
-					cannotMove = false;
-  				}
-
-  				if (cannotMove) {
-  					this.clearBoardSelections();
-  				}
-  			}
-
-  			if (sp.col == 6) {
-  				if (L.isEmpty === true) {
-  					this.selectMoveablePiece(sp);
-  					L.highlight = L.moveTo = true;
-  					cannotMove = false;
-  				} else if (DL.isEmpty === true) {
-  					this.selectMoveablePiece(sp);
-  					DL.highlight = DL.moveTo = true;
-  					cannotMove = false;
-  				}
-
-  				if (R.isEmpty === true) {
-  					this.selectMoveablePiece(sp);
-					R.highlight = R.moveTo = true;
-					cannotMove = false;
-  				}
-
-  				if (cannotMove) {
-  					this.clearBoardSelections();
-  				}
-  			}
-
-  			if (sp.col == 7) {
-  				if (L.isEmpty === true) {
-					this.selectMoveablePiece(sp);
-					L.highlight = L.moveTo = true;
-  				} else if (DL.isEmpty === true) {
-  					this.selectMoveablePiece(sp);
-  					DL.highlight = DL.moveTo = true;
-  				} else {
-					this.clearBoardSelections();
-  				}
-  			}
   	}
 
   	// If a piece to move has been selected, and the user selects a valid empty
