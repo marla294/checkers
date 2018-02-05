@@ -104,26 +104,32 @@ export class AppComponent implements OnInit {
 
 		/* Checking whether the checkers can move */
   		this.clearBoardSelections();
-  		if (R != null && R.isEmpty === true) {
-			this.selectMoveablePiece(sp);
-			R.highlight = R.moveTo = true;
-			cannotMove = false;
-		} else if (DR != null && DR.isEmpty === true) {
-			this.selectMoveablePiece(sp);
-			DR.highlight = DR.moveTo = true;
-			cannotMove = false;
+  		if (R != null && 
+  			R.isEmpty === true) {
+				this.selectMoveablePiece(sp);
+				R.highlight = R.moveTo = true;
+				cannotMove = false;
+		} else if (DR != null && 
+			DR.isEmpty === true && 
+			sp.piece.isRed === !R.piece.isRed) {
+				this.selectMoveablePiece(sp);
+				DR.highlight = DR.moveTo = true;
+				cannotMove = false;
 		}
-		if (L != null && L.isEmpty === true) {
-			this.selectMoveablePiece(sp);
-			L.highlight = L.moveTo = true;
-			cannotMove = false;
-		} else if (DL != null && DL.isEmpty === true) {
-			this.selectMoveablePiece(sp);
-			DL.highlight = DL.moveTo = true;
-			cannotMove = false;
+		if (L != null && 
+			L.isEmpty === true) {
+				this.selectMoveablePiece(sp);
+				L.highlight = L.moveTo = true;
+				cannotMove = false;
+		} else if (DL != null && 
+			DL.isEmpty === true &&
+			sp.piece.isRed === !L.piece.isRed) {
+				this.selectMoveablePiece(sp);
+				DL.highlight = DL.moveTo = true;
+				cannotMove = false;
 		}
 		if (cannotMove) {
-			this.clearBoardSelections();
+				this.clearBoardSelections();
 		}
   		
   	}
