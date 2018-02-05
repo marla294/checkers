@@ -81,7 +81,8 @@ export class AppComponent implements OnInit {
 	  		DR = this.board[sp.row - 2][sp.col + 2]; 
 	  		DL = this.board[sp.row - 2][sp.col - 2]; 
   		} 
-  			if ((sp.col !== 7) && (sp.col !== 0)) {
+  			this.clearBoardSelections();
+  			if ((sp.col < 6) && (sp.col > 1)) {
   				if (R.isEmpty === true) {
   					this.selectMoveablePiece(sp);
   					R.highlight = R.moveTo = true;
@@ -105,33 +106,73 @@ export class AppComponent implements OnInit {
   				if (cannotMove) {
   					this.clearBoardSelections();
   				}
+  			} 
 
-  				/*
-  				if (R.isEmpty === true || L.isEmpty === true) {
-  						this.selectMoveablePiece(sp);
-  						if (R.isEmpty === true) {
-  							R.highlight = R.moveTo = true;
-  						} 
-  						if (L.isEmpty === true) {
-  							L.highlight = L.moveTo = true;
-  						} 
-  				} else {
-  						this.clearBoardSelections();
-  				}
-  				*/
-  			} if (sp.col == 0) {
+  			if (sp.col == 0) {
   				if (R.isEmpty === true) {
-  						this.selectMoveablePiece(sp);
-  						R.highlight = R.moveTo = true;
+					this.selectMoveablePiece(sp);
+					R.highlight = R.moveTo = true;
+  				} else if (DR.isEmpty === true) {
+  					this.selectMoveablePiece(sp);
+  					DR.highlight = DR.moveTo = true;
   				} else {
-  						this.clearBoardSelections();
+  					this.clearBoardSelections();
   				}
-  			} if (sp.col == 7) {
+  			} 
+
+  			if (sp.col == 1) {
+  				if (R.isEmpty === true) {
+  					this.selectMoveablePiece(sp);
+  					R.highlight = R.moveTo = true;
+  					cannotMove = false;
+  				} else if (DR.isEmpty === true) {
+  					this.selectMoveablePiece(sp);
+  					DR.highlight = DR.moveTo = true;
+  					cannotMove = false;
+  				}
+
   				if (L.isEmpty === true) {
-  						this.selectMoveablePiece(sp);
-  						L.highlight = L.moveTo = true;
+  					this.selectMoveablePiece(sp);
+					L.highlight = L.moveTo = true;
+					cannotMove = false;
+  				}
+
+  				if (cannotMove) {
+  					this.clearBoardSelections();
+  				}
+  			}
+
+  			if (sp.col == 6) {
+  				if (L.isEmpty === true) {
+  					this.selectMoveablePiece(sp);
+  					L.highlight = L.moveTo = true;
+  					cannotMove = false;
+  				} else if (DL.isEmpty === true) {
+  					this.selectMoveablePiece(sp);
+  					DL.highlight = DL.moveTo = true;
+  					cannotMove = false;
+  				}
+
+  				if (R.isEmpty === true) {
+  					this.selectMoveablePiece(sp);
+					R.highlight = R.moveTo = true;
+					cannotMove = false;
+  				}
+
+  				if (cannotMove) {
+  					this.clearBoardSelections();
+  				}
+  			}
+
+  			if (sp.col == 7) {
+  				if (L.isEmpty === true) {
+					this.selectMoveablePiece(sp);
+					L.highlight = L.moveTo = true;
+  				} else if (DL.isEmpty === true) {
+  					this.selectMoveablePiece(sp);
+  					DL.highlight = DL.moveTo = true;
   				} else {
-  						this.clearBoardSelections();
+					this.clearBoardSelections();
   				}
   			}
   	}
