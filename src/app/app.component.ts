@@ -89,17 +89,19 @@ export class AppComponent implements OnInit {
   		// If the spaces would be located off the board, they will be set
   		// to null, and that'll let the rest of the function know not to
   		// let the piece move there.
-		if (sp.col == 6) { 
-			R = this.board[row][sp.col + 1];
-		} else if (sp.col < 6) { 
-			R = this.board[row][sp.col + 1];
-			DR = this.board[dRow][sp.col + 2];
-		}
-		if (sp.col == 1) {
-			L = this.board[row][sp.col - 1];
-		} else if (sp.col > 1) {
-			L = this.board[row][sp.col - 1];
-			DL = this.board[dRow][sp.col - 2];
+  		if (row >= 0 && row <= 7) {
+			if (sp.col == 6) { 
+				R = this.board[row][sp.col + 1];
+			} else if (sp.col < 6) { 
+				R = this.board[row][sp.col + 1];
+				DR = ((row == 7 || row == 0) ? null : this.board[dRow][sp.col + 2]);
+			}
+			if (sp.col == 1) {
+				L = this.board[row][sp.col - 1];
+			} else if (sp.col > 1) {
+				L = this.board[row][sp.col - 1];
+				DL = ((row == 7 || row == 0) ? null : this.board[dRow][sp.col - 2]);
+			}
 		}
 
 		/* Checking whether the checkers can move */
