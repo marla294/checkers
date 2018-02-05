@@ -3,8 +3,6 @@ import { OnInit } 		from '@angular/core';
 import { Space }	 	from './space';
 import { Piece }	 	from './piece';
 import { Game }	 		from './game';
-import { CheckerBoard }	from './checkerBoard';
-
 
 @Component({
   selector: 'app-root',
@@ -13,45 +11,41 @@ import { CheckerBoard }	from './checkerBoard';
 })
 export class AppComponent implements OnInit {
   	public board: any;
+  	public redPieces: Piece[];
+  	public blackPieces: Piece[];
   	private game = new Game();
   	private selected: Piece;
   	private jumpPiece: Piece;
 
   	ngOnInit() {
-  		this.board = new CheckerBoard().board;
   		this.resetBoard();
   	}
 
   	// Initializing the board
   	resetBoard() {
-  		// Putting pieces on board
-  		var id = 1;
-  		for (var i = 0; i < 3; i++) {
-  			for (var j = 0; j < 8; j++) {
-  				if (this.board[i][j].playable == true) {
-  					this.board[i][j].piece = new Piece(id, 'red', false, true, i, j);
-  					this.board[i][j].isEmpty = false;
-  					id++;
-  				}
-  			}
-  		}
-  		for (var i = 5; i < 8; i++) {
-  			for (var j = 0; j < 8; j++) {
-  				if (this.board[i][j].playable == true) {
-  					this.board[i][j].piece = new Piece(id, 'black', false, true, i, j);
-  					this.board[i][j].isEmpty = false;
-  					id++;
-  				}
-  			}
-  		}
+  		this.board = this.game.board;
+  		this.redPieces = this.game.redPieces;
+  		this.blackPieces = this.game.blackPieces;
+  		this.placePieces();
   	}
+
+  	placePieces() {
+  		this.redPieces.map(piece => 
+  			this.board[piece.row][piece.col].piece = piece
+  		);
+  		this.blackPieces.map(piece => 
+  			this.board[piece.row][piece.col].piece = piece
+  		);
+  	}
+
+  	/*
 
   	// Check if a piece can move forward
   	// If a piece is selected, and if it has a way to move forward, 
   	// it sets the game's selected piece, and highlights
   	// the piece that is selected and the cells that are open.
   	checkIfMove(sp: Space) {
-  		/* Local Variables */
+  		// Local Variables
   		// Spaces the checkers could potentially move to
   		let R: Space = null; //Right
   		let L: Space = null; //Left
@@ -63,7 +57,7 @@ export class AppComponent implements OnInit {
   		// Flag for cannot move since we got all these damn if statements
   		let cannotMove = true; 
   		
-  		/* Setting rows based on color */
+  		// Setting rows based on color
   		if (sp.piece.isRed === true) {
   			row = sp.row + 1;
   			dRow = sp.row + 2;
@@ -72,7 +66,7 @@ export class AppComponent implements OnInit {
   			dRow = sp.row - 2;
   		}
 
-  		/* Loading spaces to move to */
+  		// Loading spaces to move to
   		// If the spaces would be located off the board, they will be set
   		// to null, and that'll let the rest of the function know not to
   		// let the piece move there.
@@ -91,7 +85,7 @@ export class AppComponent implements OnInit {
 			}
 		}
 
-		/* Checking whether the checkers can move */
+		// Checking whether the checkers can move
   		this.clearBoardSelections();
   		if (R != null && 
   			R.isEmpty === true) {
@@ -192,4 +186,5 @@ export class AppComponent implements OnInit {
   		));
   	}
 
+*/
 }
