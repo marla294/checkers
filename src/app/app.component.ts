@@ -66,15 +66,47 @@ export class AppComponent implements OnInit {
   	checkIfMove(sp: Space) {
   		let R: Space = null; //Right
   		let L: Space = null; //Left
+  		let DR: Space = null; //Diagonal Right
+  		let DL: Space = null; //Diagonal Left
+  		let cannotMove = true;
   		if (sp.piece.color === "red") {
 	  		R = this.board[sp.row + 1][sp.col + 1]; 
 	  		L = this.board[sp.row + 1][sp.col - 1]; 
+	  		DR = this.board[sp.row + 2][sp.col + 2]; 
+	  		DL = this.board[sp.row + 2][sp.col - 2]; 
   		} 
   		if (sp.piece.color === "black") {
 	  		R = this.board[sp.row - 1][sp.col + 1]; 
 	  		L = this.board[sp.row - 1][sp.col - 1]; 
+	  		DR = this.board[sp.row - 2][sp.col + 2]; 
+	  		DL = this.board[sp.row - 2][sp.col - 2]; 
   		} 
   			if ((sp.col !== 7) && (sp.col !== 0)) {
+  				if (R.isEmpty === true) {
+  					this.selectMoveablePiece(sp);
+  					R.highlight = R.moveTo = true;
+  					cannotMove = false;
+  				} else if (DR.isEmpty === true) {
+  					this.selectMoveablePiece(sp);
+  					DR.highlight = DR.moveTo = true;
+  					cannotMove = false;
+  				}
+
+  				if (L.isEmpty === true) {
+  					this.selectMoveablePiece(sp);
+  					L.highlight = L.moveTo = true;
+  					cannotMove = false;
+  				} else if (DL.isEmpty === true) {
+  					this.selectMoveablePiece(sp);
+  					DL.highlight = DL.moveTo = true;
+  					cannotMove = false;
+  				}
+
+  				if (cannotMove) {
+  					this.clearBoardSelections();
+  				}
+
+  				/*
   				if (R.isEmpty === true || L.isEmpty === true) {
   						this.selectMoveablePiece(sp);
   						if (R.isEmpty === true) {
@@ -86,6 +118,7 @@ export class AppComponent implements OnInit {
   				} else {
   						this.clearBoardSelections();
   				}
+  				*/
   			} if (sp.col == 0) {
   				if (R.isEmpty === true) {
   						this.selectMoveablePiece(sp);
@@ -101,7 +134,6 @@ export class AppComponent implements OnInit {
   						this.clearBoardSelections();
   				}
   			}
-  		
   	}
 
   	// If a piece to move has been selected, and the user selects a valid empty
@@ -120,7 +152,6 @@ export class AppComponent implements OnInit {
 
   	// Select a moveable piece
   	selectMoveablePiece(sp: Space) {
-  		this.clearBoardSelections();
   		this.selected = sp.piece;
   		sp.highlight = true;
   	}
