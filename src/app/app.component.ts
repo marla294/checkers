@@ -29,7 +29,13 @@ export class AppComponent implements OnInit {
   		this.placePieces();
   	}
 
+  	// Clear all pieces out of squares on board
+  	clearPieces() {
+  		this.board.map(row => row.map(square => square.piece = null));
+  	}
+
   	placePieces() {
+  		this.clearPieces();
   		this.redPieces.map(piece => {
 	  			this.board[piece.row][piece.col].piece = piece;
 	  			this.board[piece.row][piece.col].isEmpty = false;

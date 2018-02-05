@@ -20,6 +20,13 @@ export class Piece {
 		}
 	}
 
+	// Move -> ^
+	moveUpRight() {
+		this.row--;
+		this.col++;
+	}
+
+	// Generic move piece function
 	movePiece(r: number, c: number) {
 		this.row = r;
 		this.col = c;
