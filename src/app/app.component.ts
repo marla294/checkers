@@ -30,11 +30,15 @@ export class AppComponent implements OnInit {
   	}
 
   	placePieces() {
-  		this.redPieces.map(piece => 
-  			this.board[piece.row][piece.col].piece = piece
+  		this.redPieces.map(piece => {
+	  			this.board[piece.row][piece.col].piece = piece;
+	  			this.board[piece.row][piece.col].isEmpty = false;
+	  		}
   		);
-  		this.blackPieces.map(piece => 
-  			this.board[piece.row][piece.col].piece = piece
+  		this.blackPieces.map(piece => {
+	  			this.board[piece.row][piece.col].piece = piece;
+	  			this.board[piece.row][piece.col].isEmpty = false;
+	  		}
   		);
   	}
 
