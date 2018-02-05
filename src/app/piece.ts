@@ -3,6 +3,7 @@ export class Piece {
 	isRed: boolean = true;
 	king: boolean;
 	inPlay: boolean;
+	moveDir: string;
 	row: number = null;
 	col: number = null;
 
@@ -15,15 +16,11 @@ export class Piece {
 
 		if (color == "black") {
 			this.isRed = false;
+			this.moveDir = "up";
 		} else if (color == "red") {
 			this.isRed = true;
+			this.moveDir = "down";
 		}
-	}
-
-	// Move -> ^
-	moveUpRight() {
-		this.row--;
-		this.col++;
 	}
 
 	// Generic move piece function
@@ -31,4 +28,12 @@ export class Piece {
 		this.row = r;
 		this.col = c;
 	}
+}
+
+export class Pawn extends Piece {
+
+}
+
+export class King extends Piece {
+
 }
