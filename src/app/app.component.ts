@@ -34,6 +34,7 @@ export class AppComponent implements OnInit {
   		this.board.map(row => row.map(square => square.piece = null));
   	}
 
+  	// Places red and black pieces on the game board
   	placePieces() {
   		this.clearPieces();
   		this.redPieces.map(piece => {
@@ -47,6 +48,23 @@ export class AppComponent implements OnInit {
 	  		}
   		);
   	}
+
+  	// Checks to see if a space is empty, on the board, and playable
+	checkBoardSpace(row: number, col: number): boolean {
+		var space: Space;
+
+		if (row < 8 && row > -1 && col < 8 && col > -1) {
+			space = this.board[row][col];
+		} else {
+			return false;
+		}
+
+	    if (space.isEmpty && space.playable) {
+	    	return true;
+	    } else {
+	    	return false;
+	    }
+	}
 
   	/*
 
