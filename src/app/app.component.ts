@@ -3,6 +3,7 @@ import { OnInit } 		from '@angular/core';
 import { Space }	 	from './space';
 import { Piece }	 	from './piece';
 import { Game }	 		from './game';
+import { CheckerBoard }	from './checkerBoard';
 
 
 @Component({
@@ -11,39 +12,24 @@ import { Game }	 		from './game';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  	public board = new Array();
+  	public board: any;
   	private game = new Game();
   	private selected: Piece;
   	private jumpPiece: Piece;
 
   	ngOnInit() {
+  		this.board = new CheckerBoard().board;
   		this.resetBoard();
   	}
 
   	// Initializing the board
   	resetBoard() {
-  		// Setting up board spaces
-  		for (var i = 0; i < 8; i = i+2) {
-  			let rowEven = new Array();
-  			let rowOdd = new Array();
-  			for (var j = 0; j < 8; j = j+2) {
-  				rowEven[j] = new Space(i, j, true);
-  				rowEven[j+1] = new Space(i, j+1, false);
-  			}
-  			for (var j = 0; j < 8; j = j+2) {
-  				rowOdd[j] = new Space(i+1, j, false);
-  				rowOdd[j+1] = new Space(i+1, j+1, true);
-  			}
-  			this.board[i] = rowEven;
-  			this.board[i+1] = rowOdd;
-  		}
-
   		// Putting pieces on board
   		var id = 1;
   		for (var i = 0; i < 3; i++) {
   			for (var j = 0; j < 8; j++) {
   				if (this.board[i][j].playable == true) {
-  					this.board[i][j].piece = new Piece(id, 'red', false, true);
+  					this.board[i][j].piece = new Piece(id, 'red', false, true, i, j);
   					this.board[i][j].isEmpty = false;
   					id++;
   				}
@@ -52,7 +38,7 @@ export class AppComponent implements OnInit {
   		for (var i = 5; i < 8; i++) {
   			for (var j = 0; j < 8; j++) {
   				if (this.board[i][j].playable == true) {
-  					this.board[i][j].piece = new Piece(id, 'black', false, true);
+  					this.board[i][j].piece = new Piece(id, 'black', false, true, i, j);
   					this.board[i][j].isEmpty = false;
   					id++;
   				}

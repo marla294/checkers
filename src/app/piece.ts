@@ -3,16 +3,25 @@ export class Piece {
 	isRed: boolean = true;
 	king: boolean;
 	inPlay: boolean;
+	row: number = null;
+	col: number = null;
 
-	constructor(id1: number, c: string, k: boolean, i: boolean) {
+	constructor(id1: number, color: string, k: boolean, i: boolean, r: number, c: number) {
 		this.id = id1;
 		this.king = k;
 		this.inPlay = i;
+		this.row = r;
+		this.col = c;
 
-		if (c == "black") {
+		if (color == "black") {
 			this.isRed = false;
-		} else if (c == "red") {
+		} else if (color == "red") {
 			this.isRed = true;
 		}
+	}
+
+	movePiece(r: number, c: number) {
+		this.row = r;
+		this.col = c;
 	}
 }
