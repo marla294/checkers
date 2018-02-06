@@ -42,7 +42,7 @@ export class Game {
   		);
   	}
 
-	// Clear the selected piece from the piece arrays
+	// Clear the selected flag from the piece arrays so no piece is selected
 	clearSelectedPiece() {
 		this.redPieces.forEach(piece => piece.selected = false);
 		this.blackPieces.forEach(piece => piece.selected = false);
