@@ -30,6 +30,12 @@ export class Piece {
 		this.row = r;
 		this.col = c;
 	}
+
+	killPiece() {
+		this.inPlay = false;
+		this.row = null;
+		this.col = null;
+	}
 }
 
 export class Pawn extends Piece {
@@ -42,6 +48,16 @@ export class Pawn extends Piece {
 	movePieceLeft() {
 		this.col--;
 		this.isRed ? this.row++ : this.row--;
+	}
+
+	jumpRight() {
+		this.col = this.col + 2;
+		this.row = this.isRed ? this.row + 2 : this.row - 2;
+	}
+
+	jumpLeft() {
+		this.col = this.col - 2;
+		this.row = this.isRed ? this.row + 2 : this.row - 2;
 	}
 
 }
