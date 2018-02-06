@@ -19,5 +19,22 @@ export class CheckerBoard {
   			this.board[i+1] = rowOdd;
   		}
 	}
+
+  // Checks to see if a space is empty, on the board, and playable
+  checkBoardSpace(row: number, col: number): boolean {
+    var space: Space;
+
+    if (row < 8 && row > -1 && col < 8 && col > -1) {
+      space = this.board[row][col];
+    } else {
+      return false;
+    }
+
+      if (space.isEmpty && space.playable) {
+        return true;
+      } else {
+        return false;
+      }
+  }
 	
 }
