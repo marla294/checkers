@@ -9,26 +9,34 @@ export class GameService {
 	public blackPieces = new Array();
 
 	constructor() {
-		this.board = new CheckerBoard().board;
-  		for (let i = 0; i < 3; i++) {
-  			for (let j = 0; j < 8; j++) {
-  				if (this.board[i][j].playable === true) {
-  					this.redPieces.push(new Pawn('red', i, j));
-  				}
-  			}
-  		}
-  		for (let i = 5; i < 8; i++) {
-  			for (let j = 0; j < 8; j++) {
-  				if (this.board[i][j].playable === true) {
-  					this.blackPieces.push(new Pawn('black', i, j));
-  				}
-  			}
-  		}
+		  this.resetGame();
 	}
+
+  // Resets game back to beginning
+  resetGame() {
+      this.board = new CheckerBoard().board;
+      this.redPieces = [];
+      this.blackPieces = [];
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 8; j++) {
+          if (this.board[i][j].playable === true) {
+            this.redPieces.push(new Pawn('red', i, j));
+          }
+        }
+      }
+      for (let i = 5; i < 8; i++) {
+        for (let j = 0; j < 8; j++) {
+          if (this.board[i][j].playable === true) {
+            this.blackPieces.push(new Pawn('black', i, j));
+          }
+        }
+      }
+      this.placePieces();
+  }
 
 	// Places red and black pieces on the game board
   	placePieces() {
-  		this.clearPieces();
+  		this.clearPiecesBoard();
   		this.redPieces.forEach(piece => {
 	  			this.board[piece.row][piece.col].piece = piece;
 	  			this.board[piece.row][piece.col].isEmpty = false;
@@ -48,7 +56,7 @@ export class GameService {
 	}
 
 	// Clear all pieces out of squares on board
-  	clearPieces() {
+  	clearPiecesBoard() {
   		this.board.forEach(row => row.forEach(space => space.piece = null));
   	}
 

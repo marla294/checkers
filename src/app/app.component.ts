@@ -18,15 +18,10 @@ export class AppComponent implements OnInit {
   	) {}
 
   	ngOnInit() {
-  		this.resetBoard();
-  	}
-
-  	// Initializing the board
-  	resetBoard() {
+  		this.service.resetGame();
   		this.board = this.service.board;
   		this.redPieces = this.service.redPieces;
   		this.blackPieces = this.service.blackPieces;
-  		this.service.placePieces();
   	}
 
   	/*
