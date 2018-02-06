@@ -1,7 +1,9 @@
-import { Piece, Pawn }	from './piece';
-import { CheckerBoard }	from './checkerBoard';
+import { Injectable }     from '@angular/core';
+import { Piece, Pawn }	  from './piece';
+import { CheckerBoard }	  from './checkerBoard';
 
-export class Game {
+@Injectable()
+export class GameService {
 	public board: any;
 	public redPieces = new Array();
 	public blackPieces = new Array();

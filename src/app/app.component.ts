@@ -1,19 +1,21 @@
 import { Component } 	from '@angular/core';
 import { OnInit } 		from '@angular/core';
-import { Space }	 	from './space';
 import { Piece }	 	from './piece';
-import { Game }	 		from './game';
+import { GameService }	from './game.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
   	public board: any;
   	public redPieces: Piece[];
   	public blackPieces: Piece[];
-  	private game = new Game();
+
+  	constructor(
+  		private service: GameService
+  	) {}
 
   	ngOnInit() {
   		this.resetBoard();
@@ -21,10 +23,10 @@ export class AppComponent implements OnInit {
 
   	// Initializing the board
   	resetBoard() {
-  		this.board = this.game.board;
-  		this.redPieces = this.game.redPieces;
-  		this.blackPieces = this.game.blackPieces;
-  		this.game.placePieces();
+  		this.board = this.service.board;
+  		this.redPieces = this.service.redPieces;
+  		this.blackPieces = this.service.blackPieces;
+  		this.service.placePieces();
   	}
 
   	/*

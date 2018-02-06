@@ -1,10 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-
 import { AppComponent } from './app.component';
-import { Pawn }	from './piece';
-
+import { GameService }	from './game.service';
 
 @NgModule({
   declarations: [
@@ -13,7 +11,9 @@ import { Pawn }	from './piece';
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [
+  	GameService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
