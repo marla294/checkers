@@ -8,20 +8,17 @@ export class Game {
 
 	constructor() {
 		this.board = new CheckerBoard().board;
-		let id = 1;
   		for (let i = 0; i < 3; i++) {
   			for (let j = 0; j < 8; j++) {
   				if (this.board[i][j].playable === true) {
-  					this.redPieces.push(new Pawn(id, 'red', false, true, i, j));
-  					id++;
+  					this.redPieces.push(new Pawn('red', i, j));
   				}
   			}
   		}
   		for (let i = 5; i < 8; i++) {
   			for (let j = 0; j < 8; j++) {
   				if (this.board[i][j].playable === true) {
-  					this.blackPieces.push(new Pawn(id, 'black', false, true, i, j));
-  					id++;
+  					this.blackPieces.push(new Pawn('black', i, j));
   				}
   			}
   		}

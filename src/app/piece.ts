@@ -1,28 +1,18 @@
 export class Piece {
-	id: number;
 	isRed: boolean = true;
-	king: boolean;
-	inPlay: boolean;
-	moveDir: string;
-	selected: boolean;
+	inPlay: boolean = true;
+	selected: boolean = false;
 	row: number = null;
 	col: number = null;
 
-	constructor(id1: number, color: string, k: boolean, i: boolean, r: number, c: number) {
-		this.id = id1;
-		this.king = k;
-		this.inPlay = i;
-		this.row = r;
-		this.col = c;
-		this.selected = false;
-
+	constructor(color: string, r: number, c: number) {
 		if (color === "black") {
 			this.isRed = false;
-			this.moveDir = "up";
 		} else if (color === "red") {
 			this.isRed = true;
-			this.moveDir = "down";
 		}
+		this.row = r;
+		this.col = c;
 	}
 
 	// Generic move piece function
@@ -59,9 +49,5 @@ export class Pawn extends Piece {
 		this.col = this.col - 2;
 		this.row = this.isRed ? this.row + 2 : this.row - 2;
 	}
-
-}
-
-export class King extends Piece {
 
 }
