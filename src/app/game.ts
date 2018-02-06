@@ -30,12 +30,12 @@ export class Game {
 	// Places red and black pieces on the game board
   	placePieces() {
   		this.clearPieces();
-  		this.redPieces.map(piece => {
+  		this.redPieces.forEach(piece => {
 	  			this.board[piece.row][piece.col].piece = piece;
 	  			this.board[piece.row][piece.col].isEmpty = false;
 	  		}
   		);
-  		this.blackPieces.map(piece => {
+  		this.blackPieces.forEach(piece => {
 	  			this.board[piece.row][piece.col].piece = piece;
 	  			this.board[piece.row][piece.col].isEmpty = false;
 	  		}
@@ -44,13 +44,13 @@ export class Game {
 
 	// Clear the selected piece from the piece arrays
 	clearSelectedPiece() {
-		this.redPieces.map(piece => piece.selected = false);
-		this.blackPieces.map(piece => piece.selected = false);
+		this.redPieces.forEach(piece => piece.selected = false);
+		this.blackPieces.forEach(piece => piece.selected = false);
 	}
 
 	// Clear all pieces out of squares on board
   	clearPieces() {
-  		this.board.map(row => row.map(space => space.piece = null));
+  		this.board.forEach(row => row.forEach(space => space.piece = null));
   	}
 
   	// Clicking a piece on the board causes (only) that piece to be selected
