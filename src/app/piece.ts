@@ -4,6 +4,7 @@ export class Piece {
 	king: boolean;
 	inPlay: boolean;
 	moveDir: string;
+	selected: boolean;
 	row: number = null;
 	col: number = null;
 
@@ -13,6 +14,7 @@ export class Piece {
 		this.inPlay = i;
 		this.row = r;
 		this.col = c;
+		this.selected = false;
 
 		if (color == "black") {
 			this.isRed = false;
@@ -31,6 +33,16 @@ export class Piece {
 }
 
 export class Pawn extends Piece {
+
+	movePieceRight() {
+		this.col++;
+		this.isRed ? this.row++ : this.row--;
+	}
+
+	movePieceLeft() {
+		this.col--;
+		this.isRed ? this.row++ : this.row--;
+	}
 
 }
 

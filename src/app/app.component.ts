@@ -14,7 +14,6 @@ export class AppComponent implements OnInit {
   	public redPieces: Piece[];
   	public blackPieces: Piece[];
   	private game = new Game();
-  	private selected: Piece;
 
   	ngOnInit() {
   		this.resetBoard();
@@ -25,29 +24,8 @@ export class AppComponent implements OnInit {
   		this.board = this.game.board;
   		this.redPieces = this.game.redPieces;
   		this.blackPieces = this.game.blackPieces;
-  		this.placePieces();
+  		this.game.placePieces();
   	}
-
-  	// Clear all pieces out of squares on board
-  	clearPieces() {
-  		this.board.map(row => row.map(square => square.piece = null));
-  	}
-
-  	// Places red and black pieces on the game board
-  	placePieces() {
-  		this.clearPieces();
-  		this.redPieces.map(piece => {
-	  			this.board[piece.row][piece.col].piece = piece;
-	  			this.board[piece.row][piece.col].isEmpty = false;
-	  		}
-  		);
-  		this.blackPieces.map(piece => {
-	  			this.board[piece.row][piece.col].piece = piece;
-	  			this.board[piece.row][piece.col].isEmpty = false;
-	  		}
-  		);
-  	}
-
 
   	/*
 

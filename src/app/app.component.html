@@ -2,13 +2,14 @@
 <div class="d-flex justify-content-center align-items-center board-container">
   <div class="board">
   	<div *ngFor="let row of board">
-	    <div *ngFor="let space of row"
+	    <div *ngFor="let space of row" 
 	    class="square float-left"
 	    [class.playable]="space.playable"
 	    [class.notplayable]="!space.playable"
 	    [class.highlight]="space.highlight"
 	    >
-	    	<div *ngIf="space.piece">
+	    	<div *ngIf="space.piece"
+	    	(click)="game.selectAPiece(space.piece)">
 		    	<div *ngIf="space.piece.isRed==true" 
 		    	class="d-flex justify-content-center">
 		    		<img src="./assets/Images/red.png" 
@@ -21,7 +22,8 @@
 	    		</div>
     		</div>
     		<!-- Have style so that there is a clickable area !-->
-    		<div *ngIf="space.playable && !space.piece" (click)="movePiece(space)" style="width: 100%; height: 100%">
+    		<div *ngIf="space.playable && !space.piece"
+    		style="width: 100%; height: 100%">
     		</div>
 	    </div>
 	  	</div>

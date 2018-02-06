@@ -26,4 +26,38 @@ export class Game {
   			}
   		}
 	}
+
+	// Places red and black pieces on the game board
+  	placePieces() {
+  		this.clearPieces();
+  		this.redPieces.map(piece => {
+	  			this.board[piece.row][piece.col].piece = piece;
+	  			this.board[piece.row][piece.col].isEmpty = false;
+	  		}
+  		);
+  		this.blackPieces.map(piece => {
+	  			this.board[piece.row][piece.col].piece = piece;
+	  			this.board[piece.row][piece.col].isEmpty = false;
+	  		}
+  		);
+  	}
+
+	// Clear the selected piece from the piece arrays
+	clearSelectedPiece() {
+		this.redPieces.map(piece => piece.selected = false);
+		this.blackPieces.map(piece => piece.selected = false);
+	}
+
+	// Clear all pieces out of squares on board
+  	clearPieces() {
+  		this.board.map(row => row.map(space => space.piece = null));
+  	}
+
+  	// Clicking a piece on the board causes (only) that piece to be selected
+  	selectAPiece(p: Piece) {
+  		this.clearSelectedPiece();
+  		if (p != null ) {
+  			p.selected = true;
+  		}
+  	}
 }
