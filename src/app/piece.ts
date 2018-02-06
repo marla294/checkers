@@ -16,10 +16,10 @@ export class Piece {
 		this.col = c;
 		this.selected = false;
 
-		if (color == "black") {
+		if (color === "black") {
 			this.isRed = false;
 			this.moveDir = "up";
-		} else if (color == "red") {
+		} else if (color === "red") {
 			this.isRed = true;
 			this.moveDir = "down";
 		}
