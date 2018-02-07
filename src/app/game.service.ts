@@ -109,11 +109,11 @@ export class GameService {
   	// Clicking a piece on the board causes (only) that piece to be selected
   	selectAPiece(p: Piece) {
     		this.clearSelectedPiece();
+        this.clearHighlights();
     		if (p != null ) {
       			p.selected = true;
             this.findPiece(p).highlight = true;
     		}
-        
   	}
 
     // Clear the selected flag from the board so no piece is selected
@@ -122,7 +122,6 @@ export class GameService {
             row.forEach(space => { 
                     if (space.piece !== null) {
                         space.piece.selected = false;
-                        space.highlight = false;
                     } 
                 } 
             )
