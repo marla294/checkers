@@ -33,7 +33,19 @@ export class GameService {
 
     // Highlights the spaces a pawn could move to
     highlightMoveableSpaces(p: Pawn) {
-        console.log(this.findMoveableSpaces(p));
+        let right = this.findMoveableSpaces(p).right;
+        let left = this.findMoveableSpaces(p).left;
+        
+        // First clear the highlights that might have already been on the board
+        this.clearHighlights();
+        
+        // If the space exists
+        if (right != null) {
+            right.highlight = true;
+        }
+        if (left != null) {
+            left.highlight = true;
+        }
     }
 
     // This method will find moveable spaces for a pawn piece
@@ -52,12 +64,14 @@ export class GameService {
     checkBoardSpace(row: number, col: number): boolean {
         let space: Space;
 
+        // Check if the space is on the board
         if (row < 8 && row > -1 && col < 8 && col > -1) {
             space = this.board[row][col];
         } else {
             return false;
         }
 
+        // Check if the space is one that a piece could move to
         if (space.piece == null && space.playable) {
             return true;
         } else {
@@ -68,11 +82,14 @@ export class GameService {
     // Finds a piece on the board and returns the space it is on
     findPiece(p: Piece): Space {
         let sp: Space = null;
+
+        // Look through the board and see if the piece is on a space
         this.board.forEach(row => row.forEach(space => {
             if (space.piece === p) {
                 sp = space;
             }
         }));
+        
         return sp;
     }
 
@@ -110,5 +127,10 @@ export class GameService {
                 } 
             )
         );
+    }
+
+    // Clears all highlights from board
+    clearHighlights() {
+        this.board.forEach(row => row.forEach(space => space.highlight = false));
     }
 }

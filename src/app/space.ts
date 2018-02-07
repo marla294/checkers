@@ -18,7 +18,7 @@ export class Space {
 		}
 	}
 
-	// Clear piece out of space
+	// Clear piece out of space by setting to null
 	clearPiece() {
 		if (this.piece != null) {
 			this.piece = null;
