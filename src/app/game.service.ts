@@ -30,6 +30,10 @@ export class GameService {
         }
     }
 
+    logger(sp: Space) {
+        console.log(sp);
+    }
+
     // Finds a piece on the board and returns the space it is on
     findPiece(p: Piece): Space {
         let sp: Space = null;
@@ -59,15 +63,19 @@ export class GameService {
     		this.clearSelectedPiece();
     		if (p != null ) {
       			p.selected = true;
+            this.findPiece(p).highlight = true;
     		}
+        
   	}
 
     // Clear the selected flag from the board so no piece is selected
     clearSelectedPiece() {
-      this.board.forEach(row => 
+        this.board.forEach(row => 
             row.forEach(space => { 
-                if (space.piece !== null) 
-                  space.piece.selected = false 
+                    if (space.piece !== null) {
+                        space.piece.selected = false;
+                        space.highlight = false;
+                    } 
                 } 
             )
         );
