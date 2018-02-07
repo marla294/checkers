@@ -35,11 +35,11 @@ export class GameService {
     clickAPiece(p: Pawn) {
         this.clearHighlights();
         this.selectAPiece(p);
-        this.highlightMoveableSpaces(p);
+        this.selectMoveableSpaces(p);
     }
 
-    // Highlights the spaces a pawn could move to
-    highlightMoveableSpaces(p: Pawn) {
+    // Highlights and sets moveTo flag on the spaces a pawn could move to
+    selectMoveableSpaces(p: Pawn) {
         let right = this.findMoveableSpaces(p).right;
         let left = this.findMoveableSpaces(p).left;
         
@@ -98,19 +98,6 @@ export class GameService {
         return sp;
     }
 
-    // Place piece on board according to coordinates on the piece
-    placePiece(p: Piece) {
-        let row = p.row;
-        let col = p.col;
-        let oldSpace = this.findPiece(p);
-
-        // First clear the piece off the old space
-        oldSpace.clearPiece();
-
-        // Then add the piece to the new space on the board
-        this.board[row][col].addPiece(p);
-    }
-
   	// Clicking a piece on the board causes (only) that piece to be selected
   	selectAPiece(p: Piece) {
     		this.clearSelectedPiece();
@@ -136,4 +123,19 @@ export class GameService {
     clearHighlights() {
         this.board.forEach(row => row.forEach(space => space.highlight = space.moveTo = false));
     }
+
+    /*
+    // Place piece on board according to coordinates on the piece
+    placePiece(p: Piece) {
+        let row = p.row;
+        let col = p.col;
+        let oldSpace = this.findPiece(p);
+
+        // First clear the piece off the old space
+        oldSpace.clearPiece();
+
+        // Then add the piece to the new space on the board
+        this.board[row][col].addPiece(p);
+    }
+    */
 }
