@@ -68,32 +68,26 @@ export class GameService {
     findMoveableSpaces(p: Pawn) {
         let coordRight = p.getRightMove();
         let coordLeft = p.getLeftMove();
+        let spaceRight: Space = this.getBoardSpace(coordRight.row, coordRight.col);
+        let spaceLeft: Space = this.getBoardSpace(coordLeft.row, coordLeft.col);
 
         // Returns an object with the right and left spaces
         return {
-            right: this.checkBoardSpace(coordRight.row, coordRight.col) ? this.board[coordRight.row][coordRight.col] : null,
-            left: this.checkBoardSpace(coordLeft.row, coordLeft.col) ? this.board[coordLeft.row][coordLeft.col] : null
+            right: spaceRight,
+            left: spaceLeft
         }
 
     }
 
-    // Checks to see if a space is empty, on the board, and playable
-    checkBoardSpace(row: number, col: number): boolean {
-        let space: Space;
+    // Given a row and column that may or may not be on the board, check if it is on the board.  If it is return the space
+    getBoardSpace(row: number, col: number): Space {
 
-        // Check if the space is on the board
         if (row < 8 && row > -1 && col < 8 && col > -1) {
-            space = this.board[row][col];
+            return this.board[row][col];
         } else {
-            return false;
+            return null;
         }
 
-        // Check if the space is one that a piece could move to
-        if (space.piece === null && space.playable) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     // Finds a piece on the board and returns the space it is on
