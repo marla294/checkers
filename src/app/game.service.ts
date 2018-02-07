@@ -31,15 +31,38 @@ export class GameService {
         }
     }
 
-    // Highlights the spaces a piece could move to
-    highlightMoveableSpaces(p: Piece) {
+    // Highlights the spaces a pawn could move to
+    highlightMoveableSpaces(p: Pawn) {
+        console.log(this.findMoveableSpaces(p));
+    }
+
+    // This method will find moveable spaces for a pawn piece
+    findMoveableSpaces(p: Pawn): Object {
+        let coordRight = p.getRightMove();
+        let coordLeft = p.getLeftMove();
+
+        return {
+            right: this.checkBoardSpace(coordRight.row, coordRight.col) ? this.board[coordRight.row][coordRight.col] : null,
+            left: this.checkBoardSpace(coordLeft.row, coordLeft.col) ? this.board[coordLeft.row][coordLeft.col] : null
+        }
 
     }
 
-    // This method will find moveable spaces for a pawn only
-    findMoveableSpaces(p: Pawn): Space {
-        let coordRight = p.getRightMove();
-        let coordLeft = p.getLeftMove();
+    // Checks to see if a space is empty, on the board, and playable
+    checkBoardSpace(row: number, col: number): boolean {
+        let space: Space;
+
+        if (row < 8 && row > -1 && col < 8 && col > -1) {
+            space = this.board[row][col];
+        } else {
+            return false;
+        }
+
+        if (space.piece == null && space.playable) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     // Finds a piece on the board and returns the space it is on
