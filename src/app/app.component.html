@@ -9,7 +9,7 @@
 	    [class.highlight]="space.highlight"
 	    >
 	    	<div *ngIf="space.piece" 
-	    	(click)="service.highlightMoveableSpaces(space.piece)">
+	    	(click)="service.clickAPiece(space.piece)">
 		    	<div *ngIf="space.piece.isRed==true" 
 		    	class="d-flex justify-content-center">
 		    		<img src="./assets/Images/red.png" 

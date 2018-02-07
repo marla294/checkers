@@ -31,13 +31,17 @@ export class GameService {
         }
     }
 
+    // Click on a piece on the board
+    clickAPiece(p: Pawn) {
+        this.clearHighlights();
+        this.selectAPiece(p);
+        this.highlightMoveableSpaces(p);
+    }
+
     // Highlights the spaces a pawn could move to
     highlightMoveableSpaces(p: Pawn) {
         let right = this.findMoveableSpaces(p).right;
         let left = this.findMoveableSpaces(p).left;
-        
-        // First clear the highlights that might have already been on the board
-        this.clearHighlights();
         
         // If the space exists
         if (right != null) {
@@ -53,6 +57,7 @@ export class GameService {
         let coordRight = p.getRightMove();
         let coordLeft = p.getLeftMove();
 
+        // Returns an object with the right and left spaces
         return {
             right: this.checkBoardSpace(coordRight.row, coordRight.col) ? this.board[coordRight.row][coordRight.col] : null,
             left: this.checkBoardSpace(coordLeft.row, coordLeft.col) ? this.board[coordLeft.row][coordLeft.col] : null
@@ -109,7 +114,6 @@ export class GameService {
   	// Clicking a piece on the board causes (only) that piece to be selected
   	selectAPiece(p: Piece) {
     		this.clearSelectedPiece();
-        this.clearHighlights();
     		if (p != null ) {
       			p.selected = true;
             this.findPiece(p).highlight = true;
