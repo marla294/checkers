@@ -45,6 +45,13 @@ export class GameService {
     placePiece(p: Piece) {
         let row = p.row;
         let col = p.col;
+        let oldSpace = this.findPiece(p);
+
+        // First clear the piece off the old space
+        oldSpace.clearPiece();
+
+        // Then add the piece to the new space on the board
+        this.board[row][col].addPiece(p);
     }
 
   	// Clicking a piece on the board causes (only) that piece to be selected
