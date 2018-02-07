@@ -7,10 +7,6 @@ import { Coord }          from './coord';
 @Injectable()
 export class GameService {
   	public board: any;
-    moveSpaces: {
-        right: Space,
-        left: Space
-    }
 
   	constructor() {
   		  this.resetGame();
@@ -53,14 +49,14 @@ export class GameService {
     }
 
     // This method will find moveable spaces for a pawn piece
-    findMoveableSpaces(p: Pawn): Object {
+    findMoveableSpaces(p: Pawn) {
         let coordRight = p.getRightMove();
         let coordLeft = p.getLeftMove();
 
-        this.moveSpaces.right = this.checkBoardSpace(coordRight.row, coordRight.col) ? this.board[coordRight.row][coordRight.col] : null;
-        this.moveSpaces.left = this.checkBoardSpace(coordLeft.row, coordLeft.col) ? this.board[coordLeft.row][coordLeft.col] : null;
-
-        return this.moveSpaces;
+        return {
+            right: this.checkBoardSpace(coordRight.row, coordRight.col) ? this.board[coordRight.row][coordRight.col] : null,
+            left: this.checkBoardSpace(coordLeft.row, coordLeft.col) ? this.board[coordLeft.row][coordLeft.col] : null
+        }
 
     }
 
