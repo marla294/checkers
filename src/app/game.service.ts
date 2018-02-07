@@ -33,7 +33,7 @@ export class GameService {
 
     // Click on a piece on the board
     clickAPiece(p: Pawn) {
-        this.clearHighlights();
+        this.clearSelections();
         this.selectAPiece(p);
         this.selectMoveableSpaces(p);
     }
@@ -44,10 +44,10 @@ export class GameService {
         let left = this.findMoveableSpaces(p).left;
         
         // If the space exists
-        if (right != null) {
+        if (right !== null) {
             right.highlight = right.moveTo = true;
         }
-        if (left != null) {
+        if (left !== null) {
             left.highlight = left.moveTo = true;
         }
     }
@@ -77,7 +77,7 @@ export class GameService {
         }
 
         // Check if the space is one that a piece could move to
-        if (space.piece == null && space.playable) {
+        if (space.piece === null && space.playable) {
             return true;
         } else {
             return false;
@@ -100,28 +100,21 @@ export class GameService {
 
   	// Clicking a piece on the board causes (only) that piece to be selected
   	selectAPiece(p: Piece) {
-    		this.clearSelectedPiece();
-    		if (p != null ) {
+    		this.clearSelections();
+    		if (p !== null ) {
       			p.selected = true;
             this.findPiece(p).highlight = true;
     		}
   	}
 
-    // Clear the selected flag from the board so no piece is selected
-    clearSelectedPiece() {
-        this.board.forEach(row => 
-            row.forEach(space => { 
-                    if (space.piece !== null) {
-                        space.piece.selected = false;
-                    } 
-                } 
-            )
-        );
-    }
-
     // Clears all highlights from board
-    clearHighlights() {
-        this.board.forEach(row => row.forEach(space => space.highlight = space.moveTo = false));
+    clearSelections() {
+        this.board.forEach(row => row.forEach(space => {
+            space.highlight = space.moveTo = false;
+            if (space.piece !== null) {
+                space.piece.selected = false;
+            }
+        }));
     }
 
     /*
