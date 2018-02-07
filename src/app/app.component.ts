@@ -10,8 +10,6 @@ import { GameService }	from './game.service';
 })
 export class AppComponent implements OnInit {
   	public board: any;
-  	public redPieces: Piece[];
-  	public blackPieces: Piece[];
 
   	constructor(
   		private service: GameService
@@ -20,8 +18,6 @@ export class AppComponent implements OnInit {
   	ngOnInit() {
   		this.service.resetGame();
   		this.board = this.service.board;
-  		this.redPieces = this.service.redPieces;
-  		this.blackPieces = this.service.blackPieces;
   	}
 
   	/*
