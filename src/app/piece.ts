@@ -31,26 +31,6 @@ export class Piece {
 
 export class Pawn extends Piece {
 
-	movePieceRight() {
-		this.col++;
-		this.isRed ? this.row++ : this.row--;
-	}
-
-	movePieceLeft() {
-		this.col--;
-		this.isRed ? this.row++ : this.row--;
-	}
-
-	jumpRight() {
-		this.col = this.col + 2;
-		this.row = this.isRed ? this.row + 2 : this.row - 2;
-	}
-
-	jumpLeft() {
-		this.col = this.col - 2;
-		this.row = this.isRed ? this.row + 2 : this.row - 2;
-	}
-
 	getRightMove(): Coord {
 		let col = this.col + 1;
 		let row = this.isRed ? this.row + 1 : this.row - 1;
@@ -60,6 +40,18 @@ export class Pawn extends Piece {
 	getLeftMove(): Coord {
 		let col = this.col - 1;
 		let row = this.isRed ? this.row + 1 : this.row - 1;
+		return new Coord(row, col);
+	}
+
+	getDiagRightMove(): Coord {
+		let col = this.col + 2;
+		let row = this.isRed ? this.row + 2 : this.row - 2;
+		return new Coord(row, col);
+	}
+
+	getDiagLeftMove(): Coord {
+		let col = this.col - 2;
+		let row = this.isRed ? this.row + 2 : this.row - 2;
 		return new Coord(row, col);
 	}
 }
