@@ -7,6 +7,7 @@ import { Coord }          from './coord';
 @Injectable()
 export class GameService {
   	public board: any;
+    private selectedPiece: Piece = null;
 
   	constructor() {
   		  this.resetGame();
@@ -106,34 +107,16 @@ export class GameService {
   	// Clicking a piece on the board causes (only) that piece to be selected
   	selectAPiece(p: Piece) {
     		this.clearSelections();
-    		if (p !== null ) {
-      			p.selected = true;
-            this.findPiece(p).highlight = true;
-    		}
+        this.selectedPiece = p;
+        this.findPiece(p).highlight = true;
   	}
 
-    // Clears all highlights from board
+    // Clears all highlights and selected pieces from board
     clearSelections() {
         this.board.forEach(row => row.forEach(space => {
             space.highlight = space.moveTo = false;
-            if (space.piece !== null) {
-                space.piece.selected = false;
-            }
         }));
+        this.selectedPiece = null;
     }
 
-    /*
-    // Place piece on board according to coordinates on the piece
-    placePiece(p: Piece) {
-        let row = p.row;
-        let col = p.col;
-        let oldSpace = this.findPiece(p);
-
-        // First clear the piece off the old space
-        oldSpace.clearPiece();
-
-        // Then add the piece to the new space on the board
-        this.board[row][col].addPiece(p);
-    }
-    */
 }

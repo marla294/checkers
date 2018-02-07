@@ -3,7 +3,6 @@ import { Coord }	from './coord';
 export class Piece {
 	isRed: boolean = true;
 	inPlay: boolean = true;
-	selected: boolean = false;
 	row: number = null;
 	col: number = null;
 
