@@ -52,13 +52,13 @@ export class Pawn extends Piece {
 		this.row = this.isRed ? this.row + 2 : this.row - 2;
 	}
 
-	getMoveableSpaceRight(): Coord {
+	getRightMove(): Coord {
 		let col = this.col + 1;
 		let row = this.isRed ? this.row + 1 : this.row - 1;
 		return new Coord(row, col);
 	}
 
-	getMoveableSpaceLeft(): Coord {
+	getLeftMove(): Coord {
 		let col = this.col - 1;
 		let row = this.isRed ? this.row + 1 : this.row - 1;
 		return new Coord(row, col);

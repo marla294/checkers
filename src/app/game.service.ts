@@ -2,6 +2,7 @@ import { Injectable }     from '@angular/core';
 import { Piece, Pawn }	  from './piece';
 import { Space }          from './space';
 import { CheckerBoard }	  from './checkerBoard';
+import { Coord }          from './coord';
 
 @Injectable()
 export class GameService {
@@ -28,6 +29,17 @@ export class GameService {
                 }
             }
         }
+    }
+
+    // Highlights the spaces a piece could move to
+    highlightMoveableSpaces(p: Piece) {
+
+    }
+
+    // This method will find moveable spaces for a pawn only
+    findMoveableSpaces(p: Pawn): Space {
+        let coordRight = p.getRightMove();
+        let coordLeft = p.getLeftMove();
     }
 
     // Finds a piece on the board and returns the space it is on
