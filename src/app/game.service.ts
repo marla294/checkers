@@ -66,49 +66,44 @@ export class GameService {
 
     // This method will find moveable spaces for a pawn piece
     findMoveableSpaces(p: Pawn) {
-        let coordRight = p.getRightMove();
-        let coordLeft = p.getLeftMove();
-        let coordDiagRight = p.getDiagRightMove();
-        let coordDiagLeft = p.getDiagLeftMove();
         // Spaces right and left
-        let spaceRight: Space = this.getBoardSpace(coordRight.row, coordRight.col);
-        let spaceLeft: Space = this.getBoardSpace(coordLeft.row, coordLeft.col);
-
-        if (spaceRight !== null && spaceRight.piece !== null) {
-            let diagRight = this.getBoardSpace(coordDiagRight.row, coordDiagRight.col);
-            if (diagRight !== null) {
-                spaceRight = diagRight.piece === null ? diagRight : null;
-            } else {
-                spaceRight = null;
-            }
-        }
-
-        if (spaceLeft !== null && spaceLeft.piece !== null) {
-            let diagLeft = this.getBoardSpace(coordDiagLeft.row, coordDiagLeft.col);
-            if (diagLeft !== null) {
-                spaceLeft = diagLeft.piece === null ? diagLeft : null;
-            } else {
-                spaceLeft = null;
-            }
-        }
+        let spaceRight = this.getBoardSpace(p.getRightMove().row, p.getRightMove().col);
+        let spaceLeft = this.getBoardSpace(p.getLeftMove().row, p.getLeftMove().col);
+        let diagRight = this.getBoardSpace(p.getDiagRightMove().row, p.getDiagRightMove().col);
+        let diagLeft = this.getBoardSpace(p.getDiagLeftMove().row, p.getDiagLeftMove().col);
 
         // Returns an object with the right and left spaces
         return {
-            right: spaceRight,
-            left: spaceLeft
+            right: this.getDiagMoveSpace(spaceRight, diagRight),
+            left: this.getDiagMoveSpace(spaceLeft, diagLeft)
         }
 
     }
 
     // Given a row and column that may or may not be on the board, check if it is on the board.  If it is return the space
     getBoardSpace(row: number, col: number): Space {
-
         if (row < 8 && row > -1 && col < 8 && col > -1) {
             return this.board[row][col];
         } else {
             return null;
         }
+    }
 
+    // Given a diagonal (a space and the next space up) return the space you can move to or null if you can't move
+    getDiagMoveSpace(sp: Space, diag: Space): Space {
+        let space: Space = null;
+
+        if (sp !== null) {
+            if (sp.piece === null) { // nextdoor is empty
+                space = sp;
+            } else if (diag !== null && diag.piece === null) { // piece to jump
+                space = diag;
+            } else { // can't move down this diag
+                space = null;
+            }
+        }
+
+        return space;
     }
 
     // Finds a piece on the board and returns the space it is on
