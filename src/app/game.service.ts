@@ -68,8 +68,15 @@ export class GameService {
     findMoveableSpaces(p: Pawn) {
         let coordRight = p.getRightMove();
         let coordLeft = p.getLeftMove();
+        let coordDiagRight = p.getDiagRightMove();
+        let coordDiagLeft = p.getDiagLeftMove();
+        // Spaces right and left
         let spaceRight: Space = this.getBoardSpace(coordRight.row, coordRight.col);
         let spaceLeft: Space = this.getBoardSpace(coordLeft.row, coordLeft.col);
+
+        if (spaceRight !== null && spaceRight.piece !== null) {
+            // Get Diag
+        }
 
         // Returns an object with the right and left spaces
         return {
