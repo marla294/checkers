@@ -25,7 +25,7 @@ export class GameService {
         for (let i = 5; i < 8; i++) {
             for (let j = 0; j < 8; j++) {
                 if (this.board[i][j].playable === true) {
-                  this.board[i][j].addPiece(new Pawn('black', i, j));
+                    this.board[i][j].addPiece(new Pawn('black', i, j));
                 }
             }
         }
@@ -45,10 +45,10 @@ export class GameService {
         
         // If the space exists
         if (right != null) {
-            right.highlight = true;
+            right.highlight = right.moveTo = true;
         }
         if (left != null) {
-            left.highlight = true;
+            left.highlight = left.moveTo = true;
         }
     }
 
@@ -134,6 +134,6 @@ export class GameService {
 
     // Clears all highlights from board
     clearHighlights() {
-        this.board.forEach(row => row.forEach(space => space.highlight = false));
+        this.board.forEach(row => row.forEach(space => space.highlight = space.moveTo = false));
     }
 }
