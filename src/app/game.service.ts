@@ -38,6 +38,11 @@ export class GameService {
         this.selectMoveableSpaces(p);
     }
 
+    // Click on an empty space on the board
+    clickEmptySpace(s: Space) {
+        console.log(s);
+    }
+
     // Highlights and sets moveTo flag on the spaces a pawn could move to
     selectMoveableSpaces(p: Pawn) {
         let right = this.findMoveableSpaces(p).right;
