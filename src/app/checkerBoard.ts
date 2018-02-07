@@ -30,7 +30,7 @@ export class CheckerBoard {
           return false;
       }
 
-      if (space.isEmpty && space.playable) {
+      if (space.piece == null && space.playable) {
           return true;
       } else {
           return false;
