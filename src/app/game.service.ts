@@ -35,7 +35,8 @@ export class GameService {
     // Click on a piece on the board
     clickAPiece(p: Pawn) {
         this.clearSelections();
-        this.selectAPiece(p);
+        this.selectedPiece = p;
+        this.findPiece(p).highlight = true;
         this.selectMoveableSpaces(p);
     }
 
@@ -103,13 +104,6 @@ export class GameService {
 
         return sp;
     }
-
-  	// Clicking a piece on the board causes (only) that piece to be selected
-  	selectAPiece(p: Piece) {
-    		this.clearSelections();
-        this.selectedPiece = p;
-        this.findPiece(p).highlight = true;
-  	}
 
     // Clears all highlights and selected pieces from board
     clearSelections() {
