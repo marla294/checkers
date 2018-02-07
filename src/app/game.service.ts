@@ -7,6 +7,10 @@ import { Coord }          from './coord';
 @Injectable()
 export class GameService {
   	public board: any;
+    moveSpaces: {
+        right: Space,
+        left: Space
+    }
 
   	constructor() {
   		  this.resetGame();
@@ -53,10 +57,10 @@ export class GameService {
         let coordRight = p.getRightMove();
         let coordLeft = p.getLeftMove();
 
-        return {
-            right: this.checkBoardSpace(coordRight.row, coordRight.col) ? this.board[coordRight.row][coordRight.col] : null,
-            left: this.checkBoardSpace(coordLeft.row, coordLeft.col) ? this.board[coordLeft.row][coordLeft.col] : null
-        }
+        this.moveSpaces.right = this.checkBoardSpace(coordRight.row, coordRight.col) ? this.board[coordRight.row][coordRight.col] : null;
+        this.moveSpaces.left = this.checkBoardSpace(coordLeft.row, coordLeft.col) ? this.board[coordLeft.row][coordLeft.col] : null;
+
+        return this.moveSpaces;
 
     }
 
@@ -89,7 +93,7 @@ export class GameService {
                 sp = space;
             }
         }));
-        
+
         return sp;
     }
 
