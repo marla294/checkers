@@ -75,7 +75,21 @@ export class GameService {
         let spaceLeft: Space = this.getBoardSpace(coordLeft.row, coordLeft.col);
 
         if (spaceRight !== null && spaceRight.piece !== null) {
-            // Get Diag
+            let diagRight = this.getBoardSpace(coordDiagRight.row, coordDiagRight.col);
+            if (diagRight !== null) {
+                spaceRight = diagRight.piece === null ? diagRight : null;
+            } else {
+                spaceRight = null;
+            }
+        }
+
+        if (spaceLeft !== null && spaceLeft.piece !== null) {
+            let diagLeft = this.getBoardSpace(coordDiagLeft.row, coordDiagLeft.col);
+            if (diagLeft !== null) {
+                spaceLeft = diagLeft.piece === null ? diagLeft : null;
+            } else {
+                spaceLeft = null;
+            }
         }
 
         // Returns an object with the right and left spaces
