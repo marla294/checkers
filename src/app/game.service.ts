@@ -42,7 +42,12 @@ export class GameService {
 
     // Click on an empty space on the board
     clickEmptySpace(s: Space) {
-        console.log(s);
+        // If the space is empty and piece can move to it
+        if (this.selectedPiece !== null && s.moveTo) { 
+            this.findPiece(this.selectedPiece).clearPiece(); // First remove piece from old space
+            s.addPiece(this.selectedPiece); // Then add piece to the new space
+            this.clearSelections();
+        }
     }
 
     // Highlights and sets moveTo flag on the spaces a pawn could move to

@@ -5,15 +5,20 @@ export class Space {
 	piece: Piece = null;
 	highlight: boolean = false;
 	moveTo: boolean = false; // Says whether a piece can move here or not
+	row: number;
+	col: number;
 
-	constructor(play: boolean) {
+	constructor(play: boolean, r: number, c: number) {
 		this.playable = play;
+		this.row = r;
+		this.col = c;
 	}
 
 	// Add piece to space
 	addPiece(p: Piece) {
 		if (this.piece == null) {
 			this.piece = p;
+			this.piece.movePiece(this.row, this.col);
 		}
 	}
 
