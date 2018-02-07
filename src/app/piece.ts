@@ -1,3 +1,5 @@
+import { Coord }	from './coord';
+
 export class Piece {
 	isRed: boolean = true;
 	inPlay: boolean = true;
@@ -49,5 +51,4 @@ export class Pawn extends Piece {
 		this.col = this.col - 2;
 		this.row = this.isRed ? this.row + 2 : this.row - 2;
 	}
-
 }

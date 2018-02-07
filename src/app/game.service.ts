@@ -30,10 +30,6 @@ export class GameService {
         }
     }
 
-    logger(sp: Space) {
-        console.log(sp);
-    }
-
     // Finds a piece on the board and returns the space it is on
     findPiece(p: Piece): Space {
         let sp: Space = null;
