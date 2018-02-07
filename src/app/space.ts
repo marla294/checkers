@@ -2,13 +2,12 @@ import { Piece }	from './piece';
 
 export class Space {
 	playable: boolean;
-	piece: Piece;
-	highlight: boolean;
+	piece: Piece = null;
+	highlight: boolean = false;
+	moveable: boolean = false; // Says whether a piece can move here or not
 
 	constructor(play: boolean) {
 		this.playable = play;
-		this.piece = null;
-		this.highlight = false;
 	}
 
 	// Add piece to space
