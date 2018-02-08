@@ -49,3 +49,54 @@ export class Pawn extends Piece {
 		return new Coord(row, col);
 	}
 }
+
+export class King extends Piece {
+
+	getUpRightMove(): Coord {
+		let col = this.col + 1;
+		let row = this.row - 1;
+		return new Coord(row, col);
+	}
+
+	getUpLeftMove(): Coord {
+		let col = this.col - 1;
+		let row = this.row - 1;
+		return new Coord(row, col);
+	}
+
+	getUpDiagRightMove(): Coord {
+		let col = this.col + 2;
+		let row = this.row - 2;
+		return new Coord(row, col);
+	}
+
+	getUpDiagLeftMove(): Coord {
+		let col = this.col - 2;
+		let row = this.row - 2;
+		return new Coord(row, col);
+	}
+
+	getDownRightMove(): Coord {
+		let col = this.col + 1;
+		let row = this.row + 1;
+		return new Coord(row, col);
+	}
+
+	getDownLeftMove(): Coord {
+		let col = this.col - 1;
+		let row = this.row + 1;
+		return new Coord(row, col);
+	}
+
+	getDownDiagRightMove(): Coord {
+		let col = this.col + 2;
+		let row = this.row + 2;
+		return new Coord(row, col);
+	}
+
+	getDownDiagLeftMove(): Coord {
+		let col = this.col - 2;
+		let row = this.row + 2;
+		return new Coord(row, col);
+	}
+}
