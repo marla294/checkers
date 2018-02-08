@@ -8,6 +8,7 @@ import { Coord }          from './coord';
 export class GameService {
   	public board: any;
     private selectedPiece: Piece = null;
+    private redTurn: boolean = null;
 
   	constructor() {
   		  this.resetGame();
@@ -16,6 +17,7 @@ export class GameService {
     // Resets game back to beginning
     resetGame() {
         this.board = new CheckerBoard().board;
+        this.redTurn = true;
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 8; j++) {
                 if (this.board[i][j].playable === true) {
@@ -34,10 +36,12 @@ export class GameService {
 
     // Click on a piece on the board
     clickAPiece(p: Pawn) {
-        this.clearSelections();
-        this.selectedPiece = p;
-        this.findPiece(p).highlight = true;
-        this.selectMoveableSpaces(p);
+        if (this.redTurn === p.isRed) {
+            this.clearSelections();
+            this.selectedPiece = p;
+            this.findPiece(p).highlight = true;
+            this.selectMoveableSpaces(p);
+        }
     }
 
     // Click on an empty space on the board
@@ -50,6 +54,7 @@ export class GameService {
                 this.clearJumpedPiece(sp);
             }
             this.clearSelections();
+            this.redTurn = !this.redTurn;
         }
     }
 
