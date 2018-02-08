@@ -1,8 +1,8 @@
-import { Injectable }     from '@angular/core';
-import { Piece, Pawn }	  from './piece';
-import { Space }          from './space';
-import { CheckerBoard }	  from './checkerBoard';
-import { Coord }          from './coord';
+import { Injectable }           from '@angular/core';
+import { Piece, Pawn, King }	  from './piece';
+import { Space }                from './space';
+import { CheckerBoard }	        from './checkerBoard';
+import { Coord }                from './coord';
 
 @Injectable()
 export class GameService {
@@ -137,6 +137,11 @@ export class GameService {
         }
 
         return space;
+    }
+
+    // When a pawn makes it to the end of the board, replace the pawn piece with a king piece
+    makeKing(p: Pawn) {
+        this.findPiece(p).addPiece(new King(p.isRed === true ? 'red' : 'black', p.row, p.col));
     }
 
     // Finds a piece on the board and returns the space it is on
