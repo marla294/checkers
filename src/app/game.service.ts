@@ -36,6 +36,7 @@ export class GameService {
 
     // Click on a piece on the board
     clickAPiece(p: Piece) {
+        console.log(p.type);
         if (this.redTurn === p.isRed) {
             this.clearSelections();
             this.selectedPiece = p;
@@ -88,7 +89,27 @@ export class GameService {
                 left.highlight = left.moveTo = true;
             }
         }
-        
+        if (p.type === "king") {
+            let upRight = this.findMoveableSpacesKing(<King>p).upRight;
+            let downRight = this.findMoveableSpacesKing(<King>p).downRight;
+            let upLeft = this.findMoveableSpacesKing(<King>p).upLeft;
+            let downLeft = this.findMoveableSpacesKing(<King>p).downLeft;
+
+            // If the space exists
+            if (upRight !== null) {
+                upRight.highlight = upRight.moveTo = true;
+            }
+            if (upLeft !== null) {
+                upLeft.highlight = upLeft.moveTo = true;
+            }
+            if (downRight !== null) {
+                downRight.highlight = downRight.moveTo = true;
+            }
+            if (downLeft !== null) {
+                downLeft.highlight = downLeft.moveTo = true;
+            }
+
+        }
     }
 
     // This method will find moveable spaces for a pawn piece
@@ -104,7 +125,27 @@ export class GameService {
             right: this.getDiagMoveSpace(p, spaceRight, diagRight),
             left: this.getDiagMoveSpace(p, spaceLeft, diagLeft)
         }
+    }
 
+    // This method will find moveable spaces for a pawn piece
+    findMoveableSpacesKing(p: King) {
+        // Spaces right and left
+        let spaceUpRight = this.getBoardSpace(p.getUpRightMove().row, p.getUpRightMove().col);
+        let spaceDownRight = this.getBoardSpace(p.getDownRightMove().row, p.getDownRightMove().col);
+        let spaceUpLeft = this.getBoardSpace(p.getUpLeftMove().row, p.getUpLeftMove().col);
+        let spaceDownLeft = this.getBoardSpace(p.getDownLeftMove().row, p.getDownLeftMove().col);
+        let diagUpRight = this.getBoardSpace(p.getUpDiagRightMove().row, p.getUpDiagRightMove().col);
+        let diagDownRight = this.getBoardSpace(p.getDownDiagRightMove().row, p.getDownDiagRightMove().col);
+        let diagUpLeft = this.getBoardSpace(p.getUpDiagLeftMove().row, p.getUpDiagLeftMove().col);
+        let diagDownLeft = this.getBoardSpace(p.getUpDiagLeftMove().row, p.getUpDiagLeftMove().col);
+
+        // Returns an object with the right and left spaces
+        return {
+            upRight: this.getDiagMoveSpace(p, spaceUpRight, diagUpRight),
+            downRight: this.getDiagMoveSpace(p, spaceDownRight, diagDownRight),
+            upLeft: this.getDiagMoveSpace(p, spaceUpLeft, diagUpLeft),
+            downLeft: this.getDiagMoveSpace(p, spaceDownLeft, diagDownLeft)
+        }
     }
 
     // Given a row and column that may or may not be on the board, check if it is on the board.  If it is return the space.
@@ -147,7 +188,11 @@ export class GameService {
 
     // When a pawn makes it to the end of the board, replace the pawn piece with a king piece
     makeKing(p: Piece) {
-        this.findPiece(p).addPiece(new King(p.isRed === true ? 'red' : 'black', p.row, p.col));
+        let king = new King(p.isRed === true ? 'red' : 'black', p.row, p.col);
+        let space = this.findPiece(p);
+
+        space.clearPiece();
+        space.addPiece(king);
     }
 
     // Given a space, return true if it is an end space and false if it is not
