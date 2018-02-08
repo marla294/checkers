@@ -5,6 +5,8 @@ export class Piece {
 	inPlay: boolean = true;
 	row: number = null;
 	col: number = null;
+	isRight: boolean = false;
+	jump: boolean = false;
 
 	constructor(color: string, r: number, c: number) {
 		if (color === "black") {
