@@ -96,7 +96,7 @@ export class GameService {
         if (sp !== null) {
             if (sp.piece === null) { // nextdoor is empty
                 space = sp;
-            } else if (diag !== null && diag.piece === null) { // piece to jump
+            } else if (p.isRed === !sp.piece.isRed && diag !== null && diag.piece === null) { // piece to jump
                 space = diag;
             } else { // can't move down this diag
                 space = null;

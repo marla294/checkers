@@ -8,7 +8,7 @@
 	    [class.notplayable]="!space.playable"
 	    [class.highlight]="space.highlight"
 	    >
-	    	<div *ngIf="space.piece" 
+	    	<div *ngIf="space.piece && space.piece.inPlay" 
 	    	(click)="service.clickAPiece(space.piece)">
 		    	<div *ngIf="space.piece.isRed==true" 
 		    	class="d-flex justify-content-center">
