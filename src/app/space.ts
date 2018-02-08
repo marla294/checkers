@@ -7,7 +7,7 @@ export class Space {
 	moveTo: boolean = false; // Says whether a piece can move here or not
 	row: number;
 	col: number;
-	isRight: boolean = false;
+	isRight: boolean = null;
 	jump: boolean = false;
 
 	constructor(play: boolean, r: number, c: number) {

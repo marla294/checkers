@@ -67,10 +67,10 @@ export class GameService {
     // This method will find moveable spaces for a pawn piece
     findMoveableSpaces(p: Pawn) {
         // Spaces right and left
-        let spaceRight = this.getBoardSpace(p.getRightMove().row, p.getRightMove().col);
-        let spaceLeft = this.getBoardSpace(p.getLeftMove().row, p.getLeftMove().col);
-        let diagRight = this.getBoardSpace(p.getDiagRightMove().row, p.getDiagRightMove().col);
-        let diagLeft = this.getBoardSpace(p.getDiagLeftMove().row, p.getDiagLeftMove().col);
+        let spaceRight = this.getBoardSpace(p.getRightMove().row, p.getRightMove().col, true);
+        let spaceLeft = this.getBoardSpace(p.getLeftMove().row, p.getLeftMove().col, false);
+        let diagRight = this.getBoardSpace(p.getDiagRightMove().row, p.getDiagRightMove().col, true);
+        let diagLeft = this.getBoardSpace(p.getDiagLeftMove().row, p.getDiagLeftMove().col, false);
 
         // Returns an object with the right and left spaces
         return {
@@ -81,8 +81,9 @@ export class GameService {
     }
 
     // Given a row and column that may or may not be on the board, check if it is on the board.  If it is return the space
-    getBoardSpace(row: number, col: number): Space {
+    getBoardSpace(row: number, col: number, isRight: boolean): Space {
         if (row < 8 && row > -1 && col < 8 && col > -1) {
+            this.board[row][col].isRight = isRight;
             return this.board[row][col];
         } else {
             return null;
@@ -120,10 +121,11 @@ export class GameService {
         return sp;
     }
 
-    // Clears all highlights and selected pieces from board
+    // Clears all highlights, direction flags, and selected pieces from board
     clearSelections() {
         this.board.forEach(row => row.forEach(space => {
             space.highlight = space.moveTo = false;
+            space.isRight = null;
         }));
         this.selectedPiece = null;
     }
