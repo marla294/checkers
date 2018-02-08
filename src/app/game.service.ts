@@ -46,6 +46,9 @@ export class GameService {
         if (this.selectedPiece !== null && s.moveTo) { 
             this.findPiece(this.selectedPiece).clearPiece(); // First remove piece from old space
             s.addPiece(this.selectedPiece); // Then add piece to the new space
+            if (s.jump === true) {
+                // jump code here
+            }
             this.clearSelections();
         }
     }
@@ -67,10 +70,18 @@ export class GameService {
     // This method will find moveable spaces for a pawn piece
     findMoveableSpaces(p: Pawn) {
         // Spaces right and left
-        let spaceRight = this.getBoardSpace(p.getRightMove().row, p.getRightMove().col, true);
-        let spaceLeft = this.getBoardSpace(p.getLeftMove().row, p.getLeftMove().col, false);
-        let diagRight = this.getBoardSpace(p.getDiagRightMove().row, p.getDiagRightMove().col, true);
-        let diagLeft = this.getBoardSpace(p.getDiagLeftMove().row, p.getDiagLeftMove().col, false);
+        let spaceRight = this.getBoardSpace(p.getRightMove().row, p.getRightMove().col);
+        let spaceLeft = this.getBoardSpace(p.getLeftMove().row, p.getLeftMove().col);
+        let diagRight = this.getBoardSpace(p.getDiagRightMove().row, p.getDiagRightMove().col);
+        let diagLeft = this.getBoardSpace(p.getDiagLeftMove().row, p.getDiagLeftMove().col);
+
+        // Setting isRight flag on spaces and pieces
+        if (diagRight !== null) {
+            diagRight.isRight = spaceRight.isRight = spaceRight.piece.isRight = true;
+        }
+        if (diagLeft !== null) {
+            diagLeft.isRight = spaceLeft.isRight = spaceLeft.piece.isRight = false;
+        }
 
         // Returns an object with the right and left spaces
         return {
@@ -80,13 +91,9 @@ export class GameService {
 
     }
 
-    // Given a row and column that may or may not be on the board, check if it is on the board.  If it is return the space.  Also set "isRight" flag
-    getBoardSpace(row: number, col: number, isRight: boolean): Space {
+    // Given a row and column that may or may not be on the board, check if it is on the board.  If it is return the space.
+    getBoardSpace(row: number, col: number): Space {
         if (row < 8 && row > -1 && col < 8 && col > -1) {
-            this.board[row][col].isRight = isRight; // setting right flag on space
-            if (this.board[row][col].piece !== null) {
-                this.board[row][col].piece.isRight = isRight; // if there is a piece, set isRight flag
-            }
             return this.board[row][col];
         } else {
             return null;
@@ -101,6 +108,7 @@ export class GameService {
             if (sp.piece === null) { // nextdoor is empty
                 space = sp;
             } else if (p.isRed === !sp.piece.isRed && diag !== null && diag.piece === null) { // piece to jump
+                sp.piece.jump = diag.jump = true; // set jump flag on piece to jump and diag space
                 space = diag;
             } else { // can't move down this diag
                 space = null;
@@ -129,8 +137,10 @@ export class GameService {
         this.board.forEach(row => row.forEach(space => {
             space.highlight = space.moveTo = false;
             space.isRight = null;
+            space.jump = false;
             if (space.piece !== null) {
                 space.piece.isRight = null;
+                space.piece.jump = false;
             }
         }));
         this.selectedPiece = null;
