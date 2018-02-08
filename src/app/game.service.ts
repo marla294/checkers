@@ -41,16 +41,24 @@ export class GameService {
     }
 
     // Click on an empty space on the board
-    clickEmptySpace(s: Space) {
+    clickEmptySpace(sp: Space) {
         // If the space is empty and piece can move to it
-        if (this.selectedPiece !== null && s.moveTo) { 
+        if (this.selectedPiece !== null && sp.moveTo) { 
             this.findPiece(this.selectedPiece).clearPiece(); // First remove piece from old space
-            s.addPiece(this.selectedPiece); // Then add piece to the new space
-            if (s.jump === true) {
+            sp.addPiece(this.selectedPiece); // Then add piece to the new space
+            if (sp.jump === true) { // A piece was jumped
                 // jump code here
             }
             this.clearSelections();
         }
+    }
+
+    // Given a space that a piece has moved to, find the piece that was jumped
+    findJumpedPiece(sp: Space) {
+        let pieceUpLeft = this.getPiece(sp.row - 1, sp.col - 1);
+        let pieceUpRight = this.getPiece(sp.row - 1, sp.col + 1);
+        let pieceDownLeft = this.getPiece(sp.row + 1, sp.col - 1);
+        let pieceDownRight = this.getPiece(sp.row + 1, sp.col + 1);
     }
 
     // Highlights and sets moveTo flag on the spaces a pawn could move to
@@ -76,10 +84,10 @@ export class GameService {
         let diagLeft = this.getBoardSpace(p.getDiagLeftMove().row, p.getDiagLeftMove().col);
 
         // Setting isRight flag on spaces and pieces
-        if (diagRight !== null) {
+        if (diagRight !== null && spaceRight.piece !== null) {
             diagRight.isRight = spaceRight.isRight = spaceRight.piece.isRight = true;
         }
-        if (diagLeft !== null) {
+        if (diagLeft !== null && spaceLeft.piece !== null) {
             diagLeft.isRight = spaceLeft.isRight = spaceLeft.piece.isRight = false;
         }
 
@@ -95,6 +103,17 @@ export class GameService {
     getBoardSpace(row: number, col: number): Space {
         if (row < 8 && row > -1 && col < 8 && col > -1) {
             return this.board[row][col];
+        } else {
+            return null;
+        }
+    }
+
+    // Given a row and column, return a piece if there is one
+    getPiece(row: number, col: number): Piece {
+        let space = this.getBoardSpace(row, col);
+
+        if (space !== null && space.piece !== null) {
+            return space.piece;
         } else {
             return null;
         }
