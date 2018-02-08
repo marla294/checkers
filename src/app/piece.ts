@@ -1,6 +1,7 @@
 import { Coord }	from './coord';
 
 export class Piece {
+	type: string = 'piece';
 	isRed: boolean = true;
 	jump: boolean = false; // Says whether the piece was jumped or not
 	row: number = null;

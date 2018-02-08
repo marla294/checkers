@@ -35,7 +35,8 @@ export class GameService {
     }
 
     // Click on a piece on the board
-    clickAPiece(p: Pawn) {
+    clickAPiece(p: Piece) {
+        console.log(p.type);
         if (this.redTurn === p.isRed) {
             this.clearSelections();
             this.selectedPiece = p;
@@ -75,21 +76,24 @@ export class GameService {
     }
 
     // Highlights and sets moveTo flag on the spaces a pawn could move to
-    selectMoveableSpaces(p: Pawn) {
-        let right = this.findMoveableSpaces(p).right;
-        let left = this.findMoveableSpaces(p).left;
+    selectMoveableSpaces(p: Piece) {
+        if (p.type === "pawn") {
+            let right = this.findMoveableSpacesPawn(p).right;
+            let left = this.findMoveableSpacesPawn(p).left;
         
-        // If the space exists
-        if (right !== null) {
-            right.highlight = right.moveTo = true;
+            // If the space exists
+            if (right !== null) {
+                right.highlight = right.moveTo = true;
+            }
+            if (left !== null) {
+                left.highlight = left.moveTo = true;
+            }
         }
-        if (left !== null) {
-            left.highlight = left.moveTo = true;
-        }
+        
     }
 
     // This method will find moveable spaces for a pawn piece
-    findMoveableSpaces(p: Pawn) {
+    findMoveableSpacesPawn(p: Piece) {
         // Spaces right and left
         let spaceRight = this.getBoardSpace(p.getRightMove().row, p.getRightMove().col);
         let spaceLeft = this.getBoardSpace(p.getLeftMove().row, p.getLeftMove().col);
