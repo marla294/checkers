@@ -47,14 +47,14 @@ export class GameService {
             this.findPiece(this.selectedPiece).clearPiece(); // First remove piece from old space
             sp.addPiece(this.selectedPiece); // Then add piece to the new space
             if (sp.jump === true) { // A piece was jumped
-                this.findJumpedPiece(sp).clearPiece();
+                this.clearJumpedPiece(sp);
             }
             this.clearSelections();
         }
     }
 
-    // Given a space that a piece has moved to, find the piece that was jumped
-    findJumpedPiece(sp: Space): Space {
+    // Given a space that a piece has moved to, find the piece that was jumped and clear it out
+    clearJumpedPiece(sp: Space) {
         let pieces = new Array();
 
         pieces.push(this.getPiece(sp.row - 1, sp.col - 1));
@@ -62,7 +62,7 @@ export class GameService {
         pieces.push(this.getPiece(sp.row + 1, sp.col - 1));
         pieces.push(this.getPiece(sp.row + 1, sp.col + 1));
 
-        return this.findPiece(pieces.find(p => p !== null && p.jump === true));
+        this.findPiece(pieces.find(p => p !== null && p.jump === true)).clearPiece();
 
     }
 
