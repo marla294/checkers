@@ -53,6 +53,9 @@ export class GameService {
             if (sp.jump === true) { // A piece was jumped
                 this.clearJumpedPiece(sp);
             }
+            if (this.isEndSpace(sp)) {
+                this.makeKing(this.selectedPiece);
+            }
             this.clearSelections();
             this.redTurn = !this.redTurn;
         }
@@ -140,8 +143,17 @@ export class GameService {
     }
 
     // When a pawn makes it to the end of the board, replace the pawn piece with a king piece
-    makeKing(p: Pawn) {
+    makeKing(p: Piece) {
         this.findPiece(p).addPiece(new King(p.isRed === true ? 'red' : 'black', p.row, p.col));
+    }
+
+    // Given a space, return true if it is an end space and false if it is not
+    isEndSpace(sp: Space): boolean {
+        if (sp.row === 0 || sp.row === 7) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     // Finds a piece on the board and returns the space it is on

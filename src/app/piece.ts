@@ -24,6 +24,7 @@ export class Piece {
 }
 
 export class Pawn extends Piece {
+	type: string = "pawn";
 
 	getRightMove(): Coord {
 		let col = this.col + 1;
@@ -51,6 +52,7 @@ export class Pawn extends Piece {
 }
 
 export class King extends Piece {
+	type: string = "king";
 
 	getUpRightMove(): Coord {
 		let col = this.col + 1;
