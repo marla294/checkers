@@ -93,14 +93,6 @@ export class GameService {
         let diagRight = this.getBoardSpace(p.getDiagRightMove().row, p.getDiagRightMove().col);
         let diagLeft = this.getBoardSpace(p.getDiagLeftMove().row, p.getDiagLeftMove().col);
 
-        // Setting isRight flag on spaces and pieces
-        if (diagRight !== null && spaceRight.piece !== null) {
-            diagRight.isRight = spaceRight.isRight = spaceRight.piece.isRight = true;
-        }
-        if (diagLeft !== null && spaceLeft.piece !== null) {
-            diagLeft.isRight = spaceLeft.isRight = spaceLeft.piece.isRight = false;
-        }
-
         // Returns an object with the right and left spaces
         return {
             right: this.getDiagMoveSpace(p, spaceRight, diagRight),
@@ -165,10 +157,8 @@ export class GameService {
     clearSelections() {
         this.board.forEach(row => row.forEach(space => {
             space.highlight = space.moveTo = false;
-            space.isRight = null;
             space.jump = false;
             if (space.piece !== null) {
-                space.piece.isRight = null;
                 space.piece.jump = false;
             }
         }));

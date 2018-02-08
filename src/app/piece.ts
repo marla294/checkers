@@ -3,10 +3,9 @@ import { Coord }	from './coord';
 export class Piece {
 	isRed: boolean = true;
 	inPlay: boolean = true;
+	jump: boolean = false; // Says whether the piece was jumped or not
 	row: number = null;
 	col: number = null;
-	isRight: boolean = null;
-	jump: boolean = false;
 
 	constructor(color: string, r: number, c: number) {
 		if (color === "black") {

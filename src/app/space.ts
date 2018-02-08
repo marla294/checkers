@@ -5,10 +5,9 @@ export class Space {
 	piece: Piece = null;
 	highlight: boolean = false;
 	moveTo: boolean = false; // Says whether a piece can move here or not
+	jump: boolean = false; // Says whether a piece was jumped when moving here
 	row: number;
 	col: number;
-	isRight: boolean = null;
-	jump: boolean = false;
 
 	constructor(play: boolean, r: number, c: number) {
 		this.playable = play;
