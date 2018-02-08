@@ -2,7 +2,6 @@ import { Coord }	from './coord';
 
 export class Piece {
 	isRed: boolean = true;
-	inPlay: boolean = true;
 	jump: boolean = false; // Says whether the piece was jumped or not
 	row: number = null;
 	col: number = null;
@@ -21,12 +20,6 @@ export class Piece {
 	movePiece(r: number, c: number) {
 		this.row = r;
 		this.col = c;
-	}
-
-	killPiece() {
-		this.inPlay = false;
-		this.row = null;
-		this.col = null;
 	}
 }
 
