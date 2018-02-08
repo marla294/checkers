@@ -80,10 +80,13 @@ export class GameService {
 
     }
 
-    // Given a row and column that may or may not be on the board, check if it is on the board.  If it is return the space
+    // Given a row and column that may or may not be on the board, check if it is on the board.  If it is return the space.  Also set "isRight" flag
     getBoardSpace(row: number, col: number, isRight: boolean): Space {
         if (row < 8 && row > -1 && col < 8 && col > -1) {
-            this.board[row][col].isRight = isRight;
+            this.board[row][col].isRight = isRight; // setting right flag on space
+            if (this.board[row][col].piece !== null) {
+                this.board[row][col].piece.isRight = isRight; // if there is a piece, set isRight flag
+            }
             return this.board[row][col];
         } else {
             return null;
@@ -126,6 +129,9 @@ export class GameService {
         this.board.forEach(row => row.forEach(space => {
             space.highlight = space.moveTo = false;
             space.isRight = null;
+            if (space.piece !== null) {
+                space.piece.isRight = null;
+            }
         }));
         this.selectedPiece = null;
     }
