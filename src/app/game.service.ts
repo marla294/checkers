@@ -47,18 +47,28 @@ export class GameService {
             this.findPiece(this.selectedPiece).clearPiece(); // First remove piece from old space
             sp.addPiece(this.selectedPiece); // Then add piece to the new space
             if (sp.jump === true) { // A piece was jumped
-                // jump code here
+                this.clearJumpedPiece(this.findJumpedPiece(sp));
             }
             this.clearSelections();
         }
     }
 
     // Given a space that a piece has moved to, find the piece that was jumped
-    findJumpedPiece(sp: Space) {
-        let pieceUpLeft = this.getPiece(sp.row - 1, sp.col - 1);
-        let pieceUpRight = this.getPiece(sp.row - 1, sp.col + 1);
-        let pieceDownLeft = this.getPiece(sp.row + 1, sp.col - 1);
-        let pieceDownRight = this.getPiece(sp.row + 1, sp.col + 1);
+    findJumpedPiece(sp: Space): Piece {
+        let pieces = new Array();
+
+        pieces.push(this.getPiece(sp.row - 1, sp.col - 1));
+        pieces.push(this.getPiece(sp.row - 1, sp.col + 1));
+        pieces.push(this.getPiece(sp.row + 1, sp.col - 1));
+        pieces.push(this.getPiece(sp.row + 1, sp.col + 1));
+
+        return pieces.find(p => p !== null && p.jump === true);
+
+    }
+
+    // Clear the jumped piece from the board
+    clearJumpedPiece(p: Piece) {
+        this.board[p.row][p.col].clearPiece();
     }
 
     // Highlights and sets moveTo flag on the spaces a pawn could move to
