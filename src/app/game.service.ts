@@ -74,8 +74,8 @@ export class GameService {
 
         // Returns an object with the right and left spaces
         return {
-            right: this.getDiagMoveSpace(spaceRight, diagRight),
-            left: this.getDiagMoveSpace(spaceLeft, diagLeft)
+            right: this.getDiagMoveSpace(p, spaceRight, diagRight),
+            left: this.getDiagMoveSpace(p, spaceLeft, diagLeft)
         }
 
     }
@@ -90,7 +90,7 @@ export class GameService {
     }
 
     // Given a diagonal (a space and the next space up) return the space you can move to or null if you can't move
-    getDiagMoveSpace(sp: Space, diag: Space): Space {
+    getDiagMoveSpace(p: Piece, sp: Space, diag: Space): Space {
         let space: Space = null;
 
         if (sp !== null) {
