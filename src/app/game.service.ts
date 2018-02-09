@@ -135,6 +135,8 @@ export class GameService {
         }
     }
 
+    // Diagonal stuff
+    
     // Given a diagonal (a space and the next space up) return the space you can move to or null if you can't move
     getDiagMoveSpace(p: Piece, sp: Space, diag: Space): Space {
         let space: Space = null;
@@ -142,7 +144,7 @@ export class GameService {
         if (sp !== null) {
             if (sp.piece === null) { // nextdoor is empty
                 space = sp;
-            } else if (p.isRed === !sp.piece.isRed && diag !== null && diag.piece === null) { // piece to jump
+            } else if (this.canJump(p, sp, diag)) { // piece to jump
                 sp.piece.jump = diag.jump = true; // set jump flag on piece to jump and diag space
                 space = diag;
             } else { // can't move down this diag
@@ -151,6 +153,15 @@ export class GameService {
         }
 
         return space;
+    }
+
+    // Can Jump - returns true if you can jump, if not then false
+    canJump(p: Piece, sp: Space, diag: Space): boolean {
+        if (p.isRed === !sp.piece.isRed && diag !== null && diag.piece === null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     // King stuff
