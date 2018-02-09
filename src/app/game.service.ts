@@ -171,8 +171,6 @@ export class GameService {
     getDiagMoveSpace(p: Piece, sp: Space, diag: Space): Space {
         let space: Space = null;
 
-        console.log(p, sp, diag);
-
         if (sp !== null) {
             if (sp.piece === null) { // nextdoor is empty
                 space = sp;
