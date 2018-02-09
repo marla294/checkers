@@ -78,8 +78,8 @@ export class GameService {
     // Highlights and sets moveTo flag on the spaces a piece could move to
     selectMoveableSpaces(p: Piece) {
         if (p.type === "pawn") {
-            let right = this.findMoveableSpacesPawn(<Pawn>p).right;
-            let left = this.findMoveableSpacesPawn(<Pawn>p).left;
+            let right = this.findMoveableSpaces(<Pawn>p).upRight;
+            let left = this.findMoveableSpaces(<Pawn>p).upLeft;
         
             // If the space exists
             if (right !== null) {
@@ -90,10 +90,10 @@ export class GameService {
             }
         }
         if (p.type === "king") {
-            let upRight = this.findMoveableSpacesKing(<King>p).upRight;
-            let downRight = this.findMoveableSpacesKing(<King>p).downRight;
-            let upLeft = this.findMoveableSpacesKing(<King>p).upLeft;
-            let downLeft = this.findMoveableSpacesKing(<King>p).downLeft;
+            let upRight = this.findMoveableSpaces(<King>p).upRight;
+            let downRight = this.findMoveableSpaces(<King>p).downRight;
+            let upLeft = this.findMoveableSpaces(<King>p).upLeft;
+            let downLeft = this.findMoveableSpaces(<King>p).downLeft;
 
             // If the space exists
             if (upRight !== null) {
@@ -112,32 +112,23 @@ export class GameService {
         }
     }
 
-    // This method will find moveable spaces for a pawn piece
-    findMoveableSpacesPawn(p: Pawn) {
-        // Spaces right and left
-        let spaceRight = this.checkBoardSpace(p.getUpRightMove().row, p.getUpRightMove().col);
-        let spaceLeft = this.checkBoardSpace(p.getUpLeftMove().row, p.getUpLeftMove().col);
-        let diagRight = this.checkBoardSpace(p.getDiagUpRightMove().row, p.getDiagUpRightMove().col);
-        let diagLeft = this.checkBoardSpace(p.getDiagUpLeftMove().row, p.getDiagUpLeftMove().col);
+    // Find moveable spaces for all piece types
+    findMoveableSpaces(p: Piece) {
+        let spaceUpRight = this.checkBoardSpace((<Pawn>p).getUpRightMove().row, (<Pawn>p).getUpRightMove().col);
+        let spaceUpLeft = this.checkBoardSpace((<Pawn>p).getUpLeftMove().row, (<Pawn>p).getUpLeftMove().col);
+        let diagUpRight = this.checkBoardSpace((<Pawn>p).getDiagUpRightMove().row, (<Pawn>p).getDiagUpRightMove().col);
+        let diagUpLeft = this.checkBoardSpace((<Pawn>p).getDiagUpLeftMove().row, (<Pawn>p).getDiagUpLeftMove().col);
+        let spaceDownRight = null;
+        let spaceDownLeft = null;
+        let diagDownRight = null;
+        let diagDownLeft = null;
 
-        // Returns an object with the right and left spaces
-        return {
-            right: this.getDiagMoveSpace(p, spaceRight, diagRight),
-            left: this.getDiagMoveSpace(p, spaceLeft, diagLeft)
+        if (p.type === "king") {
+            spaceDownRight = this.checkBoardSpace((<King>p).getDownRightMove().row, (<King>p).getDownRightMove().col);
+            spaceDownLeft = this.checkBoardSpace((<King>p).getDownLeftMove().row, (<King>p).getDownLeftMove().col);
+            diagDownRight = this.checkBoardSpace((<King>p).getDiagDownRightMove().row, (<King>p).getDiagDownRightMove().col);
+            diagDownLeft = this.checkBoardSpace((<King>p).getDiagDownLeftMove().row, (<King>p).getDiagDownLeftMove().col);
         }
-    }
-
-    // This method will find moveable spaces for a pawn piece
-    findMoveableSpacesKing(p: King) {
-        // Spaces right and left
-        let spaceUpRight = this.checkBoardSpace(p.getUpRightMove().row, p.getUpRightMove().col);
-        let spaceDownRight = this.checkBoardSpace(p.getDownRightMove().row, p.getDownRightMove().col);
-        let spaceUpLeft = this.checkBoardSpace(p.getUpLeftMove().row, p.getUpLeftMove().col);
-        let spaceDownLeft = this.checkBoardSpace(p.getDownLeftMove().row, p.getDownLeftMove().col);
-        let diagUpRight = this.checkBoardSpace(p.getDiagUpRightMove().row, p.getDiagUpRightMove().col);
-        let diagDownRight = this.checkBoardSpace(p.getDiagDownRightMove().row, p.getDiagDownRightMove().col);
-        let diagUpLeft = this.checkBoardSpace(p.getDiagUpLeftMove().row, p.getDiagUpLeftMove().col);
-        let diagDownLeft = this.checkBoardSpace(p.getDiagDownLeftMove().row, p.getDiagDownLeftMove().col);
 
         // Returns an object with the right and left spaces
         return {
