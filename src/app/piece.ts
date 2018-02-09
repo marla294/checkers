@@ -27,25 +27,27 @@ export class Piece {
 export class Pawn extends Piece {
 	type: string = "pawn";
 
-	getRightMove(): Coord {
+	// Nextdoor space moves
+	getUpRightMove(): Coord {
 		let col = this.col + 1;
 		let row = this.isRed ? this.row + 1 : this.row - 1;
 		return new Coord(row, col);
 	}
 
-	getLeftMove(): Coord {
+	getUpLeftMove(): Coord {
 		let col = this.col - 1;
 		let row = this.isRed ? this.row + 1 : this.row - 1;
 		return new Coord(row, col);
 	}
 
-	getDiagRightMove(): Coord {
+	// Diag moves
+	getDiagUpRightMove(): Coord {
 		let col = this.col + 2;
 		let row = this.isRed ? this.row + 2 : this.row - 2;
 		return new Coord(row, col);
 	}
 
-	getDiagLeftMove(): Coord {
+	getDiagUpLeftMove(): Coord {
 		let col = this.col - 2;
 		let row = this.isRed ? this.row + 2 : this.row - 2;
 		return new Coord(row, col);

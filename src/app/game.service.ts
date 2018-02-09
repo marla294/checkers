@@ -114,10 +114,10 @@ export class GameService {
     // This method will find moveable spaces for a pawn piece
     findMoveableSpacesPawn(p: Pawn) {
         // Spaces right and left
-        let spaceRight = this.getBoardSpace(p.getRightMove().row, p.getRightMove().col);
-        let spaceLeft = this.getBoardSpace(p.getLeftMove().row, p.getLeftMove().col);
-        let diagRight = this.getBoardSpace(p.getDiagRightMove().row, p.getDiagRightMove().col);
-        let diagLeft = this.getBoardSpace(p.getDiagLeftMove().row, p.getDiagLeftMove().col);
+        let spaceRight = this.getBoardSpace(p.getUpRightMove().row, p.getUpRightMove().col);
+        let spaceLeft = this.getBoardSpace(p.getUpLeftMove().row, p.getUpLeftMove().col);
+        let diagRight = this.getBoardSpace(p.getDiagUpRightMove().row, p.getDiagUpRightMove().col);
+        let diagLeft = this.getBoardSpace(p.getDiagUpLeftMove().row, p.getDiagUpLeftMove().col);
 
         // Returns an object with the right and left spaces
         return {
