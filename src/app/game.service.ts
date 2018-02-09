@@ -58,8 +58,16 @@ export class GameService {
                 this.makeKing(this.selectedPiece);
             }
             this.clearSelections();
-            this.redTurn = !this.redTurn;
+            if (this.checkForJump(sp)) {
+                this.redTurn = !this.redTurn;
+            }
         }
+    }
+
+    // Check and see if there is a potential jump opportunity, for multi jump
+    checkForJump(sp: Space): boolean {
+        let p = sp.piece;
+        return true;
     }
 
     // Given a space that a piece has moved to, find the piece that was jumped and clear it out
@@ -106,7 +114,7 @@ export class GameService {
         // If any of the potential move spaces exist, highlight and set moveTo flag
         if (upRight !== null) {
             upRight.highlight = upRight.moveTo = true;
-        }
+        } 
         if (upLeft !== null) {
             upLeft.highlight = upLeft.moveTo = true;
         }
@@ -193,13 +201,11 @@ export class GameService {
     // Clears all highlights, direction flags, and selected pieces from board
     clearSelections() {
         this.board.forEach(row => row.forEach(space => {
-            space.highlight = space.moveTo = false;
-            space.jump = false;
+            space.highlight = space.moveTo = space.jump = false;
             if (space.piece !== null) {
                 space.piece.jump = false;
             }
         }));
         this.selectedPiece = null;
     }
-
 }
