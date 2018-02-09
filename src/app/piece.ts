@@ -52,56 +52,32 @@ export class Pawn extends Piece {
 	}
 }
 
-export class King extends Piece {
+export class King extends Pawn {
 	type: string = "king";
 
 	// Nextdoor space moves
-	getUpRightMove() {
-		let col = this.col + 1;
-		let row = this.row - 1;
-		return {row, col};
-	}
-
-	getUpLeftMove() {
-		let col = this.col - 1;
-		let row = this.row - 1;
-		return {row, col};
-	}
-
 	getDownRightMove() {
 		let col = this.col + 1;
-		let row = this.row + 1;
+		let row = this.isRed ? this.row - 1 : this.row + 1;
 		return {row, col};
 	}
 
 	getDownLeftMove() {
 		let col = this.col - 1;
-		let row = this.row + 1;
+		let row = this.isRed ? this.row - 1 : this.row + 1;
 		return {row, col};
 	}
 
 	// Diag moves
-	getDiagUpRightMove() {
-		let col = this.col + 2;
-		let row = this.row - 2;
-		return {row, col};
-	}
-
-	getDiagUpLeftMove() {
-		let col = this.col - 2;
-		let row = this.row - 2;
-		return {row, col};
-	}
-
 	getDiagDownRightMove() {
 		let col = this.col + 2;
-		let row = this.row + 2;
+		let row = this.isRed ? this.row - 2 : this.row + 2;
 		return {row, col};
 	}
 
 	getDiagDownLeftMove() {
 		let col = this.col - 2;
-		let row = this.row + 2;
+		let row = this.isRed ? this.row - 2 : this.row + 2;
 		return {row, col};
 	}
 }
