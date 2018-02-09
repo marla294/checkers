@@ -136,7 +136,7 @@ export class GameService {
     }
 
     // Diagonal stuff
-    
+
     // Given a diagonal (a space and the next space up) return the space you can move to or null if you can't move
     getDiagMoveSpace(p: Piece, sp: Space, diag: Space): Space {
         let space: Space = null;
@@ -145,6 +145,22 @@ export class GameService {
             if (sp.piece === null) { // nextdoor is empty
                 space = sp;
             } else if (this.canJump(p, sp, diag)) { // piece to jump
+                sp.piece.jump = diag.jump = true; // set jump flag on piece to jump and diag space
+                space = diag;
+            } else { // can't move down this diag
+                space = null;
+            }
+        }
+
+        return space;
+    }
+
+    // Give a diagonal return space you can jump to or null if you can't jump
+    getJumpSpace(p: Piece, sp: Space, diag: Space): Space {
+        let space: Space = null;
+
+        if (sp !== null) {
+            if (this.canJump(p, sp, diag)) { // piece to jump
                 sp.piece.jump = diag.jump = true; // set jump flag on piece to jump and diag space
                 space = diag;
             } else { // can't move down this diag
