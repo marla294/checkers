@@ -133,17 +133,17 @@ export class GameService {
         let spaceDownRight = this.getBoardSpace(p.getDownRightMove().row, p.getDownRightMove().col);
         let spaceUpLeft = this.getBoardSpace(p.getUpLeftMove().row, p.getUpLeftMove().col);
         let spaceDownLeft = this.getBoardSpace(p.getDownLeftMove().row, p.getDownLeftMove().col);
-        let diagUpRight = this.getBoardSpace(p.getUpDiagRightMove().row, p.getUpDiagRightMove().col);
-        let diagDownRight = this.getBoardSpace(p.getDownDiagRightMove().row, p.getDownDiagRightMove().col);
-        let diagUpLeft = this.getBoardSpace(p.getUpDiagLeftMove().row, p.getUpDiagLeftMove().col);
-        let diagDownLeft = this.getBoardSpace(p.getUpDiagLeftMove().row, p.getUpDiagLeftMove().col);
+        let diagUpRight = this.getBoardSpace(p.getDiagUpRightMove().row, p.getDiagUpRightMove().col);
+        let diagDownRight = this.getBoardSpace(p.getDiagDownRightMove().row, p.getDiagDownRightMove().col);
+        let diagUpLeft = this.getBoardSpace(p.getDiagUpLeftMove().row, p.getDiagUpLeftMove().col);
+        let diagDownLeft = this.getBoardSpace(p.getDiagDownLeftMove().row, p.getDiagDownLeftMove().col);
 
         // Returns an object with the right and left spaces
         return {
             upRight: this.getDiagMoveSpace(p, spaceUpRight, diagUpRight),
             downRight: this.getDiagMoveSpace(p, spaceDownRight, diagDownRight),
             upLeft: this.getDiagMoveSpace(p, spaceUpLeft, diagUpLeft),
-            downLeft: this.getDiagMoveSpace(p, spaceDownLeft, diagDownLeft)
+            downLeft: this.getDiagMoveSpace(p, spaceDownLeft, diagDownLeft) 
         }
     }
 
@@ -170,6 +170,8 @@ export class GameService {
     // Given a diagonal (a space and the next space up) return the space you can move to or null if you can't move
     getDiagMoveSpace(p: Piece, sp: Space, diag: Space): Space {
         let space: Space = null;
+
+        console.log(p, sp, diag);
 
         if (sp !== null) {
             if (sp.piece === null) { // nextdoor is empty

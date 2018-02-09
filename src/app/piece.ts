@@ -55,6 +55,7 @@ export class Pawn extends Piece {
 export class King extends Piece {
 	type: string = "king";
 
+	// Nextdoor space moves
 	getUpRightMove(): Coord {
 		let col = this.col + 1;
 		let row = this.row - 1;
@@ -64,18 +65,6 @@ export class King extends Piece {
 	getUpLeftMove(): Coord {
 		let col = this.col - 1;
 		let row = this.row - 1;
-		return new Coord(row, col);
-	}
-
-	getUpDiagRightMove(): Coord {
-		let col = this.col + 2;
-		let row = this.row - 2;
-		return new Coord(row, col);
-	}
-
-	getUpDiagLeftMove(): Coord {
-		let col = this.col - 2;
-		let row = this.row - 2;
 		return new Coord(row, col);
 	}
 
@@ -91,13 +80,26 @@ export class King extends Piece {
 		return new Coord(row, col);
 	}
 
-	getDownDiagRightMove(): Coord {
+	// Diag moves
+	getDiagUpRightMove(): Coord {
+		let col = this.col + 2;
+		let row = this.row - 2;
+		return new Coord(row, col);
+	}
+
+	getDiagUpLeftMove(): Coord {
+		let col = this.col - 2;
+		let row = this.row - 2;
+		return new Coord(row, col);
+	}
+
+	getDiagDownRightMove(): Coord {
 		let col = this.col + 2;
 		let row = this.row + 2;
 		return new Coord(row, col);
 	}
 
-	getDownDiagLeftMove(): Coord {
+	getDiagDownLeftMove(): Coord {
 		let col = this.col - 2;
 		let row = this.row + 2;
 		return new Coord(row, col);
