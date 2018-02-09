@@ -10,14 +10,24 @@
 	    >
 	    	<div *ngIf="space.piece" 
 	    	(click)="service.clickAPiece(space.piece)">
-		    	<div *ngIf="space.piece.isRed==true" 
+		    	<div *ngIf="space.piece.isRed==true && space.piece.type === 'pawn'" 
 		    	class="d-flex justify-content-center">
 		    		<img src="./assets/Images/red.png" 
 		    		style="width: 90%; height: 90%">
 	    		</div>
-	    		<div *ngIf="space.piece.isRed==false" 
+	    		<div *ngIf="space.piece.isRed==true && space.piece.type === 'king'" 
+		    	class="d-flex justify-content-center">
+		    		<img src="./assets/Images/red_king.png" 
+		    		style="width: 90%; height: 90%">
+	    		</div>
+	    		<div *ngIf="space.piece.isRed==false && space.piece.type === 'pawn'" 
 	    		class="d-flex justify-content-center">
 		    		<img src="./assets/Images/black.png" 
+		    		style="width: 90%; height: 90%">
+	    		</div>
+	    		<div *ngIf="space.piece.isRed==false && space.piece.type === 'king'" 
+	    		class="d-flex justify-content-center">
+		    		<img src="./assets/Images/black_king.png" 
 		    		style="width: 90%; height: 90%">
 	    		</div>
     		</div>

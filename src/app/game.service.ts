@@ -36,7 +36,6 @@ export class GameService {
 
     // Click on a piece on the board
     clickAPiece(p: Piece) {
-        console.log(p.type);
         if (this.redTurn === p.isRed) {
             this.clearSelections();
             this.selectedPiece = p;
