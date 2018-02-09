@@ -75,38 +75,9 @@ export class GameService {
 
     }
 
-    // Highlights and sets moveTo flag on the spaces a piece could move to
+    // Find moveable spaces for all piece types, highlight and set moveTo flag
     selectMoveableSpaces(p: Piece) {
-        // Pawns and Kings
-        let upRight = this.findMoveableSpaces(<Pawn>p).upRight;
-        let upLeft = this.findMoveableSpaces(<Pawn>p).upLeft;
-        // Just Kings
-        let downRight = null;
-        let downLeft = null;
-
-        // Setting the king only variables
-        if (p.type === "king") {
-            downRight = this.findMoveableSpaces(<King>p).downRight;
-            downLeft = this.findMoveableSpaces(<King>p).downLeft;
-        }
-
-        // If the space exists
-        if (upRight !== null) {
-            upRight.highlight = upRight.moveTo = true;
-        }
-        if (upLeft !== null) {
-            upLeft.highlight = upLeft.moveTo = true;
-        }
-        if (downRight !== null) {
-            downRight.highlight = downRight.moveTo = true;
-        }
-        if (downLeft !== null) {
-            downLeft.highlight = downLeft.moveTo = true;
-        }
-    }
-
-    // Find moveable spaces for all piece types
-    findMoveableSpaces(p: Piece) {
+        //Collecting all 8 spaces surrounding the piece
         //Pawns and Kings
         let spaceUpRight = this.checkBoardSpace((<Pawn>p).getUpRightMove().row, (<Pawn>p).getUpRightMove().col);
         let spaceUpLeft = this.checkBoardSpace((<Pawn>p).getUpLeftMove().row, (<Pawn>p).getUpLeftMove().col);
@@ -126,12 +97,24 @@ export class GameService {
             diagDownLeft = this.checkBoardSpace((<King>p).getDiagDownLeftMove().row, (<King>p).getDiagDownLeftMove().col);
         }
 
-        // Returns an object with the right and left spaces
-        return {
-            upRight: this.getDiagMoveSpace(p, spaceUpRight, diagUpRight),
-            downRight: this.getDiagMoveSpace(p, spaceDownRight, diagDownRight),
-            upLeft: this.getDiagMoveSpace(p, spaceUpLeft, diagUpLeft),
-            downLeft: this.getDiagMoveSpace(p, spaceDownLeft, diagDownLeft) 
+        // Calculating the 4 potential move spaces of the 
+        let upRight = this.getDiagMoveSpace(p, spaceUpRight, diagUpRight);
+        let downRight = this.getDiagMoveSpace(p, spaceDownRight, diagDownRight);
+        let upLeft = this.getDiagMoveSpace(p, spaceUpLeft, diagUpLeft);
+        let downLeft = this.getDiagMoveSpace(p, spaceDownLeft, diagDownLeft);
+
+        // If any of the potential move spaces exist, highlight and set moveTo flag
+        if (upRight !== null) {
+            upRight.highlight = upRight.moveTo = true;
+        }
+        if (upLeft !== null) {
+            upLeft.highlight = upLeft.moveTo = true;
+        }
+        if (downRight !== null) {
+            downRight.highlight = downRight.moveTo = true;
+        }
+        if (downLeft !== null) {
+            downLeft.highlight = downLeft.moveTo = true;
         }
     }
 
