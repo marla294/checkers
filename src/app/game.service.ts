@@ -77,52 +77,48 @@ export class GameService {
 
     // Highlights and sets moveTo flag on the spaces a piece could move to
     selectMoveableSpaces(p: Piece) {
-        if (p.type === "pawn") {
-            let right = this.findMoveableSpaces(<Pawn>p).upRight;
-            let left = this.findMoveableSpaces(<Pawn>p).upLeft;
-        
-            // If the space exists
-            if (right !== null) {
-                right.highlight = right.moveTo = true;
-            }
-            if (left !== null) {
-                left.highlight = left.moveTo = true;
-            }
-        }
+        // Pawns and Kings
+        let upRight = this.findMoveableSpaces(<Pawn>p).upRight;
+        let upLeft = this.findMoveableSpaces(<Pawn>p).upLeft;
+        // Just Kings
+        let downRight = null;
+        let downLeft = null;
+
+        // Setting the king only variables
         if (p.type === "king") {
-            let upRight = this.findMoveableSpaces(<King>p).upRight;
-            let downRight = this.findMoveableSpaces(<King>p).downRight;
-            let upLeft = this.findMoveableSpaces(<King>p).upLeft;
-            let downLeft = this.findMoveableSpaces(<King>p).downLeft;
+            downRight = this.findMoveableSpaces(<King>p).downRight;
+            downLeft = this.findMoveableSpaces(<King>p).downLeft;
+        }
 
-            // If the space exists
-            if (upRight !== null) {
-                upRight.highlight = upRight.moveTo = true;
-            }
-            if (upLeft !== null) {
-                upLeft.highlight = upLeft.moveTo = true;
-            }
-            if (downRight !== null) {
-                downRight.highlight = downRight.moveTo = true;
-            }
-            if (downLeft !== null) {
-                downLeft.highlight = downLeft.moveTo = true;
-            }
-
+        // If the space exists
+        if (upRight !== null) {
+            upRight.highlight = upRight.moveTo = true;
+        }
+        if (upLeft !== null) {
+            upLeft.highlight = upLeft.moveTo = true;
+        }
+        if (downRight !== null) {
+            downRight.highlight = downRight.moveTo = true;
+        }
+        if (downLeft !== null) {
+            downLeft.highlight = downLeft.moveTo = true;
         }
     }
 
     // Find moveable spaces for all piece types
     findMoveableSpaces(p: Piece) {
+        //Pawns and Kings
         let spaceUpRight = this.checkBoardSpace((<Pawn>p).getUpRightMove().row, (<Pawn>p).getUpRightMove().col);
         let spaceUpLeft = this.checkBoardSpace((<Pawn>p).getUpLeftMove().row, (<Pawn>p).getUpLeftMove().col);
         let diagUpRight = this.checkBoardSpace((<Pawn>p).getDiagUpRightMove().row, (<Pawn>p).getDiagUpRightMove().col);
         let diagUpLeft = this.checkBoardSpace((<Pawn>p).getDiagUpLeftMove().row, (<Pawn>p).getDiagUpLeftMove().col);
+        // Just Kings
         let spaceDownRight = null;
         let spaceDownLeft = null;
         let diagDownRight = null;
         let diagDownLeft = null;
 
+        // Setting the king only variables
         if (p.type === "king") {
             spaceDownRight = this.checkBoardSpace((<King>p).getDownRightMove().row, (<King>p).getDownRightMove().col);
             spaceDownLeft = this.checkBoardSpace((<King>p).getDownLeftMove().row, (<King>p).getDownLeftMove().col);
