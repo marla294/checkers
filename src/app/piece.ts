@@ -1,5 +1,3 @@
-import { Coord }	from './coord';
-
 export class Piece {
 	type: string = 'piece';
 	isRed: boolean = true;
@@ -28,29 +26,29 @@ export class Pawn extends Piece {
 	type: string = "pawn";
 
 	// Nextdoor space moves
-	getUpRightMove(): Coord {
+	getUpRightMove() {
 		let col = this.col + 1;
 		let row = this.isRed ? this.row + 1 : this.row - 1;
-		return new Coord(row, col);
+		return {row, col};
 	}
 
-	getUpLeftMove(): Coord {
+	getUpLeftMove() {
 		let col = this.col - 1;
 		let row = this.isRed ? this.row + 1 : this.row - 1;
-		return new Coord(row, col);
+		return {row, col};
 	}
 
 	// Diag moves
-	getDiagUpRightMove(): Coord {
+	getDiagUpRightMove() {
 		let col = this.col + 2;
 		let row = this.isRed ? this.row + 2 : this.row - 2;
-		return new Coord(row, col);
+		return {row, col};
 	}
 
-	getDiagUpLeftMove(): Coord {
+	getDiagUpLeftMove() {
 		let col = this.col - 2;
 		let row = this.isRed ? this.row + 2 : this.row - 2;
-		return new Coord(row, col);
+		return {row, col};
 	}
 }
 
@@ -58,52 +56,52 @@ export class King extends Piece {
 	type: string = "king";
 
 	// Nextdoor space moves
-	getUpRightMove(): Coord {
+	getUpRightMove() {
 		let col = this.col + 1;
 		let row = this.row - 1;
-		return new Coord(row, col);
+		return {row, col};
 	}
 
-	getUpLeftMove(): Coord {
+	getUpLeftMove() {
 		let col = this.col - 1;
 		let row = this.row - 1;
-		return new Coord(row, col);
+		return {row, col};
 	}
 
-	getDownRightMove(): Coord {
+	getDownRightMove() {
 		let col = this.col + 1;
 		let row = this.row + 1;
-		return new Coord(row, col);
+		return {row, col};
 	}
 
-	getDownLeftMove(): Coord {
+	getDownLeftMove() {
 		let col = this.col - 1;
 		let row = this.row + 1;
-		return new Coord(row, col);
+		return {row, col};
 	}
 
 	// Diag moves
-	getDiagUpRightMove(): Coord {
+	getDiagUpRightMove() {
 		let col = this.col + 2;
 		let row = this.row - 2;
-		return new Coord(row, col);
+		return {row, col};
 	}
 
-	getDiagUpLeftMove(): Coord {
+	getDiagUpLeftMove() {
 		let col = this.col - 2;
 		let row = this.row - 2;
-		return new Coord(row, col);
+		return {row, col};
 	}
 
-	getDiagDownRightMove(): Coord {
+	getDiagDownRightMove() {
 		let col = this.col + 2;
 		let row = this.row + 2;
-		return new Coord(row, col);
+		return {row, col};
 	}
 
-	getDiagDownLeftMove(): Coord {
+	getDiagDownLeftMove() {
 		let col = this.col - 2;
 		let row = this.row + 2;
-		return new Coord(row, col);
+		return {row, col};
 	}
 }
