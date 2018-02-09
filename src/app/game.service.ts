@@ -57,17 +57,30 @@ export class GameService {
             if (this.isEndSpace(sp)) {
                 this.makeKing(this.selectedPiece);
             }
-            this.clearSelections();
-            if (this.checkForJump(sp)) {
+            if (sp.jump === false || !this.checkForJump(sp)) { // if I didn't just jump or there is no jump
                 this.redTurn = !this.redTurn;
             }
+            this.clearSelections();
         }
     }
 
     // Check and see if there is a potential jump opportunity, for multi jump
     checkForJump(sp: Space): boolean {
         let p = sp.piece;
-        return true;
+        let upRight = this.calcDiag(p, true, true);
+        let upLeft = this.calcDiag(p, true, false);
+        let downRight = this.calcDiag(p, false, true);
+        let downLeft = this.calcDiag(p, false, false);
+
+        if (this.canJump(p, upRight.sp, upRight.diag) || 
+            this.canJump(p, upLeft.sp, upLeft.diag) ||
+            this.canJump(p, downRight.sp, downRight.diag) || 
+            this.canJump(p, downLeft.sp, downLeft.diag) ) {
+            return true;
+        } else {
+            return false;
+        }
+        
     }
 
     // Given a space that a piece has moved to, find the piece that was jumped and clear it out
@@ -96,6 +109,11 @@ export class GameService {
         let spaceDownLeft = null;
         let diagDownRight = null;
         let diagDownLeft = null;
+        // Final Move spaces
+        let upRight = null;
+        let downRight = null;
+        let upLeft = null;
+        let downLeft = null;
 
         // Setting the king only variables
         if (p.type === "king") {
@@ -105,11 +123,12 @@ export class GameService {
             diagDownLeft = this.checkBoardSpace((<King>p).getDiagDownLeftMove().row, (<King>p).getDiagDownLeftMove().col);
         }
 
-        // Calculating the 4 potential move spaces of the 
-        let upRight = this.getDiagMoveSpace(p, spaceUpRight, diagUpRight);
-        let downRight = this.getDiagMoveSpace(p, spaceDownRight, diagDownRight);
-        let upLeft = this.getDiagMoveSpace(p, spaceUpLeft, diagUpLeft);
-        let downLeft = this.getDiagMoveSpace(p, spaceDownLeft, diagDownLeft);
+        // Calculating the 4 potential move spaces of the piece
+        upRight = this.getDiagMoveSpace(p, spaceUpRight, diagUpRight);
+        downRight = this.getDiagMoveSpace(p, spaceDownRight, diagDownRight);
+        upLeft = this.getDiagMoveSpace(p, spaceUpLeft, diagUpLeft);
+        downLeft = this.getDiagMoveSpace(p, spaceDownLeft, diagDownLeft);
+        
 
         // If any of the potential move spaces exist, highlight and set moveTo flag
         if (upRight !== null) {
@@ -136,6 +155,66 @@ export class GameService {
     }
 
     // Diagonal stuff
+
+    // Given a piece, and the direction, calculate the "diagonal" - the spaces on the right or left diagonally
+    // Returns the piece on the space, the neighbor space and the space 2 up
+    calcDiag(p: Piece, up: boolean, right: boolean) {
+        let neighborRow = -1; // -1 means not on board
+        let neighborCol = -1;
+        let neighborSp = null;
+
+        let diagRow = -1;
+        let diagCol = -1;
+        let diagSp = null;
+
+        if (up) {
+            if (right) {
+                neighborRow = (<Pawn>p).getUpRightMove().row;
+                neighborCol = (<Pawn>p).getUpRightMove().col;
+                diagRow = (<Pawn>p).getDiagUpRightMove().row;
+                diagCol = (<Pawn>p).getDiagUpRightMove().col;
+            }
+            if (!right) {
+                neighborRow = (<Pawn>p).getUpLeftMove().row;
+                neighborCol = (<Pawn>p).getUpLeftMove().col;
+                diagRow = (<Pawn>p).getDiagUpLeftMove().row;
+                diagCol = (<Pawn>p).getDiagUpLeftMove().col;
+            }
+        } else if (!up && p.type === "king") {
+            if (right) {
+                neighborRow = (<King>p).getDownRightMove().row;
+                neighborCol = (<King>p).getDownRightMove().col;
+                diagRow = (<King>p).getDiagDownRightMove().row;
+                diagCol = (<King>p).getDiagDownRightMove().col;
+            }
+            if (!right) {
+                neighborRow = (<King>p).getDownLeftMove().row;
+                neighborCol = (<King>p).getDownLeftMove().col;
+                diagRow = (<King>p).getDiagDownLeftMove().row;
+                diagCol = (<King>p).getDiagDownLeftMove().col;
+            }
+        }
+
+        neighborSp = this.checkBoardSpace(neighborRow, neighborCol);
+        diagSp = this.checkBoardSpace(diagRow, diagCol);
+
+        return {
+            p: p,
+            sp: neighborSp,
+            diag: diagSp
+        }
+    }
+
+    // Can Jump - returns true if you can jump, if not then false
+    canJump(p: Piece, sp: Space, diag: Space): boolean {
+        if (sp === null || diag === null || sp.piece === null) {
+            return false;
+        } else if (p.isRed === !sp.piece.isRed && diag !== null && diag.piece === null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     // Given a diagonal (a space and the next space up) return the space you can move to or null if you can't move
     getDiagMoveSpace(p: Piece, sp: Space, diag: Space): Space {
@@ -169,15 +248,6 @@ export class GameService {
         }
 
         return space;
-    }
-
-    // Can Jump - returns true if you can jump, if not then false
-    canJump(p: Piece, sp: Space, diag: Space): boolean {
-        if (p.isRed === !sp.piece.isRed && diag !== null && diag.piece === null) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     // King stuff
