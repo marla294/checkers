@@ -64,25 +64,6 @@ export class GameService {
         }
     }
 
-    // Check and see if there is a potential jump opportunity, for multi jump
-    checkForJump(sp: Space): boolean {
-        let p = sp.piece;
-        let upRight = this.calcDiag(p, true, true);
-        let upLeft = this.calcDiag(p, true, false);
-        let downRight = this.calcDiag(p, false, true);
-        let downLeft = this.calcDiag(p, false, false);
-
-        if (this.canJump(p, upRight.sp, upRight.diag) || 
-            this.canJump(p, upLeft.sp, upLeft.diag) ||
-            this.canJump(p, downRight.sp, downRight.diag) || 
-            this.canJump(p, downLeft.sp, downLeft.diag) ) {
-            return true;
-        } else {
-            return false;
-        }
-        
-    }
-
     // Given a space that a piece has moved to, find the piece that was jumped and clear it out
     clearJumpedPiece(sp: Space) {
         let pieces = new Array();
@@ -96,19 +77,28 @@ export class GameService {
 
     }
 
+    // Check and see if there is a potential jump opportunity, for multi jump
+    checkForJump(sp: Space): boolean {
+        let p = sp.piece;
+
+        if (this.canJump(p, this.calcAllDiag(p).upRightDiag.sp, this.calcAllDiag(p).upRightDiag.diag) || 
+            this.canJump(p, this.calcAllDiag(p).downRightDiag.sp, this.calcAllDiag(p).downRightDiag.diag) || 
+            this.canJump(p, this.calcAllDiag(p).upLeftDiag.sp, this.calcAllDiag(p).upLeftDiag.diag) ||
+            this.canJump(p, this.calcAllDiag(p).downLeftDiag.sp, this.calcAllDiag(p).downLeftDiag.diag) ) {
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
+
     // Find moveable spaces for all piece types, highlight and set moveTo flag
     selectMoveableSpaces(p: Piece) {
-        // Calculating the 4 "diagonals" of the piece
-        let upRightDiag = this.calcDiag(p, true, true);
-        let downRightDiag = this.calcDiag(p, false, true);
-        let upLeftDiag = this.calcDiag(p, true, false);
-        let downLeftDiag = this.calcDiag(p, false, false);
-
         // Calculating the 4 potential move spaces of the piece
-        let upRight = this.getDiagMoveSpace(p, upRightDiag.sp, upRightDiag.diag);
-        let downRight = this.getDiagMoveSpace(p, downRightDiag.sp, downRightDiag.diag);
-        let upLeft = this.getDiagMoveSpace(p, upLeftDiag.sp, upLeftDiag.diag);
-        let downLeft = this.getDiagMoveSpace(p, downLeftDiag.sp, downLeftDiag.diag);
+        let upRight = this.getDiagMoveSpace(p, this.calcAllDiag(p).upRightDiag.sp, this.calcAllDiag(p).upRightDiag.diag);
+        let downRight = this.getDiagMoveSpace(p, this.calcAllDiag(p).downRightDiag.sp, this.calcAllDiag(p).downRightDiag.diag);
+        let upLeft = this.getDiagMoveSpace(p, this.calcAllDiag(p).upLeftDiag.sp, this.calcAllDiag(p).upLeftDiag.diag);
+        let downLeft = this.getDiagMoveSpace(p, this.calcAllDiag(p).downLeftDiag.sp, this.calcAllDiag(p).downLeftDiag.diag);
 
         // If any of the potential move spaces exist, highlight and set moveTo flag
         if (upRight !== null) {
@@ -135,6 +125,16 @@ export class GameService {
     }
 
     // Diagonal stuff
+
+    // Returns all 4 diagonals
+    calcAllDiag(p: Piece) {
+        return {
+            upRightDiag: this.calcDiag(p, true, true),
+            downRightDiag: this.calcDiag(p, false, true),
+            upLeftDiag: this.calcDiag(p, true, false),
+            downLeftDiag: this.calcDiag(p, false, false)
+        }
+    }
 
     // Given a piece, and the direction, calculate the "diagonal" - the spaces on the right or left diagonally
     // Returns the piece on the space, the neighbor space and the space 2 up
@@ -214,8 +214,9 @@ export class GameService {
         return space;
     }
 
+    /*
     // Give a diagonal return space you can jump to or null if you can't jump
-    getJumpSpace(p: Piece, sp: Space, diag: Space): Space {
+    getDiagJumpSpace(p: Piece, sp: Space, diag: Space): Space {
         let space: Space = null;
 
         if (sp !== null) {
@@ -229,6 +230,7 @@ export class GameService {
 
         return space;
     }
+    */
 
     // King stuff
 
