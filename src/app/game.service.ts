@@ -141,11 +141,8 @@ export class GameService {
     calcDiag(p: Piece, up: boolean, right: boolean) {
         let neighborRow = -1; // -1 means not on board
         let neighborCol = -1;
-        let neighborSp = null;
-
         let diagRow = -1;
         let diagCol = -1;
-        let diagSp = null;
 
         if (up) {
             if (right) {
@@ -175,13 +172,10 @@ export class GameService {
             }
         }
 
-        neighborSp = this.checkBoardSpace(neighborRow, neighborCol);
-        diagSp = this.checkBoardSpace(diagRow, diagCol);
-
         return {
             p: p,
-            sp: neighborSp,
-            diag: diagSp
+            sp: this.checkBoardSpace(neighborRow, neighborCol),
+            diag: this.checkBoardSpace(diagRow, diagCol)
         }
     }
 
