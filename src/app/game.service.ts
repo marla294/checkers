@@ -8,7 +8,7 @@ export class GameService {
   	public board: any;
     private selectedPiece: Piece = null;
     private redTurn: boolean = true;
-    private secondTurn: boolean = false;
+    private doubleJump: boolean = false;
 
   	constructor() {
   		  this.resetGame();
@@ -38,7 +38,7 @@ export class GameService {
 
     // Click on a piece on the board
     clickAPiece(p: Piece) {
-        if (this.secondTurn) {
+        if (this.doubleJump) {
             if (this.selectedPiece === p) {
                 this.clearSelections();
                 this.selectedPiece = p;
@@ -66,10 +66,10 @@ export class GameService {
             }
             if (sp.jump === false || !this.checkForJump(sp)) { // if I didn't just jump or there is no jump
                 this.redTurn = !this.redTurn;
-                this.secondTurn = false;
+                this.doubleJump = false;
                 this.clearSelections();
             } else { // double jump opportunity
-                this.secondTurn = true;
+                this.doubleJump = true;
                 this.clickAPiece(this.selectedPiece); // BUG HERE IF PIECE CHANGES TO KING!
             }
         }
@@ -78,10 +78,24 @@ export class GameService {
     // Find moveable spaces for all piece types, highlight and set moveTo flag
     selectMoveableSpaces(p: Piece) {
         // Calculating the 4 potential move spaces of the piece
-        let upRight = this.getDiagMoveSpace(p, this.calcAllDiag(p).upRightDiag.sp, this.calcAllDiag(p).upRightDiag.diag);
-        let downRight = this.getDiagMoveSpace(p, this.calcAllDiag(p).downRightDiag.sp, this.calcAllDiag(p).downRightDiag.diag);
-        let upLeft = this.getDiagMoveSpace(p, this.calcAllDiag(p).upLeftDiag.sp, this.calcAllDiag(p).upLeftDiag.diag);
-        let downLeft = this.getDiagMoveSpace(p, this.calcAllDiag(p).downLeftDiag.sp, this.calcAllDiag(p).downLeftDiag.diag);
+        let upRight = null;
+        let downRight = null;
+        let upLeft = null;
+        let downLeft = null;
+
+        // If it's not the piece's second turn, get all move spaces, else only get the jump spaces
+        if (!this.doubleJump) {
+            upRight = this.getDiagMoveSpace(p, this.calcAllDiag(p).upRightDiag.sp, this.calcAllDiag(p).upRightDiag.diag);
+            downRight = this.getDiagMoveSpace(p, this.calcAllDiag(p).downRightDiag.sp, this.calcAllDiag(p).downRightDiag.diag);
+            upLeft = this.getDiagMoveSpace(p, this.calcAllDiag(p).upLeftDiag.sp, this.calcAllDiag(p).upLeftDiag.diag);
+            downLeft = this.getDiagMoveSpace(p, this.calcAllDiag(p).downLeftDiag.sp, this.calcAllDiag(p).downLeftDiag.diag);
+        } else {
+            upRight = this.getDiagJumpSpace(p, this.calcAllDiag(p).upRightDiag.sp, this.calcAllDiag(p).upRightDiag.diag);
+            downRight = this.getDiagJumpSpace(p, this.calcAllDiag(p).downRightDiag.sp, this.calcAllDiag(p).downRightDiag.diag);
+            upLeft = this.getDiagJumpSpace(p, this.calcAllDiag(p).upLeftDiag.sp, this.calcAllDiag(p).upLeftDiag.diag);
+            downLeft = this.getDiagJumpSpace(p, this.calcAllDiag(p).downLeftDiag.sp, this.calcAllDiag(p).downLeftDiag.diag);
+        }
+        
 
         // If any of the potential move spaces exist, highlight and set moveTo flag
         if (upRight !== null) {
@@ -212,6 +226,22 @@ export class GameService {
         return space;
     }
 
+    // Give a diagonal return space you can jump to or null if you can't jump
+    getDiagJumpSpace(p: Piece, sp: Space, diag: Space): Space {
+        let space: Space = null;
+
+        if (sp !== null) {
+            if (this.canJump(p, sp, diag)) { // piece to jump
+                sp.piece.jump = diag.jump = true; // set jump flag on piece to jump and diag space
+                space = diag;
+            } else { // can't move down this diag
+                space = null;
+            }
+        }
+
+        return space;
+    }
+
     // King stuff
 
     // When a pawn makes it to the end of the board, replace the pawn piece with a king piece
@@ -283,22 +313,3 @@ export class GameService {
         }));
     }
 }
-
-
-    /*
-    // Give a diagonal return space you can jump to or null if you can't jump
-    getDiagJumpSpace(p: Piece, sp: Space, diag: Space): Space {
-        let space: Space = null;
-
-        if (sp !== null) {
-            if (this.canJump(p, sp, diag)) { // piece to jump
-                sp.piece.jump = diag.jump = true; // set jump flag on piece to jump and diag space
-                space = diag;
-            } else { // can't move down this diag
-                space = null;
-            }
-        }
-
-        return space;
-    }
-    */
