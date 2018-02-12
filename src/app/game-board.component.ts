@@ -17,7 +17,11 @@ export class GameBoardComponent implements OnInit {
   	) {}
 
   	ngOnInit() {
-  		this.service.resetGame();
-  		this.board = this.service.board;
+  		this.onReset();
   	}
+
+    onReset() {
+      this.service.resetGame();
+      this.board = this.service.board;
+    }
 }

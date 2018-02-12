@@ -13,4 +13,8 @@ export class GameConsoleComponent {
 	  	private service: GameService
 	) {}
 
+	resetGame() {
+		this.service.resetGame();
+	}
+
 }
