@@ -38,7 +38,14 @@ export class GameService {
 
     // Click on a piece on the board
     clickAPiece(p: Piece) {
-        if (this.redTurn === p.isRed) {
+        if (this.secondTurn) {
+            if (this.selectedPiece === p) {
+                this.clearSelections();
+                this.selectedPiece = p;
+                this.findPiece(p).highlight = true;
+                this.selectMoveableSpaces(p);
+            }
+        } else if (this.redTurn === p.isRed) {
             this.clearSelections();
             this.selectedPiece = p;
             this.findPiece(p).highlight = true;
@@ -48,8 +55,7 @@ export class GameService {
 
     // Click on an empty space on the board
     clickEmptySpace(sp: Space) {
-        // If the space is empty and piece can move to it
-        if (this.selectedPiece !== null && sp.moveTo) { 
+        if (this.selectedPiece !== null && sp.moveTo) { // If the space is empty and piece can move to it
             this.findPiece(this.selectedPiece).clearPiece(); // First remove piece from old space
             sp.addPiece(this.selectedPiece); // Then add piece to the new space
             if (sp.jump === true) { // A piece was jumped
@@ -60,16 +66,13 @@ export class GameService {
             }
             if (sp.jump === false || !this.checkForJump(sp)) { // if I didn't just jump or there is no jump
                 this.redTurn = !this.redTurn;
+                this.secondTurn = false;
                 this.clearSelections();
             } else { // double jump opportunity
-                this.doubleJump();
+                this.secondTurn = true;
+                this.clickAPiece(this.selectedPiece); // BUG HERE IF PIECE CHANGES TO KING!
             }
         }
-    }
-
-    doubleJump() {
-        console.log("double jump");
-        this.clickAPiece(this.selectedPiece);
     }
 
     // Find moveable spaces for all piece types, highlight and set moveTo flag
