@@ -1,5 +1,5 @@
 import { Injectable }           from '@angular/core';
-import { Piece, Pawn, King }	  from './piece';
+import { Piece, Pawn, King }	from './piece';
 import { Space }                from './space';
 import { CheckerBoard }	        from './checkerBoard';
 
@@ -68,6 +68,7 @@ export class GameService {
                 this.redTurn = !this.redTurn;
                 this.doubleJump = false;
                 this.clearSelections();
+                // This is where the "check for win" code will go
             } else { // double jump opportunity
                 this.doubleJump = true;
                 this.clickAPiece(this.selectedPiece); // BUG HERE IF PIECE CHANGES TO KING!
