@@ -3,12 +3,14 @@ import { NgModule }            from '@angular/core';
 
 import { AppComponent }        from './app.component';
 import { GameBoardComponent }  from './game-board.component';
+import { GameConsoleComponent }  from './game-console.component';
 import { GameService }	       from './game.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    GameBoardComponent
+    GameBoardComponent,
+    GameConsoleComponent
   ],
   imports: [
     BrowserModule

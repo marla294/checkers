@@ -3,9 +3,9 @@ import { Component }	from '@angular/core';
 
 @Component({
   selector: 'console',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  templateUrl: './game-console.component.html',
+  styleUrls: ['./game-console.component.css'],
 })
-export class gameConsole {
+export class GameConsoleComponent {
 	
 }
