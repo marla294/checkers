@@ -2,7 +2,7 @@
 import { Component }	from '@angular/core';
 
 @Component({
-  selector: 'console',
+  selector: 'game-console',
   templateUrl: './game-console.component.html',
   styleUrls: ['./game-console.component.css'],
 })
