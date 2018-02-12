@@ -55,16 +55,21 @@ export class GameService {
             if (sp.jump === true) { // A piece was jumped
                 this.clearJumpedPiece(sp);
             }
-            if (this.isEndSpace(sp)) {
+            if (this.isEndSpace(sp)) { // Selected piece became king
                 this.makeKing(this.selectedPiece);
             }
             if (sp.jump === false || !this.checkForJump(sp)) { // if I didn't just jump or there is no jump
                 this.redTurn = !this.redTurn;
+                this.clearSelections();
             } else { // double jump opportunity
-                this.secondTurn = true;
+                this.doubleJump();
             }
-            this.clearSelections();
         }
+    }
+
+    doubleJump() {
+        console.log("double jump");
+        this.clickAPiece(this.selectedPiece);
     }
 
     // Find moveable spaces for all piece types, highlight and set moveTo flag
