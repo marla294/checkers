@@ -7,7 +7,8 @@ import { CheckerBoard }	        from './checkerBoard';
 export class GameService {
   	public board: any;
     private selectedPiece: Piece = null;
-    private redTurn: boolean = null;
+    private redTurn: boolean = true;
+    private secondTurn: boolean = false;
 
   	constructor() {
   		  this.resetGame();
@@ -59,10 +60,37 @@ export class GameService {
             }
             if (sp.jump === false || !this.checkForJump(sp)) { // if I didn't just jump or there is no jump
                 this.redTurn = !this.redTurn;
+            } else { // double jump opportunity
+                this.secondTurn = true;
             }
             this.clearSelections();
         }
     }
+
+    // Find moveable spaces for all piece types, highlight and set moveTo flag
+    selectMoveableSpaces(p: Piece) {
+        // Calculating the 4 potential move spaces of the piece
+        let upRight = this.getDiagMoveSpace(p, this.calcAllDiag(p).upRightDiag.sp, this.calcAllDiag(p).upRightDiag.diag);
+        let downRight = this.getDiagMoveSpace(p, this.calcAllDiag(p).downRightDiag.sp, this.calcAllDiag(p).downRightDiag.diag);
+        let upLeft = this.getDiagMoveSpace(p, this.calcAllDiag(p).upLeftDiag.sp, this.calcAllDiag(p).upLeftDiag.diag);
+        let downLeft = this.getDiagMoveSpace(p, this.calcAllDiag(p).downLeftDiag.sp, this.calcAllDiag(p).downLeftDiag.diag);
+
+        // If any of the potential move spaces exist, highlight and set moveTo flag
+        if (upRight !== null) {
+            upRight.highlight = upRight.moveTo = true;
+        } 
+        if (upLeft !== null) {
+            upLeft.highlight = upLeft.moveTo = true;
+        }
+        if (downRight !== null) {
+            downRight.highlight = downRight.moveTo = true;
+        }
+        if (downLeft !== null) {
+            downLeft.highlight = downLeft.moveTo = true;
+        }
+    }
+
+    // Jumping
 
     // Given a space that a piece has moved to, find the piece that was jumped and clear it out
     clearJumpedPiece(sp: Space) {
@@ -92,35 +120,14 @@ export class GameService {
         
     }
 
-    // Find moveable spaces for all piece types, highlight and set moveTo flag
-    selectMoveableSpaces(p: Piece) {
-        // Calculating the 4 potential move spaces of the piece
-        let upRight = this.getDiagMoveSpace(p, this.calcAllDiag(p).upRightDiag.sp, this.calcAllDiag(p).upRightDiag.diag);
-        let downRight = this.getDiagMoveSpace(p, this.calcAllDiag(p).downRightDiag.sp, this.calcAllDiag(p).downRightDiag.diag);
-        let upLeft = this.getDiagMoveSpace(p, this.calcAllDiag(p).upLeftDiag.sp, this.calcAllDiag(p).upLeftDiag.diag);
-        let downLeft = this.getDiagMoveSpace(p, this.calcAllDiag(p).downLeftDiag.sp, this.calcAllDiag(p).downLeftDiag.diag);
-
-        // If any of the potential move spaces exist, highlight and set moveTo flag
-        if (upRight !== null) {
-            upRight.highlight = upRight.moveTo = true;
-        } 
-        if (upLeft !== null) {
-            upLeft.highlight = upLeft.moveTo = true;
-        }
-        if (downRight !== null) {
-            downRight.highlight = downRight.moveTo = true;
-        }
-        if (downLeft !== null) {
-            downLeft.highlight = downLeft.moveTo = true;
-        }
-    }
-
-    // Given a row and column that may or may not be on the board, check if it is on the board.  If it is return the space.
-    checkBoardSpace(row: number, col: number): Space {
-        if (row < 8 && row > -1 && col < 8 && col > -1) {
-            return this.board[row][col];
+    // Can Jump - returns true if you can jump, if not then false
+    canJump(p: Piece, sp: Space, diag: Space): boolean {
+        if (sp === null || diag === null || sp.piece === null) {
+            return false;
+        } else if (p.isRed === !sp.piece.isRed && diag !== null && diag.piece === null) {
+            return true;
         } else {
-            return null;
+            return false;
         }
     }
 
@@ -179,17 +186,6 @@ export class GameService {
         }
     }
 
-    // Can Jump - returns true if you can jump, if not then false
-    canJump(p: Piece, sp: Space, diag: Space): boolean {
-        if (sp === null || diag === null || sp.piece === null) {
-            return false;
-        } else if (p.isRed === !sp.piece.isRed && diag !== null && diag.piece === null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     // Given a diagonal (a space and the next space up) return the space you can move to or null if you can't move
     getDiagMoveSpace(p: Piece, sp: Space, diag: Space): Space {
         let space: Space = null;
@@ -207,24 +203,6 @@ export class GameService {
 
         return space;
     }
-
-    /*
-    // Give a diagonal return space you can jump to or null if you can't jump
-    getDiagJumpSpace(p: Piece, sp: Space, diag: Space): Space {
-        let space: Space = null;
-
-        if (sp !== null) {
-            if (this.canJump(p, sp, diag)) { // piece to jump
-                sp.piece.jump = diag.jump = true; // set jump flag on piece to jump and diag space
-                space = diag;
-            } else { // can't move down this diag
-                space = null;
-            }
-        }
-
-        return space;
-    }
-    */
 
     // King stuff
 
@@ -245,6 +223,19 @@ export class GameService {
             return false;
         }
     }
+
+    // Space utilities
+
+    // Given a row and column that may or may not be on the board, check if it is on the board.  If it is return the space.
+    checkBoardSpace(row: number, col: number): Space {
+        if (row < 8 && row > -1 && col < 8 && col > -1) {
+            return this.board[row][col];
+        } else {
+            return null;
+        }
+    }
+
+    // Find pieces
 
     // Finds a piece on the board and returns the space it is on
     findPiece(p: Piece): Space {
@@ -279,6 +270,24 @@ export class GameService {
                 space.piece.jump = false;
             }
         }));
-        this.selectedPiece = null;
     }
 }
+
+
+    /*
+    // Give a diagonal return space you can jump to or null if you can't jump
+    getDiagJumpSpace(p: Piece, sp: Space, diag: Space): Space {
+        let space: Space = null;
+
+        if (sp !== null) {
+            if (this.canJump(p, sp, diag)) { // piece to jump
+                sp.piece.jump = diag.jump = true; // set jump flag on piece to jump and diag space
+                space = diag;
+            } else { // can't move down this diag
+                space = null;
+            }
+        }
+
+        return space;
+    }
+    */
