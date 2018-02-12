@@ -221,6 +221,9 @@ export class GameService {
 
         space.clearPiece();
         space.addPiece(king);
+
+        // When a piece becomes king, it will always be the selected piece
+        this.selectedPiece = king;
     }
 
     // Given a space, return true if it is in an end row and false if it is not
