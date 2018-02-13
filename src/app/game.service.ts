@@ -19,6 +19,9 @@ export class GameService {
           this._redTurn = <BehaviorSubject<boolean>>new BehaviorSubject(true);
           this._resetGame = <BehaviorSubject<boolean>>new BehaviorSubject(true);
   		  this.resetGame();
+          this._redTurn.subscribe(turn => {
+              this.isWinner(turn);
+          });
   	}
 
     // Resets game back to beginning
@@ -71,10 +74,11 @@ export class GameService {
     // Determining if someone won the game
     // On beginning of a turn, check and see if the current team can move
     // If the current team can't move then the other team won
-    isWinner() {
+    isWinner(turn: boolean) {
         let redTeam: Piece[] = [];
         let blackTeam: Piece[] = [];
         
+        // Collecting the pieces on the board into arrays
         this.board.forEach(row => {
             row.forEach(space => {
                 if (space.piece !== null) {
@@ -92,7 +96,6 @@ export class GameService {
 
     // Click on a piece on the board
     clickAPiece(p: Piece) {
-        this.isWinner();
         if (this.doubleJump) {
             if (this.selectedPiece === p) {
                 this.clearSelections();
@@ -193,9 +196,9 @@ export class GameService {
         let downLeft = this.findMoveableSpaces(p).downLeft;
 
         if (upRight == null && downRight == null && upLeft == null && downLeft == null) {
-            return false;
+            return false;  // Can't move in any direction
         } else {
-            return true;
+            return true;  // Able to move in at least one direction
         }
     }
 
