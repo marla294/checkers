@@ -2,6 +2,7 @@
 import { Component, OnInit }	from '@angular/core';
 import { GameService }			from './game.service';
 import { Observable }			from 'rxjs/Observable';
+import { BehaviorSubject }      from 'rxjs/BehaviorSubject';
 
 @Component({
   selector: 'game-console',
@@ -9,28 +10,31 @@ import { Observable }			from 'rxjs/Observable';
   styleUrls: ['./game-console.component.css'],
 })
 export class GameConsoleComponent implements OnInit {
-	public redTurn$: Observable<boolean>;
 	public turn: string = null;
+
+	// Observables
+	public redTurn$: Observable<boolean>;
+
+	// Behavior Subjects
+	public _resetGame: BehaviorSubject<boolean>;
 	
 	constructor(
 	  	private service: GameService
 	) {}
 
 	ngOnInit() {
+		//Observables
 		this.redTurn$ = this.service.redTurnObs;
 		this.redTurn$.subscribe(redTurn => {
 			this.turn = redTurn ? 'Red' : 'Black';
 		});
+
+		// Behavior Subjects
+		this._resetGame = this.service.resetGameBeh;
 	}
 
 	resetGame() {
-		this.service.resetGame();
+		this._resetGame.next(true);
 	}
-
-	/*
-	getTurn() {
-		this.turn = this.service.redTurn ? 'Red' : 'Black';
-	}
-	*/
 
 }

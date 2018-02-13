@@ -11,11 +11,13 @@ export class GameService {
     private redTurn: boolean = true;
     private doubleJump: boolean = false;
 
-    // Observables
+    // Behavior Subjects
     public _redTurn: BehaviorSubject<boolean>;
+    public _resetGame: BehaviorSubject<boolean>;
 
   	constructor() {
           this._redTurn = <BehaviorSubject<boolean>>new BehaviorSubject(true);
+          this._resetGame = <BehaviorSubject<boolean>>new BehaviorSubject(true);
   		  this.resetGame();
   	}
 
@@ -23,7 +25,9 @@ export class GameService {
     resetGame() {
         this.board = new CheckerBoard().board;
         this.redTurn = true;
-        this.loadRedTurn(true);
+        this.loadRedTurn(this.redTurn);
+        this.loadResetGame(false);
+
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 8; j++) {
                 if (this.board[i][j].playable === true) {
@@ -40,12 +44,22 @@ export class GameService {
         }
     }
 
+    // Observable stuff
+
     loadRedTurn(turn: boolean) {
         this._redTurn.next(turn);
     }
 
+    loadResetGame(reset: boolean) {
+        this._resetGame.next(reset);
+    }
+
     get redTurnObs() {
         return this._redTurn.asObservable();
+    }
+
+    get resetGameBeh() {
+        return this._resetGame; // Returns as a behavior subject so game console can update
     }
 
     // Click events for pieces and spaces
