@@ -28,7 +28,6 @@ export class GameService {
     resetGame() {
         this.board = new CheckerBoard().board;
         this.redTurn = true;
-        this.loadRedTurn(this.redTurn);
         this.loadResetGame(false);
 
         for (let i = 0; i < 3; i++) {
@@ -72,11 +71,10 @@ export class GameService {
     }
 
     // Determining if someone won the game
-    // On beginning of a turn, check and see if the current team can move
-    // If the current team can't move then the other team won
     isWinner(turn: boolean) {
         let redTeam: Piece[] = [];
         let blackTeam: Piece[] = [];
+        let winner: boolean = true;
         
         // Collecting the pieces on the board into arrays
         this.board.forEach(row => {
@@ -90,6 +88,29 @@ export class GameService {
                 }
             });
         });
+
+        // Check each team to see if someone won
+        if (turn) { // red turn
+            redTeam.forEach(piece => {
+                if (this.canMove(piece)) { // if any piece can move then no winner
+                    winner = false;
+                }
+            });
+        } else { // black turn
+            blackTeam.forEach(piece => {
+                if (this.canMove(piece)) { // if any piece can move then no winner
+                    winner = false;
+                }
+            });
+        }
+
+        if (winner) {
+            if (turn) {
+                console.log('Black wins!', redTeam, blackTeam);
+            } else {
+                console.log('Red wins!', redTeam, blackTeam);
+            }
+        }
     }
 
     // Click events for pieces and spaces
