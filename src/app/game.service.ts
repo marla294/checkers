@@ -58,12 +58,20 @@ export class GameService {
         return this._redTurn.asObservable();
     }
 
+    // For Game Console
     get resetGameBeh() {
-        return this._resetGame; // Returns as a behavior subject so game console can update
+        return this._resetGame; 
     }
 
+    // For Game Board
     get resetGameObs() {
         return this._resetGame.asObservable();
+    }
+
+    // Determining if someone won the game
+
+    isWinner() {
+        
     }
 
     // Click events for pieces and spaces
@@ -104,13 +112,13 @@ export class GameService {
                 // This is where the "check for win" code will go
             } else { // double jump opportunity
                 this.doubleJump = true;
-                this.clickAPiece(this.selectedPiece); // BUG HERE IF PIECE CHANGES TO KING!
+                this.clickAPiece(this.selectedPiece);
             }
         }
     }
 
-    // Find moveable spaces for all piece types, highlight and set moveTo flag
-    selectMoveableSpaces(p: Piece) {
+    // Finding the 4 potential move spaces for a piece.  If a piece can't move in a direction, returns null
+    findMoveableSpaces(p: Piece) {
         // Calculating the 4 potential move spaces of the piece
         let upRight = null;
         let downRight = null;
@@ -129,7 +137,22 @@ export class GameService {
             upLeft = this.getDiagJumpSpace(p, this.calcAllDiag(p).upLeftDiag.sp, this.calcAllDiag(p).upLeftDiag.diag);
             downLeft = this.getDiagJumpSpace(p, this.calcAllDiag(p).downLeftDiag.sp, this.calcAllDiag(p).downLeftDiag.diag);
         }
-        
+
+        return {
+            upRight: upRight,
+            downRight: downRight,
+            upLeft: upLeft,
+            downLeft: downLeft
+        }
+    }
+
+    // Highlight and set moveTo flag on spaces a piece could move to
+    selectMoveableSpaces(p: Piece) {
+        // Calculating the 4 potential move spaces of the piece
+        let upRight = this.findMoveableSpaces(p).upRight;
+        let downRight = this.findMoveableSpaces(p).downRight;
+        let upLeft = this.findMoveableSpaces(p).upLeft;
+        let downLeft = this.findMoveableSpaces(p).downLeft;
 
         // If any of the potential move spaces exist, highlight and set moveTo flag
         if (upRight !== null) {
