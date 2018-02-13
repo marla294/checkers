@@ -184,6 +184,21 @@ export class GameService {
         }
     }
 
+    // For win checking.  If the piece can move, return true, otherwise false
+    canMove(p: Piece): boolean {
+        // Calculating the 4 potential move spaces of the piece
+        let upRight = this.findMoveableSpaces(p).upRight;
+        let downRight = this.findMoveableSpaces(p).downRight;
+        let upLeft = this.findMoveableSpaces(p).upLeft;
+        let downLeft = this.findMoveableSpaces(p).downLeft;
+
+        if (upRight == null && downRight == null && upLeft == null && downLeft == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     // Jumping
 
     // Given a space that a piece has moved to, find the piece that was jumped and clear it out
