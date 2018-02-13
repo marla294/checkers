@@ -69,15 +69,30 @@ export class GameService {
     }
 
     // Determining if someone won the game
-
+    // On beginning of a turn, check and see if the current team can move
+    // If the current team can't move then the other team won
     isWinner() {
+        let redTeam: Piece[] = [];
+        let blackTeam: Piece[] = [];
         
+        this.board.forEach(row => {
+            row.forEach(space => {
+                if (space.piece !== null) {
+                    if (space.piece.isRed) {
+                        redTeam.push(space.piece);
+                    } else {
+                        blackTeam.push(space.piece);
+                    }
+                }
+            });
+        });
     }
 
     // Click events for pieces and spaces
 
     // Click on a piece on the board
     clickAPiece(p: Piece) {
+        this.isWinner();
         if (this.doubleJump) {
             if (this.selectedPiece === p) {
                 this.clearSelections();
