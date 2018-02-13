@@ -9,8 +9,10 @@ export class GameService {
   	public board: any;
     private selectedPiece: Piece = null;
     private redTurn: boolean = true;
-    public _redTurn: BehaviorSubject<boolean>;
     private doubleJump: boolean = false;
+
+    // Observables
+    public _redTurn: BehaviorSubject<boolean>;
 
   	constructor() {
           this._redTurn = <BehaviorSubject<boolean>>new BehaviorSubject(true);
@@ -21,7 +23,7 @@ export class GameService {
     resetGame() {
         this.board = new CheckerBoard().board;
         this.redTurn = true;
-        this.loadRedTurn();
+        this.loadRedTurn(true);
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 8; j++) {
                 if (this.board[i][j].playable === true) {
@@ -38,8 +40,8 @@ export class GameService {
         }
     }
 
-    loadRedTurn() {
-        this._redTurn.next(this.redTurn);
+    loadRedTurn(turn: boolean) {
+        this._redTurn.next(turn);
     }
 
     get redTurnObs() {
@@ -78,7 +80,7 @@ export class GameService {
             }
             if (sp.jump === false || !this.checkForJump(sp)) { // if I didn't just jump or there is no jump
                 this.redTurn = !this.redTurn;
-                this.loadRedTurn();
+                this.loadRedTurn(this.redTurn);
                 this.doubleJump = false;
                 this.clearSelections();
                 // This is where the "check for win" code will go
