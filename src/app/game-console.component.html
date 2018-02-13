@@ -1,11 +1,11 @@
-<div class="console d-flex flex-column justify-content-center">
+<div class="console d-flex flex-md-column flex-row justify-content-center">
 	<div class="turn d-flex justify-content-center align-items-center">
-		<p *ngIf="this.turn === 'Red'" style="color: red">Red Turn</p>
+		<p *ngIf="this.turn === 'Red'" style="color: red" class="m-0">Red Turn</p>
 	</div>
 	<div class="turn d-flex justify-content-center align-items-center">
-		<button (click)="resetGame()">Reset Game</button>
+		<button (click)="resetGame()">Reset</button>
 	</div>
 	<div class="turn d-flex justify-content-center align-items-center">
-		<p *ngIf="this.turn === 'Black'">Black Turn</p>
+		<p *ngIf="this.turn === 'Black'" class="m-0">Black Turn</p>
 	</div>
 </div>
