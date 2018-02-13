@@ -2,15 +2,18 @@ import { Injectable }           from '@angular/core';
 import { Piece, Pawn, King }	from './piece';
 import { Space }                from './space';
 import { CheckerBoard }	        from './checkerBoard';
+import { BehaviorSubject }      from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class GameService {
   	public board: any;
     private selectedPiece: Piece = null;
     private redTurn: boolean = true;
+    public _redTurn: BehaviorSubject<boolean>;
     private doubleJump: boolean = false;
 
   	constructor() {
+          this._redTurn = <BehaviorSubject<boolean>>new BehaviorSubject(true);
   		  this.resetGame();
   	}
 
@@ -18,6 +21,7 @@ export class GameService {
     resetGame() {
         this.board = new CheckerBoard().board;
         this.redTurn = true;
+        this.loadRedTurn();
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 8; j++) {
                 if (this.board[i][j].playable === true) {
@@ -32,6 +36,14 @@ export class GameService {
                 }
             }
         }
+    }
+
+    loadRedTurn() {
+        this._redTurn.next(this.redTurn);
+    }
+
+    get redTurnObs() {
+        return this._redTurn.asObservable();
     }
 
     // Click events for pieces and spaces
@@ -66,6 +78,7 @@ export class GameService {
             }
             if (sp.jump === false || !this.checkForJump(sp)) { // if I didn't just jump or there is no jump
                 this.redTurn = !this.redTurn;
+                this.loadRedTurn();
                 this.doubleJump = false;
                 this.clearSelections();
                 // This is where the "check for win" code will go
