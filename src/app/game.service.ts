@@ -62,6 +62,10 @@ export class GameService {
         return this._resetGame; // Returns as a behavior subject so game console can update
     }
 
+    get resetGameObs() {
+        return this._resetGame.asObservable();
+    }
+
     // Click events for pieces and spaces
 
     // Click on a piece on the board

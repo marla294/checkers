@@ -1,8 +1,10 @@
 // This will be a component that houses the actual checkers game board
-import { Component }	from '@angular/core';
-import { OnInit } 		from '@angular/core';
-import { Piece }	 	from './piece';
-import { GameService }	from './game.service';
+import { Component }	     from '@angular/core';
+import { OnInit } 		     from '@angular/core';
+import { Piece }	 	       from './piece';
+import { GameService }	   from './game.service';
+import { Observable }      from 'rxjs/Observable';
+
 
 @Component({
   selector: 'game-board',
@@ -10,18 +12,30 @@ import { GameService }	from './game.service';
   styleUrls: ['./game-board.component.css'],
 })
 export class GameBoardComponent implements OnInit {
-	public board: any;
+	  public board: any;
+
+    // Observables
+    public resetGame$: Observable<boolean>;
 
   	constructor(
-  		private service: GameService
+  		  private service: GameService
   	) {}
 
   	ngOnInit() {
-  		this.onReset();
+        //Observables
+        this.resetGame$ = this.service.resetGameObs;
+        this.resetGame$.subscribe(reset => {
+            if (reset) {
+                this.onReset();
+            }
+        });
+
+        // Always reset game on init anyway
+        this.onReset();
   	}
 
     onReset() {
-      this.service.resetGame();
-      this.board = this.service.board;
+        this.service.resetGame();
+        this.board = this.service.board;
     }
 }
