@@ -1,6 +1,9 @@
-import { Component } 	           from '@angular/core';
+import { Component } 	         from '@angular/core';
 import { GameBoardComponent }    from './game-board.component';
 import { GameConsoleComponent }  from './game-console.component';
+import { GameService }	   		 from './game.service';
+import { Observable }      		 from 'rxjs/Observable';
+
 
 @Component({
   selector: 'app-root',
@@ -9,4 +12,11 @@ import { GameConsoleComponent }  from './game-console.component';
 })
 export class AppComponent {
 	isWinner = false;
+
+	// Observables
+    public resetGame$: Observable<boolean>;
+
+	constructor(
+  		  private service: GameService
+  	) {}
 }
