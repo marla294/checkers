@@ -1,5 +1,17 @@
 # Checkers
 
+## About
+
+I'm a QA Engineer turned Software Engineer refining my coding skills.  This project was just for fun, not meant for profit or procuring greatness (well, maybe just a little bit of greatness would be nice :) ).
+
+I plan to add to this game over time.  The next definite thing is to extend the game into chess.  I will copy into a new repo so that the original checkers game can remain intact.  Other ideas that may or may not happen are to add online play, and/or put the game logic on a server (using Java or Ruby) - right now all game logic is client-side typescript.
+
+## References
+
+The checker images were shamelessly stolen from: http://www.247checkers.com/.  Thank you!
+
+# Angular CLI
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.5.
 
 ## Development server
