@@ -2,11 +2,23 @@
 	height: 100vh;
 }
 .notification {
-	background-color: gray;
 	position: fixed;
 	left: 0px;
 	top: 0px;
 	height: 100vh;
 	width: 100%;
+}
+.notification-background {
+	background-color: gray;
 	opacity: 0.5;
+	height: 100vh;
+	width: 100%;
+}
+
+.notification-panel {
+	background-color: white;
+	position: relative;
+	height: 10vh;
+	width: 25%;
+	opacity: 1;
 }
