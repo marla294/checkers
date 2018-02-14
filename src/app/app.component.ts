@@ -8,5 +8,5 @@ import { GameConsoleComponent }  from './game-console.component';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-
+	isWinner = false;
 }
