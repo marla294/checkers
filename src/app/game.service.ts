@@ -19,9 +19,6 @@ export class GameService {
           this._redTurn = <BehaviorSubject<boolean>>new BehaviorSubject(true);
           this._resetGame = <BehaviorSubject<boolean>>new BehaviorSubject(true);
   		  this.resetGame();
-          this._redTurn.subscribe(turn => {
-              this.isWinner(turn);
-          });
   	}
 
     // Resets game back to beginning
@@ -148,7 +145,7 @@ export class GameService {
                 this.loadRedTurn(this.redTurn);
                 this.doubleJump = false;
                 this.clearSelections();
-                // This is where the "check for win" code will go
+                this.isWinner(this.redTurn);
             } else { // double jump opportunity
                 this.doubleJump = true;
                 this.clickAPiece(this.selectedPiece);
