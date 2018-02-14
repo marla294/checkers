@@ -31,6 +31,9 @@ export class GameConsoleComponent implements OnInit {
 
 		// Behavior Subjects
 		this._resetGame = this.service.resetGameBeh;
+		this._resetGame.subscribe(reset => {
+			this.turn = 'Red'; // When the game is reset by someone else set the turn to Red
+		});
 	}
 
 	resetGame() {
