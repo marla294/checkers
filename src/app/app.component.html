@@ -16,5 +16,6 @@
 <div class="notification d-flex justify-content-center align-items-center" *ngIf="isWinner">
 	<div class="notification-panel">
 		<p>You win!  Wanna play again?</p>
+		<button (click)="onReset()">Play Again</button>
 	</div>
 </div>
