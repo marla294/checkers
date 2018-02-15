@@ -5,7 +5,6 @@ import { Piece }	 	       from './piece';
 import { GameService }	   from './game.service';
 import { Observable }      from 'rxjs/Observable';
 
-
 @Component({
   selector: 'game-board',
   templateUrl: './game-board.component.html',

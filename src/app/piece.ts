@@ -1,3 +1,6 @@
+import { Injectable }           from '@angular/core';
+
+@Injectable()
 export class Piece {
 	type: string = 'piece';
 	isRed: boolean = true;
