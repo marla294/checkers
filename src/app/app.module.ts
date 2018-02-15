@@ -6,13 +6,15 @@ import { GameBoardComponent }    from './game-board.component';
 import { GameConsoleComponent }  from './game-console.component';
 import { GameService }	         from './game.service';
 import { SpaceComponent }        from './space.component';
+import { PawnComponent }         from './pawn.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     GameBoardComponent,
     GameConsoleComponent,
-    SpaceComponent
+    SpaceComponent,
+    PawnComponent
   ],
   imports: [
     BrowserModule
