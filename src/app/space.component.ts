@@ -1,5 +1,6 @@
-import { Component }	from '@angular/core';
-import { Space }		from './space';
+import { Component, Input }	from '@angular/core';
+import { Space }			from './space';
+import { GameService }	   	from './game.service';
 
 @Component({
   	selector: 'space',
@@ -7,5 +8,9 @@ import { Space }		from './space';
   	styleUrls: ['./space.component.css'],
 })
 export class SpaceComponent {
+	@Input() space: Space;
 
+	constructor(
+  		private service: GameService
+  	) {}
 }
