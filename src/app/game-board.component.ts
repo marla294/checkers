@@ -4,7 +4,7 @@ import { OnInit } 		     from '@angular/core';
 import { Piece }	 	       from './piece';
 import { GameService }	   from './game.service';
 import { Observable }      from 'rxjs/Observable';
-
+import { SpaceComponent }  from './space.component';
 
 @Component({
   selector: 'game-board',
