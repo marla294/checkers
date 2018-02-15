@@ -1,13 +1,6 @@
-import { Component }	from '@angular/core';
-import { Piece }			from './piece';
-import { PawnComponent }	from './pawn.component';
+import { Piece }	from './piece';
 
-@Component({
-  selector: 'space',
-  templateUrl: './space.component.html',
-  styleUrls: ['./space.component.css'],
-})
-export class SpaceComponent {
+export class Space {
 	playable: boolean;
 	piece: Piece = null;
 	highlight: boolean = false;

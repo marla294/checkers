@@ -1,6 +1,6 @@
 import { Injectable }           from '@angular/core';
 import { Piece, Pawn, King }	from './piece';
-import { SpaceComponent }       from './space.component';
+import { Space }                from './space';
 import { CheckerBoard }	        from './checkerBoard';
 import { BehaviorSubject }      from 'rxjs/BehaviorSubject';
 
@@ -148,7 +148,7 @@ export class GameService {
     }
 
     // Click on an empty space on the board
-    clickEmptySpace(sp: SpaceComponent) {
+    clickEmptySpace(sp: Space) {
         if (this._selectedPiece !== null && sp.moveTo) { // If the space is empty and piece can move to it
             this.findPiece(this._selectedPiece).clearPiece(); // First remove piece from old space
             sp.addPiece(this._selectedPiece); // Then add piece to the new space
@@ -241,7 +241,7 @@ export class GameService {
     // Jumping
 
     // Given a space that a piece has moved to, find the piece that was jumped and clear it out
-    clearJumpedPiece(sp: SpaceComponent) {
+    clearJumpedPiece(sp: Space) {
         let pieces = new Array();
 
         pieces.push(this.getPiece(sp.row - 1, sp.col - 1));
@@ -254,7 +254,7 @@ export class GameService {
     }
 
     // Check and see if there is a potential jump opportunity, for multi jump
-    checkForJump(sp: SpaceComponent): boolean {
+    checkForJump(sp: Space): boolean {
         let p = sp.piece;
 
         if (this.canJump(p, this.calcAllDiag(p).upRightDiag.sp, this.calcAllDiag(p).upRightDiag.diag) || 
@@ -269,7 +269,7 @@ export class GameService {
     }
 
     // Can Jump - returns true if you can jump, if not then false
-    canJump(p: Piece, sp: SpaceComponent, diag: SpaceComponent): boolean {
+    canJump(p: Piece, sp: Space, diag: Space): boolean {
         if (sp === null || diag === null || sp.piece === null) {
             return false;
         } else if (p.isRed === !sp.piece.isRed && diag !== null && diag.piece === null) {
@@ -335,8 +335,8 @@ export class GameService {
     }
 
     // Given a diagonal (a space and the next space up) return the space you can move to or null if you can't move
-    getDiagMoveSpace(p: Piece, sp: SpaceComponent, diag: SpaceComponent): SpaceComponent {
-        let space: SpaceComponent = null;
+    getDiagMoveSpace(p: Piece, sp: Space, diag: Space): Space {
+        let space: Space = null;
 
         if (sp !== null) {
             if (sp.piece === null) { // nextdoor is empty
@@ -353,8 +353,8 @@ export class GameService {
     }
 
     // Give a diagonal return space you can jump to or null if you can't jump
-    getDiagJumpSpace(p: Piece, sp: SpaceComponent, diag: SpaceComponent): SpaceComponent {
-        let space: SpaceComponent = null;
+    getDiagJumpSpace(p: Piece, sp: Space, diag: Space): Space {
+        let space: Space = null;
 
         if (sp !== null) {
             if (this.canJump(p, sp, diag)) { // piece to jump
@@ -383,7 +383,7 @@ export class GameService {
     }
 
     // Given a space, return true if it is in an end row and false if it is not
-    isEndSpace(sp: SpaceComponent): boolean {
+    isEndSpace(sp: Space): boolean {
         if (sp.row === 0 || sp.row === 7) {
             return true;
         } else {
@@ -394,7 +394,7 @@ export class GameService {
     // Space utilities
 
     // Given a row and column that may or may not be on the board, check if it is on the board.  If it is return the space.
-    checkBoardSpace(row: number, col: number): SpaceComponent {
+    checkBoardSpace(row: number, col: number): Space {
         if (row < 8 && row > -1 && col < 8 && col > -1) {
             return this.board[row][col];
         } else {
@@ -405,8 +405,8 @@ export class GameService {
     // Find pieces
 
     // Finds a piece on the board and returns the space it is on
-    findPiece(p: Piece): SpaceComponent {
-        let sp: SpaceComponent = null;
+    findPiece(p: Piece): Space {
+        let sp: Space = null;
 
         // Look through the board and see if the piece is on a space
         this.board.forEach(row => row.forEach(space => {
