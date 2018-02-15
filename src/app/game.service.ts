@@ -10,17 +10,16 @@ export class GameService {
     private _selectedPiece: Piece = null;
     private _redTurn: boolean = true;
     private _doubleJump: boolean = false;
-    private _winner: string = null;
 
     // Behavior Subjects
     private _redTurnBeh: BehaviorSubject<boolean>;
     private _resetGame: BehaviorSubject<boolean>;
-    private _isWinner: BehaviorSubject<boolean>;
+    private _isWinner: BehaviorSubject<string>;
 
   	constructor() {
           this._redTurnBeh = <BehaviorSubject<boolean>>new BehaviorSubject(true);
           this._resetGame = <BehaviorSubject<boolean>>new BehaviorSubject(true);
-          this._isWinner = <BehaviorSubject<boolean>>new BehaviorSubject(false);
+          this._isWinner = <BehaviorSubject<string>>new BehaviorSubject("none");
   		  this.resetGame();
   	}
 
@@ -29,7 +28,7 @@ export class GameService {
         this.board = new CheckerBoard().board;
         this._redTurn = true;
         this.loadResetGame(false);
-        this.loadIsWinner(false);
+        this.loadIsWinner("none");
 
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 8; j++) {
@@ -59,7 +58,7 @@ export class GameService {
         this._resetGame.next(reset);
     }
 
-    loadIsWinner(winner: boolean) {
+    loadIsWinner(winner: string) {
         this._isWinner.next(winner);
     }
 
@@ -82,10 +81,6 @@ export class GameService {
     // For Game Board
     get isWinnerObs() {
         return this._isWinner.asObservable();
-    }
-
-    get winner(): string {
-        return this._winner;
     }
 
     // Determining if someone won the game
@@ -123,12 +118,13 @@ export class GameService {
         }
 
         if (winner) {
+            let win = "none";
             if (turn) {
-                this._winner = "Black";
+                win = "Black";
             } else {
-                this._winner = "Red";
+                win = "Red";
             }
-            this.loadIsWinner(true);
+            this.loadIsWinner(win);
         }
     }
 
