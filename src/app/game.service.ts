@@ -7,18 +7,18 @@ import { BehaviorSubject }      from 'rxjs/BehaviorSubject';
 @Injectable()
 export class GameService {
   	public board: any;
-    private selectedPiece: Piece = null;
-    private redTurn: boolean = true;
-    private doubleJump: boolean = false;
+    private _selectedPiece: Piece = null;
+    private _redTurn: boolean = true;
+    private _doubleJump: boolean = false;
     private _winner: boolean = null;
 
     // Behavior Subjects
-    public _redTurn: BehaviorSubject<boolean>;
-    public _resetGame: BehaviorSubject<boolean>;
-    public _isWinner: BehaviorSubject<boolean>;
+    private _redTurnBeh: BehaviorSubject<boolean>;
+    private _resetGame: BehaviorSubject<boolean>;
+    private _isWinner: BehaviorSubject<boolean>;
 
   	constructor() {
-          this._redTurn = <BehaviorSubject<boolean>>new BehaviorSubject(true);
+          this._redTurnBeh = <BehaviorSubject<boolean>>new BehaviorSubject(true);
           this._resetGame = <BehaviorSubject<boolean>>new BehaviorSubject(true);
           this._isWinner = <BehaviorSubject<boolean>>new BehaviorSubject(false);
   		  this.resetGame();
@@ -27,7 +27,7 @@ export class GameService {
     // Resets game back to beginning
     resetGame() {
         this.board = new CheckerBoard().board;
-        this.redTurn = true;
+        this._redTurn = true;
         this.loadResetGame(false);
         this.loadIsWinner(false);
 
@@ -46,29 +46,12 @@ export class GameService {
                 }
             }
         }
-
-        /* Shorter game
-        for (let i = 0; i < 1; i++) {
-            for (let j = 0; j < 8; j++) {
-                if (this.board[i][j].playable === true) {
-                  this.board[i][j].addPiece(new Pawn('red', i, j));
-                }
-            }
-        }
-        for (let i = 7; i < 8; i++) {
-            for (let j = 0; j < 8; j++) {
-                if (this.board[i][j].playable === true) {
-                    this.board[i][j].addPiece(new Pawn('black', i, j));
-                }
-            }
-        }
-        */
     }
 
     // Observable stuff
 
     loadRedTurn(turn: boolean) {
-        this._redTurn.next(turn);
+        this._redTurnBeh.next(turn);
     }
 
     loadResetGame(reset: boolean) {
@@ -80,7 +63,7 @@ export class GameService {
     }
 
     get redTurnObs() {
-        return this._redTurn.asObservable();
+        return this._redTurnBeh.asObservable();
     }
 
     // For Game Console
@@ -152,16 +135,16 @@ export class GameService {
 
     // Click on a piece on the board
     clickAPiece(p: Piece) {
-        if (this.doubleJump) {
-            if (this.selectedPiece === p) {
+        if (this._doubleJump) {
+            if (this._selectedPiece === p) {
                 this.clearSelections();
-                this.selectedPiece = p;
+                this._selectedPiece = p;
                 this.findPiece(p).highlight = true;
                 this.selectMoveableSpaces(p);
             }
-        } else if (this.redTurn === p.isRed) {
+        } else if (this._redTurn === p.isRed) {
             this.clearSelections();
-            this.selectedPiece = p;
+            this._selectedPiece = p;
             this.findPiece(p).highlight = true;
             this.selectMoveableSpaces(p);
         }
@@ -169,24 +152,24 @@ export class GameService {
 
     // Click on an empty space on the board
     clickEmptySpace(sp: Space) {
-        if (this.selectedPiece !== null && sp.moveTo) { // If the space is empty and piece can move to it
-            this.findPiece(this.selectedPiece).clearPiece(); // First remove piece from old space
-            sp.addPiece(this.selectedPiece); // Then add piece to the new space
+        if (this._selectedPiece !== null && sp.moveTo) { // If the space is empty and piece can move to it
+            this.findPiece(this._selectedPiece).clearPiece(); // First remove piece from old space
+            sp.addPiece(this._selectedPiece); // Then add piece to the new space
             if (sp.jump === true) { // A piece was jumped
                 this.clearJumpedPiece(sp);
             }
             if (this.isEndSpace(sp)) { // Selected piece became king
-                this.makeKing(this.selectedPiece);
+                this.makeKing(this._selectedPiece);
             }
             if (sp.jump === false || !this.checkForJump(sp)) { // if I didn't just jump or there is no jump
-                this.redTurn = !this.redTurn;
-                this.loadRedTurn(this.redTurn);
-                this.doubleJump = false;
+                this._redTurn = !this._redTurn;
+                this.loadRedTurn(this._redTurn);
+                this._doubleJump = false;
                 this.clearSelections();
-                this.isWinner(this.redTurn);
+                this.isWinner(this._redTurn);
             } else { // double jump opportunity
-                this.doubleJump = true;
-                this.clickAPiece(this.selectedPiece);
+                this._doubleJump = true;
+                this.clickAPiece(this._selectedPiece);
             }
         }
     }
@@ -200,7 +183,7 @@ export class GameService {
         let downLeft = null;
 
         // If it's not the piece's second turn, get all move spaces, else only get the jump spaces
-        if (!this.doubleJump) {
+        if (!this._doubleJump) {
             upRight = this.getDiagMoveSpace(p, this.calcAllDiag(p).upRightDiag.sp, this.calcAllDiag(p).upRightDiag.diag);
             downRight = this.getDiagMoveSpace(p, this.calcAllDiag(p).downRightDiag.sp, this.calcAllDiag(p).downRightDiag.diag);
             upLeft = this.getDiagMoveSpace(p, this.calcAllDiag(p).upLeftDiag.sp, this.calcAllDiag(p).upLeftDiag.diag);
@@ -399,7 +382,7 @@ export class GameService {
         space.addPiece(king);
 
         // When a piece becomes king, it will always be the selected piece
-        this.selectedPiece = king;
+        this._selectedPiece = king;
     }
 
     // Given a space, return true if it is in an end row and false if it is not
