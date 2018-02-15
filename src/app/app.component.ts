@@ -39,11 +39,7 @@ export class AppComponent {
 	}
 
 	getWinner() {
-		if (this.service.winner) {
-			this.winner = "Red";
-		} else {
-			this.winner = "Black";
-		}
+		this.winner = this.service.winner;
 	}
 
 }

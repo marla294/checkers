@@ -10,7 +10,7 @@ export class GameService {
     private _selectedPiece: Piece = null;
     private _redTurn: boolean = true;
     private _doubleJump: boolean = false;
-    private _winner: boolean = null;
+    private _winner: string = null;
 
     // Behavior Subjects
     private _redTurnBeh: BehaviorSubject<boolean>;
@@ -31,7 +31,6 @@ export class GameService {
         this.loadResetGame(false);
         this.loadIsWinner(false);
 
-
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 8; j++) {
                 if (this.board[i][j].playable === true) {
@@ -50,6 +49,8 @@ export class GameService {
 
     // Observable stuff
 
+    // Loading the behavior subjects (which turn into observables)
+
     loadRedTurn(turn: boolean) {
         this._redTurnBeh.next(turn);
     }
@@ -61,6 +62,8 @@ export class GameService {
     loadIsWinner(winner: boolean) {
         this._isWinner.next(winner);
     }
+
+    // Getting the observables or behavior subjects for other components
 
     get redTurnObs() {
         return this._redTurnBeh.asObservable();
@@ -81,7 +84,7 @@ export class GameService {
         return this._isWinner.asObservable();
     }
 
-    get winner(): boolean {
+    get winner(): string {
         return this._winner;
     }
 
@@ -121,11 +124,9 @@ export class GameService {
 
         if (winner) {
             if (turn) {
-                this._winner = false;
-                console.log('Black wins!', redTeam, blackTeam);
+                this._winner = "Black";
             } else {
-                this._winner = true;
-                console.log('Red wins!', redTeam, blackTeam);
+                this._winner = "Red";
             }
             this.loadIsWinner(true);
         }
