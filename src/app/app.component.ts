@@ -13,6 +13,7 @@ import { BehaviorSubject }       from 'rxjs/BehaviorSubject';
 })
 export class AppComponent {
 	isWinner = true;
+	winner: string = null;
 
 	// Observables
     public isWinner$: Observable<boolean>;
@@ -27,6 +28,7 @@ export class AppComponent {
   	ngOnInit() {
   		// Observables
   		this.isWinner$ = this.service.isWinnerObs;
+  		this.isWinner$.subscribe(w => this.getWinner());
 
   		// Behavior Subjects
 		this._resetGame = this.service.resetGameBeh;
@@ -34,6 +36,14 @@ export class AppComponent {
 
 	onReset() {
 		this._resetGame.next(true);
+	}
+
+	getWinner() {
+		if (this.service.winner) {
+			this.winner = "Red";
+		} else {
+			this.winner = "Black";
+		}
 	}
 
 }

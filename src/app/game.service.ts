@@ -10,6 +10,7 @@ export class GameService {
     private selectedPiece: Piece = null;
     private redTurn: boolean = true;
     private doubleJump: boolean = false;
+    private _winner: boolean = null;
 
     // Behavior Subjects
     public _redTurn: BehaviorSubject<boolean>;
@@ -30,6 +31,7 @@ export class GameService {
         this.loadResetGame(false);
         this.loadIsWinner(false);
 
+
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 8; j++) {
                 if (this.board[i][j].playable === true) {
@@ -44,6 +46,23 @@ export class GameService {
                 }
             }
         }
+
+        /* Shorter game
+        for (let i = 0; i < 1; i++) {
+            for (let j = 0; j < 8; j++) {
+                if (this.board[i][j].playable === true) {
+                  this.board[i][j].addPiece(new Pawn('red', i, j));
+                }
+            }
+        }
+        for (let i = 7; i < 8; i++) {
+            for (let j = 0; j < 8; j++) {
+                if (this.board[i][j].playable === true) {
+                    this.board[i][j].addPiece(new Pawn('black', i, j));
+                }
+            }
+        }
+        */
     }
 
     // Observable stuff
@@ -77,6 +96,10 @@ export class GameService {
     // For Game Board
     get isWinnerObs() {
         return this._isWinner.asObservable();
+    }
+
+    get winner(): boolean {
+        return this._winner;
     }
 
     // Determining if someone won the game
@@ -114,12 +137,14 @@ export class GameService {
         }
 
         if (winner) {
-            this.loadIsWinner(true);
             if (turn) {
+                this._winner = false;
                 console.log('Black wins!', redTeam, blackTeam);
             } else {
+                this._winner = true;
                 console.log('Red wins!', redTeam, blackTeam);
             }
+            this.loadIsWinner(true);
         }
     }
 
