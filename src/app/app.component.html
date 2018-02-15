@@ -8,14 +8,14 @@
 	</div>
 </div>
 
-<!-- Notification panel that grays out the screen if there is a winner !-->
+<!-- Notification panel that grays out the screen if there is a winner *ngIf="isWinner$ | async"!-->
 <div class="notification" *ngIf="isWinner$ | async">
 	<div class="notification-background"></div>
 </div>
 
 <div class="notification d-flex justify-content-center align-items-center" *ngIf="isWinner$ | async">
-	<div class="notification-panel">
-		<p>You win!  Wanna play again?</p>
+	<div class="notification-panel d-flex flex-column justify-content-center align-items-center">
+		<p class="m-3"><b>Red wins!</b></p>
 		<button (click)="onReset()">Play Again</button>
 	</div>
 </div>

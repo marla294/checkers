@@ -18,7 +18,15 @@
 .notification-panel {
 	background-color: white;
 	position: relative;
-	height: 10vh;
-	width: 25%;
+	height: 200px;
+	width: 200px;
 	opacity: 1;
+}
+
+@media only screen and (max-width: 768px) {
+	.notification-panel {
+		height: 120px;
+		width: 120px;
+		font-size: 0.6em;
+	}
 }

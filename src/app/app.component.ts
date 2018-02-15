@@ -12,7 +12,7 @@ import { BehaviorSubject }       from 'rxjs/BehaviorSubject';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-	isWinner = false;
+	isWinner = true;
 
 	// Observables
     public isWinner$: Observable<boolean>;
