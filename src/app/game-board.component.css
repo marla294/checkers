@@ -1,7 +1,6 @@
 .board {
 	height: 500px;
 	width: 500px;
-	border: 1px solid black;
 }
 .square {
 	height: 62.25px;
@@ -28,7 +27,6 @@
 	.board {
 		height: 300px;
 		width: 300px;
-		border: 1px solid black;
 	}
 	.square {
 		height: 37.25px;
