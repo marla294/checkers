@@ -1,16 +1,18 @@
-import { BrowserModule }       from '@angular/platform-browser';
-import { NgModule }            from '@angular/core';
+import { BrowserModule }         from '@angular/platform-browser';
+import { NgModule }              from '@angular/core';
 
-import { AppComponent }        from './app.component';
-import { GameBoardComponent }  from './game-board.component';
+import { AppComponent }          from './app.component';
+import { GameBoardComponent }    from './game-board.component';
 import { GameConsoleComponent }  from './game-console.component';
-import { GameService }	       from './game.service';
+import { GameService }	         from './game.service';
+import { SpaceComponent }        from './space.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     GameBoardComponent,
-    GameConsoleComponent
+    GameConsoleComponent,
+    SpaceComponent
   ],
   imports: [
     BrowserModule
