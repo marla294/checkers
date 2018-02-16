@@ -7,6 +7,7 @@ import { GameConsoleComponent }  from './game-console.component';
 import { GameService }	         from './game.service';
 import { SpaceComponent }        from './space.component';
 import { PawnComponent }         from './pawn.component';
+import { KingComponent }         from './king.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { PawnComponent }         from './pawn.component';
     GameBoardComponent,
     GameConsoleComponent,
     SpaceComponent,
-    PawnComponent
+    PawnComponent,
+    KingComponent
   ],
   imports: [
     BrowserModule

@@ -9,15 +9,8 @@ class="square float-left"
     		<div *ngIf="space.piece.type ==='pawn'">
 	    		<pawn [pawn]="space.piece"></pawn>
     		</div>
-    		<div *ngIf="space.piece.isRed==true && space.piece.type === 'king'" 
-	    	class="d-flex justify-content-center">
-	    		<img src="./assets/Images/red_king.png" 
-	    		style="width: 95%; height: 95%">
-    		</div>
-    		<div *ngIf="space.piece.isRed==false && space.piece.type === 'king'" 
-    		class="d-flex justify-content-center">
-	    		<img src="./assets/Images/black_king.png" 
-	    		style="width: 95%; height: 95%">
+    		<div *ngIf="space.piece.type ==='king'">
+	    		<king [king]="space.piece"></king>
     		</div>
 		</div>
 		<div *ngIf="space.playable && !space.piece"
