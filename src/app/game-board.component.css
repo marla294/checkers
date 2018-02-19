@@ -2,33 +2,10 @@
 	height: 500px;
 	width: 500px;
 }
-.square {
-	height: 62.25px;
-	width: 12.5%;
-	border: 1px solid black;
-}
-.playable {
-	background-color: white;
-}
-.notplayable {
-	background-color: black;
-}
-.red {
-	background-color: red;
-}
-.black {
-	background-color: blue;
-}
-.highlight {
-	border: 5px solid yellow;
-}
 
 @media only screen and (max-width: 768px) {
 	.board {
 		height: 300px;
 		width: 300px;
-	}
-	.square {
-		height: 37.25px;
 	}
 }
